@@ -38,7 +38,6 @@
 		if ([delegate respondsToSelector: evento]) 
 		{
 			IMP metodo = [delegate methodForSelector:evento];
-            // ESTA ES LA LÍNEA MÁGICA QUE HACE QUE TODO FUNCIONE
             void (*func)(__strong id,SEL,NSString*) = (void (*)(__strong id, SEL,NSString*))metodo;
 			func(delegate, evento, errorDescription);
 		}
