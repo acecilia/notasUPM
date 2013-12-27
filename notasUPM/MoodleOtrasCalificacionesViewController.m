@@ -280,7 +280,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	descargador = [[Descargador alloc]init];
 	descargador.delegate = self;
 
-	alertaDescargarTodo = [[UIAlertView alloc]initWithTitle:@"Descargando PDFs" message:[[NSString stringWithFormat:@"%d/", 0] stringByAppendingString:[NSString stringWithFormat:@"%d", [arrayPDF count]]] delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles: nil];
+	alertaDescargarTodo = [[UIAlertView alloc]initWithTitle:@"Descargando PDFs" message:[[NSString stringWithFormat:@"%d/", 0] stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)[arrayPDF count]]] delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles: nil];
 
 	alertaDescargarTodo.tag = 13;
 
@@ -515,7 +515,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 {
 	if(error==nil)
 	{
-		alertaDescargarTodo.message=[[NSString stringWithFormat:@"%d/", numero+1] stringByAppendingString:[NSString stringWithFormat:@"%d", [arrayPDF count]]];
+		alertaDescargarTodo.message=[[NSString stringWithFormat:@"%d/", numero+1] stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)[arrayPDF count]]];
 	}
 	else
 	{
