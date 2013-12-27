@@ -57,6 +57,7 @@
 	[self setNavTitleView];
 
 	self.tableView.allowsSelection = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
 	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
 	modelo = appDelegate.modelo;
@@ -288,7 +289,7 @@
 	}
 	else
 	{
-		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE POLITÉCNICA VIRTUAL en el expediente" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE POLITÉCNICA VIRTUAL en el expediente" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alerta show];
 	}
 	[modelo removeDelegate:self];

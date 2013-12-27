@@ -213,15 +213,13 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-	UIAlertView *alerta;
-
 	if ([webView isLoading])
 		[webView stopLoading];
 
 	if (error.code != NSURLErrorNotConnectedToInternet)
 	{
 		NSString *descripcionError = [error localizedDescription];
-		alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:[NSString stringWithFormat:@"Se ha producido un error en la conexión: %@", descripcionError] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView * alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:[NSString stringWithFormat:@"Se ha producido un error en la conexión: %@", descripcionError] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alerta show];
 	}
 
@@ -369,7 +367,7 @@ break;
 	}
 	else
 	{
-		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en el Visor Web" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en el Visor Web" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alerta show];
 
 		[self dejarDeAnimarLoading];

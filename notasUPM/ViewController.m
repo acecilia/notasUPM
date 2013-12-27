@@ -77,14 +77,14 @@
 	labelApellido.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
 	[topView addSubview:labelApellido];
 
-	botonLogin = [[UIButton alloc]initWithFrame:CGRectMake(topView.frame.size.width-40, topView.frame.size.height-40, 30, 30)];
+	botonLogin = [[UIButton alloc]initWithFrame:CGRectMake(topView.frame.size.width-50, topView.frame.size.height-40, 30, 30)];
 	[botonLogin addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
 	botonLogin.backgroundColor = [UIColor clearColor];
 	[botonLogin setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
 	botonLogin.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 	[topView addSubview:botonLogin];
 
-	botonReload = [[UIButton alloc]initWithFrame:CGRectMake(topView.frame.size.width-40, 10, 30, 30)];
+	botonReload = [[UIButton alloc]initWithFrame:CGRectMake(topView.frame.size.width-50, 10, 30, 30)];
 	[botonReload addTarget:self action:@selector(actualizar) forControlEvents:UIControlEventTouchUpInside];
 	botonReload.backgroundColor = [UIColor clearColor];
 	[botonReload setBackgroundImage:[UIImage imageNamed:@"loading2"] forState:UIControlStateNormal];
@@ -92,7 +92,7 @@
 	botonReload.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 	[topView addSubview:botonReload];
 
-	botonMenu = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, 30, 30)];
+	botonMenu = [[UIButton alloc]initWithFrame:CGRectMake(20, 10, 30, 30)];
 	[botonMenu addTarget:self action:@selector(revealMenu) forControlEvents:UIControlEventTouchUpInside];
 	botonMenu.backgroundColor = [UIColor clearColor];
 	[botonMenu setBackgroundImage:[UIImage imageNamed:@"menuButton"] forState:UIControlStateNormal];
@@ -104,6 +104,7 @@
 	tabla.delegate=self;
 	tabla.dataSource=self;
 	tabla.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    tabla.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:tabla];
 
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
@@ -537,7 +538,7 @@
 	else
 	{
 
-		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE POLITÉCNICA VIRTUAL en seccion Inicio" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE POLITÉCNICA VIRTUAL en seccion Inicio" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alerta show];
 		[self dejarDeAnimarLoading];
 	}
@@ -560,7 +561,7 @@
 	}
 	else
 	{
-		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE TOMA DE DATOS PERSONALES en seccion Inicio" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE TOMA DE DATOS PERSONALES en seccion Inicio" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alerta show];
 	}
 }
@@ -580,7 +581,7 @@
 		}
 		else
 		{
-			UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en seccion Inicio" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+			UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en seccion Inicio" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 			[alerta show];
 		}
 	}

@@ -313,7 +313,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 		[self buscarPDFs];
 		if([arrayPDF count]==0)
 		{
-			UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:@"No se han encontrado PDF's" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+			UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:@"No se han encontrado PDF's" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 			[alerta show];
 		}
 		else
@@ -342,7 +342,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	if (error.code != NSURLErrorNotConnectedToInternet)
 	{
 		NSString *descripcionError = [error localizedDescription];
-		alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:[NSString stringWithFormat:@"Se ha producido un error en la conexión: %@", descripcionError] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:[NSString stringWithFormat:@"Se ha producido un error en la conexión: %@", descripcionError] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		alerta.tag = 4;
 		[alerta show];
 	}
@@ -542,7 +542,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	}
 	else
 	{
-		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en vista de PDFs" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en vista de PDFs" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alerta show];
 
 		[self dejarDeAnimarLoading];
