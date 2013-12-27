@@ -35,7 +35,7 @@
 {
 	UILabel *titulo = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
 
-	titulo.text = @"Mis Cursos";
+	titulo.text = @"Contacto";
 	titulo.textAlignment = NSTextAlignmentCenter;
 	titulo.textColor = [UIColor whiteColor];
 	titulo.backgroundColor = [UIColor clearColor];
@@ -129,7 +129,7 @@
 	switch (indexPath.row)
 	{
 		case 1:
-			[[UIApplication sharedApplication] openURL: [NSURL URLWithString: @"mailto:foo@example.com"]];
+			[[UIApplication sharedApplication] openURL: [NSURL URLWithString: @"mailto:apple.dev@euitt.upm.es"]];
 			break;
 		default:
 			break;
