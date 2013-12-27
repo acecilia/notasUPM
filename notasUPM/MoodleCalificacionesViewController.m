@@ -165,7 +165,7 @@
 	}
 	if([arrayCalificaciones count]==0)
 	{
-		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:@"Esta asignatura no dispone de calificaciones" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:@"Esta asignatura no dispone de calificaciones" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		alerta.tag = 2;
 		[alerta show];
 	}
@@ -234,15 +234,13 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-	UIAlertView *alerta;
-
 	if ([webView isLoading])
 		[webView stopLoading];
 
 	if (error.code != NSURLErrorNotConnectedToInternet)
 	{
 		NSString *descripcionError = [error localizedDescription];
-		alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:[NSString stringWithFormat:@"Se ha producido un error en la conexión: %@", descripcionError] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:[NSString stringWithFormat:@"Se ha producido un error en la conexión: %@", descripcionError] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		alerta.tag = 4;
 		[alerta show];
 	}
@@ -358,7 +356,7 @@
 	}
 	else
 	{
-		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en calificaciones" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en calificaciones" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alerta show];
 
 		[self dejarDeAnimarLoading];

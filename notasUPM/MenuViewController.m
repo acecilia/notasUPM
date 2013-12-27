@@ -110,7 +110,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	((UILabel *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:3]).layer.backgroundColor=[[UIColor greenColor] CGColor];
+  
+    [UIView animateWithDuration:0.3  animations:^(void)
+     {
+         [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x - self.view.frame.size.width, [tableView cellForRowAtIndexPath:indexPath].center.y);
+     }];
 
 	UIViewController *newTopViewController;
 	switch(indexPath.row)
@@ -166,7 +170,7 @@
 			[self.slidingViewController resetTopViewWithAnimations:(void(^)())nil onComplete:
 				^{
 					[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:NO];
-					((UILabel *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:3]).layer.backgroundColor=[[UIColor clearColor] CGColor];
+                    [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x + self.view.frame.size.width, [tableView cellForRowAtIndexPath:indexPath].center.y);
 				}];
 		}];
 

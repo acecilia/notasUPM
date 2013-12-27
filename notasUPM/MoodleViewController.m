@@ -199,7 +199,7 @@
 	}
 	else
 	{
-		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en página principal" message:error delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en página principal" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alerta show];
 	}
 	[modelo removeDelegate:self];
