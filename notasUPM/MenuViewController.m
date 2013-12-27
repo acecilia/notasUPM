@@ -113,7 +113,7 @@
   
     [UIView animateWithDuration:0.3  animations:^(void)
      {
-         [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x - self.view.frame.size.width, [tableView cellForRowAtIndexPath:indexPath].center.y);
+         [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x + self.view.frame.size.width, [tableView cellForRowAtIndexPath:indexPath].center.y);
      }];
 
 	UIViewController *newTopViewController;
@@ -170,7 +170,7 @@
 			[self.slidingViewController resetTopViewWithAnimations:(void(^)())nil onComplete:
 				^{
 					[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:NO];
-                    [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x + self.view.frame.size.width, [tableView cellForRowAtIndexPath:indexPath].center.y);
+                    [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x - self.view.frame.size.width, [tableView cellForRowAtIndexPath:indexPath].center.y);
 				}];
 		}];
 
