@@ -55,6 +55,7 @@
 
 	[self animarLoading];
 	self.tableView.allowsSelection = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
 	miWebView = [[UIWebView alloc]init];
 	miWebView.delegate = self;

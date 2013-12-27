@@ -57,6 +57,7 @@
 	[self setNavTitleView];
 
 	self.tableView.allowsSelection = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
 	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
 	modelo = appDelegate.modelo;

@@ -104,6 +104,7 @@
 	tabla.delegate=self;
 	tabla.dataSource=self;
 	tabla.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    tabla.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:tabla];
 
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
