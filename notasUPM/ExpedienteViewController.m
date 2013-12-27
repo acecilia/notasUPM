@@ -8,6 +8,7 @@
 #define COLOR_PRINCIPAL [UIColor colorWithRed:85/255.0 green:172/255.0 blue:239/255.0 alpha:1.0] //AZUL NUEVO
 #define GRIS [UIColor colorWithRed:232/255.0 green:237/255.0 blue:241/255.0 alpha:1.0]
 #define GRIS_OSCURO [UIColor colorWithRed:215/255.0 green:222/255.0 blue:228/255.0 alpha:1.0]
+#define VERDE [UIColor colorWithRed:75/255.0 green:241/255.0 blue:170/255.0 alpha:1.0]
 #define ALTURA_CELDA 100
 
 @interface ExpedienteViewController ()
@@ -223,7 +224,7 @@
 
 	UILabel *tituloDerecha = [[UILabel alloc]initWithFrame:CGRectMake(10, 2, [UIScreen mainScreen].bounds.size.width-15, 40)];
 
-	[tituloDerecha setTextColor:[UIColor greenColor]];
+	[tituloDerecha setTextColor:VERDE];
 	[tituloDerecha setBackgroundColor:[UIColor clearColor]];
 	[tituloDerecha setTextAlignment:NSTextAlignmentRight];
 	[tituloDerecha setFont:[UIFont fontWithName:@"QuicksandBold-Regular" size:20]];
