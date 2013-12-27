@@ -22,6 +22,8 @@
 	UIButton *botonReload;
 
 	ModelUPM *modelo;
+    
+    int columnaNotas;
 }
 
 @end
@@ -117,51 +119,63 @@
 {
 	arrayCalificaciones = [[NSMutableArray alloc]init];
 
+    
 	int numFilas = [[miWebView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr').length;"]intValue];
 
 	for (int i = 0; i < numFilas ; i++)
 	{
-		int numColumnas = [[miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].getElementsByTagName('td').length;", i]]intValue];
-
-
-		// Coger titulo calificacion
-		NSString *titulo = @"";
-
-		titulo = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].getElementsByTagName('th')[0].innerText;", i]];
-
-		NSString *fila = @"";
-
-		if (titulo.length != 0)
-		{
-			fila = [NSString stringWithFormat:@"%@", titulo];
-		}
-
-		for (int j = 0; j < numColumnas; j++)
-		{
-			if (numColumnas != 0)
-			{
-				NSString *celda;
-
-				// Coger celdas
-				if ([miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].getElementsByTagName('td')[%d].innerText;", i, j]].length != 0)
-				{
-					celda = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].getElementsByTagName('td')[%d].innerText;", i, j]];
-
-					if (celda != nil)
-					{
-						if (fila.length == 0)
+        BOOL omitirFila = NO;
+        for (NSString *str in arrayCalificaciones)
+        {
+            if ([str rangeOfString:[miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].innerText;", i]] ].location != NSNotFound)
+            {
+                omitirFila = YES;
+            }
+        }
+        if (!omitirFila)
+        {
+            int numColumnas = [[miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].getElementsByTagName('td').length;", i]]intValue];
+            
+            
+            // Coger titulo calificacion
+            NSString *titulo = @"";
+            
+            titulo = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].getElementsByTagName('th')[0].innerText;", i]];
+            
+            NSString *fila = @"";
+            
+            if (titulo.length != 0)
+            {
+                fila = [NSString stringWithFormat:@"%@", titulo];
+            }
+            
+            for (int j = 0; j < numColumnas; j++)
+            {
+                if (numColumnas != 0)
+                {
+                    NSString *celda;
+                    
+                    // Coger celdas
+                    if ([miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].getElementsByTagName('td')[%d].innerText;", i, j]].length != 0)
+                    {
+                        celda = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].getElementsByTagName('td')[%d].innerText;", i, j]];
+                        
+                        if (celda != nil)
+                        {
+                            if (fila.length == 0)
 							fila = [NSString stringWithFormat:@"%@", celda];
-						else
+                            else
 							fila = [NSString stringWithFormat:@"%@\n%@", fila, celda];
-					}
-				}
-			}
-		}
-
-		if (fila.length != 0)
-		{
-			[arrayCalificaciones addObject:fila];
-		}
+                        }
+                    }
+                }
+            }
+            
+            if (fila.length != 0)
+            {
+                [arrayCalificaciones addObject:fila];
+            }
+        }
 	}
 	if([arrayCalificaciones count]==0)
 	{
@@ -170,6 +184,7 @@
 		[alerta show];
 	}
 	[self separarCeldasPorEnters];
+    [self encontrarColumnaNotas];
 }
 
 - (void)separarCeldasPorEnters
@@ -181,6 +196,32 @@
 		[arrayCalificacionesSeparadas addObject:asignaturaSeparada];
 	}
 	[AlmacenamientoLocal escribir: arrayCalificacionesSeparadas:[offlineFile stringByAppendingString:@"/Calificaciones.plist"]];
+}
+
+- (void)encontrarColumnaNotas
+{
+    int numCols;
+    BOOL encontrado = NO;
+    NSString *identificador;
+    
+    columnaNotas = -1;
+    
+    numCols = [[miWebView stringByEvaluatingJavaScriptFromString: @"document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th').length"]intValue];
+    
+    for (int i = 0; (i < numCols) && !encontrado; i++)
+    {
+        identificador = [miWebView stringByEvaluatingJavaScriptFromString:
+         [NSString stringWithFormat:@"document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th')[%d].id", i]];
+        
+        if ([identificador isEqualToString:@"grade"])
+        {
+            encontrado = YES;
+            columnaNotas = i;
+        }
+    }
+    
+    if (columnaNotas == -1)
+        columnaNotas = 1;
 }
 
 - (void)animarLoading
@@ -317,15 +358,18 @@
 
 	}
 
-	if (((NSMutableArray *)[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]).count > 1)
-	{
-		((UILabel *)[cell viewWithTag:1]).text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:0];
-		((UILabel *)[cell viewWithTag:2]).text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:1];
-	}
-	else
-	{
-		((UILabel *)[cell viewWithTag:1]).text=[[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:0]uppercaseString];
-	}
+    if (arrayCalificaciones != nil)
+    {
+        if (((NSMutableArray *)[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]).count > 1)
+        {
+            ((UILabel *)[cell viewWithTag:1]).text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:0];
+            ((UILabel *)[cell viewWithTag:2]).text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:columnaNotas];
+        }
+        else
+        {
+            ((UILabel *)[cell viewWithTag:1]).text=[[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:0]uppercaseString];
+        }
+    }
 
 	return cell;
 }
