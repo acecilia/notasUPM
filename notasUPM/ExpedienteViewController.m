@@ -54,6 +54,15 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+    
+    //self.navigationController.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+	//self.navigationController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	self.navigationController.view.backgroundColor=[UIColor whiteColor];
+    
+    UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
+	colorAzul.backgroundColor=COLOR_PRINCIPAL;
+    colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.navigationController.view insertSubview:colorAzul atIndex:0];
 
 	[self setNavTitleView];
 
@@ -63,7 +72,9 @@
 	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
 	modelo = appDelegate.modelo;
 	[modelo addDelegate:self];
-
+    
+    self.tableView.backgroundColor=[UIColor clearColor];
+    
 	arrayExpediente = [modelo getExpediente];
 	[self.tableView reloadData];
 }
@@ -117,6 +128,7 @@
 	if(cell==nil)
 	{
 		cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:[NSString stringWithFormat:@"Cell %li",(long)indexPath.section]];
+        cell.contentView.backgroundColor=[UIColor whiteColor];
 
 		UIView *fondoTitulo = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, ALTURA_CELDA/4)];
 		fondoTitulo.backgroundColor=GRIS;
@@ -202,7 +214,8 @@
 	UIView *header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 40)];
 	[header setBackgroundColor:COLOR_PRINCIPAL];
 
-	header.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
+    //header.layer.shadowPath = [UIBezierPath bezierPathWithRect:header.bounds].CGPath;
+	header.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
 	header.layer.shadowOpacity = .20f;
 	header.layer.shadowRadius = 1.0f;
 	header.layer.masksToBounds = NO;
