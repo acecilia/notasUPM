@@ -111,8 +111,7 @@
   
     [UIView animateWithDuration:0.3  animations:^(void)
      {
-         [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x + self.view.frame.size.width, [tableView cellForRowAtIndexPath:indexPath].center.y);
-         self.slidingViewController.anchorRightRevealAmount
+         [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x + self.view.frame.size.width - self.slidingViewController.anchorRightRevealAmount, [tableView cellForRowAtIndexPath:indexPath].center.y);
      }];
 
 	UIViewController *newTopViewController;
@@ -165,11 +164,16 @@
 			CGRect frame = self.slidingViewController.topViewController.view.frame;
 			self.slidingViewController.topViewController = newTopViewController;
 			self.slidingViewController.topViewController.view.frame = frame;
+            
+            [UIView animateWithDuration:0.25f animations:^(void)
+             {
+                 [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x - self.view.frame.size.width, [tableView cellForRowAtIndexPath:indexPath].center.y);
+             }];
 
 			[self.slidingViewController resetTopViewWithAnimations:(void(^)())nil onComplete:
 				^{
 					[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:NO];
-                    [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x - self.view.frame.size.width, [tableView cellForRowAtIndexPath:indexPath].center.y);
+                    [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x  + self.slidingViewController.anchorRightRevealAmount, [tableView cellForRowAtIndexPath:indexPath].center.y);
 				}];
 		}];
 
