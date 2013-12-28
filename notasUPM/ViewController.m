@@ -111,6 +111,9 @@
 	tabla.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     tabla.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:tabla];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
+	[tabla addGestureRecognizer:tap];
 }
 
 
@@ -604,7 +607,11 @@
 			labelApellido.center = CGPointMake(labelApellido.center.x, labelApellido.center.y + MOVER_LABELS);
 			[tabla setFrame:CGRectMake(0, tabla.frame.origin.y
 					- MOVER, tabla.frame.size.width, tabla.frame.size.height + MOVER)];
-		}];
+		}
+        completion:^(BOOL finished)
+         {
+             botonLogin.alpha = 0;
+         }];
 	}
 }
 
@@ -620,6 +627,13 @@
     }
 }*/
 
+-(void) didTapOnTableView:(UIGestureRecognizer*) recognizer
+{
+	[self subirVista];
+}
+
+
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self subirVista];
@@ -631,6 +645,7 @@
 	if (touch.view == topView && topView.frame.origin.y != 0)
 	{
         [tabla setContentOffset:tabla.contentOffset animated:YES];
+        botonLogin.alpha = 1;
         
 		[UIView animateWithDuration:0.3  animations:^(void)
 		{
