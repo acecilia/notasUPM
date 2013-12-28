@@ -112,6 +112,7 @@
     [UIView animateWithDuration:0.3  animations:^(void)
      {
          [tableView cellForRowAtIndexPath:indexPath].center=CGPointMake( [tableView cellForRowAtIndexPath:indexPath].center.x + self.view.frame.size.width, [tableView cellForRowAtIndexPath:indexPath].center.y);
+         self.slidingViewController.anchorRightRevealAmount
      }];
 
 	UIViewController *newTopViewController;
