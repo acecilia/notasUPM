@@ -31,10 +31,8 @@
 {
 	[super viewDidLoad];
 
-	UIImageView* fondo= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fondoAzul"]];
+	UIImageView* fondo= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fondoAzul2"]];
 	[self.tableView setBackgroundView:fondo];
-
-	[self.tableView setBackgroundColor:[UIColor clearColor]];
 
 	self.menu = [NSArray arrayWithObjects:@"Inicio", @"Moodle", @"Expediente",@"Contacto", nil];
 	self.iconos = [NSArray arrayWithObjects:@"resumen", @"moodle",@"expediente",@"contacto", nil];
@@ -75,19 +73,19 @@
 		//bgColorView.layer.masksToBounds = YES;
 		[cell setSelectedBackgroundView:bgColorView];*/
 
-		UILabel *borde = [[UILabel alloc] initWithFrame:CGRectMake(ALTURA_CELDA/2-25, 10, cell.frame.size.width, ALTURA_CELDA-20)];
+		/*UILabel *borde = [[UILabel alloc] initWithFrame:CGRectMake(ALTURA_CELDA/2-20, 10, cell.frame.size.width, ALTURA_CELDA-20)];
 		borde.layer.shouldRasterize = YES;
 		borde.layer.rasterizationScale = [UIScreen mainScreen].scale;
 		borde.backgroundColor=[UIColor clearColor];
-		[borde.layer setBorderWidth:1.0]; 
+		[borde.layer setBorderWidth:0.5];
 		[borde.layer setMasksToBounds:NO];
-		[borde.layer setCornerRadius:8];
+		[borde.layer setCornerRadius:20];
 		[borde.layer setBorderColor:[[UIColor whiteColor] CGColor]];
 
 
 		[cell addSubview:borde];
 		borde.tag=3;
-		borde.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+		borde.autoresizingMask = UIViewAutoresizingFlexibleWidth;*/
 
 		UIImageView* imagen= [[UIImageView alloc]initWithFrame:CGRectMake(ALTURA_CELDA/2-15, ALTURA_CELDA/2-15, 30, 30)];
 		[cell addSubview:imagen];
