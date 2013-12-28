@@ -123,12 +123,13 @@
 		[cell addSubview:fondoTitulo];
 		fondoTitulo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
-		UILabel *titulo = [[UILabel alloc] initWithFrame:CGRectMake(5, 2, cell.frame.size.width-10, ALTURA_CELDA/4)];
+		UILabel *titulo = [[UILabel alloc] initWithFrame:CGRectMake(8, 2, cell.frame.size.width-15, ALTURA_CELDA/4)];
 		titulo.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:18];
 		titulo.backgroundColor=[UIColor clearColor];
 		[cell addSubview:titulo];
 		titulo.tag=1;
 		titulo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        titulo.adjustsFontSizeToFitWidth = YES;
 
 		UILabel *textoDerecha = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/3, ALTURA_CELDA/4, (cell.frame.size.width*2)/3-10, (ALTURA_CELDA*3)/4)];
 		textoDerecha.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:18];
@@ -139,7 +140,7 @@
 		textoDerecha.tag=2;
 		textoDerecha.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
 
-		UILabel *textoIzquierda = [[UILabel alloc] initWithFrame:CGRectMake(5, ALTURA_CELDA/4, cell.frame.size.width/3 -10, (ALTURA_CELDA*3)/4)];
+		UILabel *textoIzquierda = [[UILabel alloc] initWithFrame:CGRectMake(8, ALTURA_CELDA/4, cell.frame.size.width/3 -10, (ALTURA_CELDA*3)/4)];
 		textoIzquierda.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:22];
 		textoIzquierda.backgroundColor=[UIColor clearColor];
 		[cell addSubview:textoIzquierda];
@@ -210,7 +211,7 @@
 
 	NSString* cadena=@"";
 
-	UILabel *tituloIzquierda = [[UILabel alloc]initWithFrame:CGRectMake(5, 2, [UIScreen mainScreen].bounds.size.width-15, 40)];
+	UILabel *tituloIzquierda = [[UILabel alloc]initWithFrame:CGRectMake(8, 2, [UIScreen mainScreen].bounds.size.width-18, 40)];
 
 	[tituloIzquierda setTextColor:[UIColor whiteColor]];
 	[tituloIzquierda setBackgroundColor:[UIColor clearColor]];
@@ -222,7 +223,7 @@
 
 	[header addSubview:tituloIzquierda];
 
-	UILabel *tituloDerecha = [[UILabel alloc]initWithFrame:CGRectMake(10, 2, [UIScreen mainScreen].bounds.size.width-15, 40)];
+	UILabel *tituloDerecha = [[UILabel alloc]initWithFrame:CGRectMake(10, 2, [UIScreen mainScreen].bounds.size.width-18, 40)];
 
 	[tituloDerecha setTextColor:VERDE];
 	[tituloDerecha setBackgroundColor:[UIColor clearColor]];
