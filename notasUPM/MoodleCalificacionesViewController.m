@@ -114,6 +114,7 @@
 
 - (void)cogerCalificacionesMoodle
 {
+    //separa directamente las calificaciones ya que las almacena en un array en vez de en un NSString
 	arrayCalificacionesSeparadas = [[NSMutableArray alloc]init];
 
 	int numFilas = [[miWebView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr').length;"]intValue];
@@ -144,6 +145,9 @@
 
             if (celda != nil && celda.length>0)
             {
+                //cada vez que coge una celda comprueba si el nombre de la columna es el de calificaciones o el de rango
+                //de calificaciones. Si es calficaciones añade el valor en la posición 1 (ya que en la 0 esta el título
+                // y si es el rango lo añade en la posición 2
                     NSString *identificador = [miWebView stringByEvaluatingJavaScriptFromString:
                                      [NSString stringWithFormat:@"document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th')[%d].id", j+1]];
                     
