@@ -133,7 +133,7 @@
 
 		if (titulo.length != 0)
 		{
-			[fila insertObject:titulo atIndex:0];
+			[fila addObject:titulo];
 		}
 
 		for (int j = 0; j < numColumnas; j++)
@@ -153,11 +153,11 @@
                     
                     if([identificador isEqualToString:@"grade"])
                     {
-                        [fila insertObject:celda atIndex:1];
+                        [fila addObject:celda];
                     }
                     else if([identificador isEqualToString:@"range"])
                     {
-                        [fila insertObject:celda atIndex:2];
+                        [fila addObject:celda];
                     }
             }
 		}
@@ -326,7 +326,7 @@
 
 	}
 
-	if (((NSMutableArray *)[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]).count >= 3)
+	if (((NSMutableArray *)[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]).count > 1)
 	{
 		((UILabel *)[cell viewWithTag:1]).text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:0];
         
@@ -342,16 +342,19 @@
             nota.adjustsFontSizeToFitWidth=NO;
         }
         
-        UILabel* maximo = ((UILabel *)[cell viewWithTag:3]);
-        maximo.text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:2];
-        size = [maximo.text sizeWithFont:nota.font];
-        if (size.width > maximo.bounds.size.width)
+        if (((NSMutableArray *)[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]).count > 2)
         {
-            maximo.adjustsFontSizeToFitWidth=YES;
-        }
-        else
-        {
-            maximo.adjustsFontSizeToFitWidth=NO;
+            UILabel* maximo = ((UILabel *)[cell viewWithTag:3]);
+            maximo.text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:2];
+            size = [maximo.text sizeWithFont:nota.font];
+            if (size.width > maximo.bounds.size.width)
+            {
+                maximo.adjustsFontSizeToFitWidth=YES;
+            }
+            else
+            {
+                maximo.adjustsFontSizeToFitWidth=NO;
+            }
         }
 	}
 	else
