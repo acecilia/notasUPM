@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		413C0CC61870877B00429A23 /* MoodleCalificacionesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C0CC51870877B00429A23 /* MoodleCalificacionesViewController.m */; };
 		413D8118186CF71A00416913 /* adelante.png in Resources */ = {isa = PBXBuildFile; fileRef = 413D80F4186CF71A00416913 /* adelante.png */; };
 		413D8119186CF71A00416913 /* atras.png in Resources */ = {isa = PBXBuildFile; fileRef = 413D80F5186CF71A00416913 /* atras.png */; };
 		413D811A186CF71A00416913 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 413D80F6186CF71A00416913 /* back.png */; };
@@ -57,7 +58,6 @@
 		45313FB9186233C5007EB2C9 /* InitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45313F9E186233C5007EB2C9 /* InitViewController.m */; };
 		45313FBA186233C5007EB2C9 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45313FA0186233C5007EB2C9 /* MenuViewController.m */; };
 		45313FBC186233C5007EB2C9 /* MoodleAsignaturaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45313FA4186233C5007EB2C9 /* MoodleAsignaturaViewController.m */; };
-		45313FBD186233C5007EB2C9 /* MoodleCalificacionesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45313FA6186233C5007EB2C9 /* MoodleCalificacionesViewController.m */; };
 		45313FBE186233C5007EB2C9 /* MoodleOtrasCalificacionesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45313FA8186233C5007EB2C9 /* MoodleOtrasCalificacionesViewController.m */; };
 		45313FBF186233C5007EB2C9 /* MoodleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45313FAA186233C5007EB2C9 /* MoodleViewController.m */; };
 		45313FC0186233C5007EB2C9 /* MoodleWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45313FAC186233C5007EB2C9 /* MoodleWebViewViewController.m */; };
@@ -83,6 +83,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		413C0CC51870877B00429A23 /* MoodleCalificacionesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoodleCalificacionesViewController.m; sourceTree = "<group>"; };
 		413D80F4186CF71A00416913 /* adelante.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = adelante.png; sourceTree = "<group>"; };
 		413D80F5186CF71A00416913 /* atras.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atras.png; sourceTree = "<group>"; };
 		413D80F6186CF71A00416913 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
@@ -146,7 +147,6 @@
 		45313FA3186233C5007EB2C9 /* MoodleAsignaturaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoodleAsignaturaViewController.h; sourceTree = "<group>"; };
 		45313FA4186233C5007EB2C9 /* MoodleAsignaturaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoodleAsignaturaViewController.m; sourceTree = "<group>"; };
 		45313FA5186233C5007EB2C9 /* MoodleCalificacionesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoodleCalificacionesViewController.h; sourceTree = "<group>"; };
-		45313FA6186233C5007EB2C9 /* MoodleCalificacionesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoodleCalificacionesViewController.m; sourceTree = "<group>"; };
 		45313FA7186233C5007EB2C9 /* MoodleOtrasCalificacionesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoodleOtrasCalificacionesViewController.h; sourceTree = "<group>"; };
 		45313FA8186233C5007EB2C9 /* MoodleOtrasCalificacionesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoodleOtrasCalificacionesViewController.m; sourceTree = "<group>"; };
 		45313FA9186233C5007EB2C9 /* MoodleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoodleViewController.h; sourceTree = "<group>"; };
@@ -290,7 +290,7 @@
 				45313FA3186233C5007EB2C9 /* MoodleAsignaturaViewController.h */,
 				45313FA4186233C5007EB2C9 /* MoodleAsignaturaViewController.m */,
 				45313FA5186233C5007EB2C9 /* MoodleCalificacionesViewController.h */,
-				45313FA6186233C5007EB2C9 /* MoodleCalificacionesViewController.m */,
+				413C0CC51870877B00429A23 /* MoodleCalificacionesViewController.m */,
 				45313FA7186233C5007EB2C9 /* MoodleOtrasCalificacionesViewController.h */,
 				45313FA8186233C5007EB2C9 /* MoodleOtrasCalificacionesViewController.m */,
 				45313FA9186233C5007EB2C9 /* MoodleViewController.h */,
@@ -468,6 +468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45313FC2186233C5007EB2C9 /* ViewController.m in Sources */,
+				413C0CC61870877B00429A23 /* MoodleCalificacionesViewController.m in Sources */,
 				45313FBC186233C5007EB2C9 /* MoodleAsignaturaViewController.m in Sources */,
 				45313F6F186232F9007EB2C9 /* main.m in Sources */,
 				45313FBA186233C5007EB2C9 /* MenuViewController.m in Sources */,
@@ -479,7 +480,6 @@
 				45313FBE186233C5007EB2C9 /* MoodleOtrasCalificacionesViewController.m in Sources */,
 				45313FC1186233C5007EB2C9 /* UIImage+ImageWithUIView.m in Sources */,
 				45313FBF186233C5007EB2C9 /* MoodleViewController.m in Sources */,
-				45313FBD186233C5007EB2C9 /* MoodleCalificacionesViewController.m in Sources */,
 				45313FB4186233C5007EB2C9 /* AppDelegate.m in Sources */,
 				45313FC0186233C5007EB2C9 /* MoodleWebViewViewController.m in Sources */,
 				45313FB6186233C5007EB2C9 /* Descargador.m in Sources */,
