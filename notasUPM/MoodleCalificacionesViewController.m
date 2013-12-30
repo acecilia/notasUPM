@@ -135,32 +135,48 @@
 		{
 			[fila addObject:titulo];
 		}
-
-		for (int j = 0; j < numColumnas; j++)
-		{
-            NSString *celda;
-
-            // Coger celdas
-            celda = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].getElementsByTagName('td')[%d].innerText;", i, j]];
-
-            if (celda != nil && celda.length>0)
+        if(numColumnas>1)
+        {
+            for (int j = 0; j < numColumnas; j++)
             {
-                //cada vez que coge una celda comprueba si el nombre de la columna es el de calificaciones o el de rango
-                //de calificaciones. Si es calficaciones añade el valor en la posición 1 (ya que en la 0 esta el título
-                // y si es el rango lo añade en la posición 2
-                    NSString *identificador = [miWebView stringByEvaluatingJavaScriptFromString:
-                                     [NSString stringWithFormat:@"document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th')[%d].id", j+1]];
+                NSString *celda;
+
+                // Coger celdas
+                celda = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[%d].getElementsByTagName('td')[%d].innerText;", i, j]];
+                
+                if(celda.length==0)
+                {
+                    celda = @"-";
+                }
+
+                if (celda != nil)
+                {
+                    //cada vez que coge una celda comprueba si el nombre de la columna es el de calificaciones o el de rango
+                    //de calificaciones. Si es calficaciones añade el valor en la posición 1 (ya que en la 0 esta el título
+                    // y si es el rango lo añade en la posición 2
                     
-                    if([identificador isEqualToString:@"grade"])
-                    {
-                        [fila addObject:celda];
-                    }
-                    else if([identificador isEqualToString:@"range"])
-                    {
-                        [fila addObject:celda];
-                    }
+                        NSString *identificador = [miWebView stringByEvaluatingJavaScriptFromString:
+                                         [NSString stringWithFormat:@"document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th')[%d].id", j+1]];
+                        
+                        if([identificador isEqualToString:@"grade"])
+                        {
+                            while ([fila count]<1)
+                            {
+                                [fila addObject:@""];
+                            }
+                            [fila addObject:celda];
+                        }
+                        else if([identificador isEqualToString:@"range"])
+                        {
+                            while ([fila count]<2)
+                            {
+                                [fila addObject:@""];
+                            }
+                            [fila addObject:celda];
+                        }
+                }
             }
-		}
+        }
 
 		if (fila.count > 0)
 		{
