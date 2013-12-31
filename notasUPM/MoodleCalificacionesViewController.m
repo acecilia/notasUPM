@@ -421,8 +421,8 @@
         else
         {
             titulo.adjustsFontSizeToFitWidth=NO;
-            if (size.width >= titulo.bounds.size.width +titulo.bounds.size.width/2)
-                titulo.font = [UIFont fontWithName:@"QuicksandBook-Regular" size:titulo.font.pointSize - 4];
+            //if (size.width >= titulo.bounds.size.width +titulo.bounds.size.width/2)
+                //titulo.font = [UIFont fontWithName:@"QuicksandBook-Regular" size:titulo.font.pointSize - 4];
         }
         
         UILabel* nota = ((UILabel *)[cell viewWithTag:2]);
