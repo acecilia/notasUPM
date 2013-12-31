@@ -160,7 +160,7 @@
                         NSString *identificador = [miWebView stringByEvaluatingJavaScriptFromString:
                                          [NSString stringWithFormat:@"document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th')[%d].id", j+1]];
                         
-                        if([identificador isEqualToString:@"grade"])
+                        /*if([identificador isEqualToString:@"grade"])
                         {
                             [fila addObject:celda];
                             if ( ([fila objectAtIndex:1] != celda) && (fila.count > 1) )
@@ -170,6 +170,56 @@
                         else if([identificador isEqualToString:@"range"] || [identificador isEqualToString:@"weight"])
                         {
                             [fila addObject:celda];
+                        }*/
+                    
+                        if([identificador isEqualToString:@"grade"])
+                        {
+                            switch([fila count])
+                            {
+                                case 0:
+                                {
+                                    [fila addObject:@""];
+                                    [fila addObject:celda];
+                                    break;
+                                }
+                                case 1:
+                                {
+                                    [fila addObject:celda];
+                                    break;
+                                }
+                                default:
+                                {
+                                    [fila insertObject:celda atIndex:1];
+                                }
+                            }
+                        }
+                        else if([identificador isEqualToString:@"range"] || [identificador isEqualToString:@"weight"])
+                        {
+                            switch([fila count])
+                            {
+                                case 0:
+                                {
+                                    [fila addObject:@""];
+                                    [fila addObject:@""];
+                                    [fila addObject:celda];
+                                    break;
+                                }
+                                case 1:
+                                {
+                                    [fila addObject:@""];
+                                    [fila addObject:celda];
+                                    break;
+                                }
+                                case 2:
+                                {
+                                    [fila addObject:celda];
+                                    break;
+                                }
+                                default:
+                                {
+                                    [fila insertObject:celda atIndex:2];
+                                }
+                            }
                         }
                 }
             }
