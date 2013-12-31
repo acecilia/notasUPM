@@ -414,7 +414,7 @@
         UILabel* titulo = ((UILabel *)[cell viewWithTag:1]);
         titulo.text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:0];
         CGSize size = [titulo.text sizeWithFont:titulo.font];
-        if (size.width > titulo.bounds.size.width && size.width < titulo.bounds.size.width +100)
+        if (size.width > titulo.bounds.size.width && size.width < titulo.bounds.size.width +titulo.bounds.size.width/2)
         {
             titulo.adjustsFontSizeToFitWidth=YES;
         }
