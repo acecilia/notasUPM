@@ -160,7 +160,7 @@
                     NSString *identificador = [miWebView stringByEvaluatingJavaScriptFromString:
                                      [NSString stringWithFormat:@"document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th')[%d].id", j+1]];
                     
-                    if([identificador isEqualToString:@"grade"])
+                    /*if([identificador isEqualToString:@"grade"])
                     {
                         while ([fila count]<1)
                         {
@@ -175,9 +175,9 @@
                             [fila addObject:@""];
                         }
                         [fila insertObject:celda atIndex:2];
-                    }
+                    }*/
                     
-                        /*if([identificador isEqualToString:@"grade"])
+                        if([identificador isEqualToString:@"grade"])
                         {
                             [fila addObject:celda];
                             if ( ([fila objectAtIndex:1] != celda) && (fila.count > 1) )
@@ -187,7 +187,7 @@
                         else if([identificador isEqualToString:@"range"] || [identificador isEqualToString:@"weight"])
                         {
                             [fila addObject:celda];
-                        }*/
+                        }
                     
                         /*if([identificador isEqualToString:@"grade"])
                         {
@@ -363,7 +363,7 @@
 			UILabel *titulo = [[UILabel alloc] initWithFrame:CGRectMake(8, 2, cell.frame.size.width-10, ALTURA_CELDA/4)];
 			titulo.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:18];
 			titulo.backgroundColor=[UIColor clearColor];
-            titulo.adjustsFontSizeToFitWidth = YES;
+            //titulo.adjustsFontSizeToFitWidth = YES;
 			[cell addSubview:titulo];
 			titulo.tag=1;
 			titulo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
