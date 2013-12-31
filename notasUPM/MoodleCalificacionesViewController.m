@@ -411,11 +411,21 @@
 
 	if (((NSMutableArray *)[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]).count > 1)
 	{
-		((UILabel *)[cell viewWithTag:1]).text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:0];
+        UILabel* titulo = ((UILabel *)[cell viewWithTag:1]);
+        titulo.text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:0];
+        CGSize size = [titulo.text sizeWithFont:titulo.font];
+        if (size.width > titulo.bounds.size.width && size.width < titulo.bounds.size.width +100)
+        {
+            titulo.adjustsFontSizeToFitWidth=YES;
+        }
+        else
+        {
+            titulo.adjustsFontSizeToFitWidth=NO;
+        }
         
         UILabel* nota = ((UILabel *)[cell viewWithTag:2]);
         nota.text=[[arrayCalificacionesSeparadas objectAtIndex:indexPath.row]objectAtIndex:1];
-        CGSize size = [nota.text sizeWithFont:nota.font];
+        size = [nota.text sizeWithFont:nota.font];
         if (size.width > nota.bounds.size.width)
         {
             nota.adjustsFontSizeToFitWidth=YES;
