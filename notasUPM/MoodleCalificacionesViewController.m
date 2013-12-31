@@ -157,9 +157,26 @@
                     // 2, lo intercambia con la 1.
                     // Si es rango/peso, lo mete a continuación en el array fila.
                     
-                        NSString *identificador = [miWebView stringByEvaluatingJavaScriptFromString:
-                                         [NSString stringWithFormat:@"document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th')[%d].id", j+1]];
-                        
+                    NSString *identificador = [miWebView stringByEvaluatingJavaScriptFromString:
+                                     [NSString stringWithFormat:@"document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th')[%d].id", j+1]];
+                    
+                    if([identificador isEqualToString:@"grade"])
+                    {
+                        while ([fila count]<1)
+                        {
+                           [fila addObject:@""];
+                        }
+                        [fila insertObject:celda atIndex:1];
+                    }
+                    else if([identificador isEqualToString:@"range"] || [identificador isEqualToString:@"weight"])
+                    {
+                        while ([fila count]<2)
+                        {
+                            [fila addObject:@""];
+                        }
+                        [fila insertObject:celda atIndex:2];
+                    }
+                    
                         /*if([identificador isEqualToString:@"grade"])
                         {
                             [fila addObject:celda];
@@ -172,7 +189,7 @@
                             [fila addObject:celda];
                         }*/
                     
-                        if([identificador isEqualToString:@"grade"])
+                        /*if([identificador isEqualToString:@"grade"])
                         {
                             switch([fila count])
                             {
@@ -220,7 +237,7 @@
                                     [fila insertObject:celda atIndex:2];
                                 }
                             }
-                        }
+                        }*/
                 }
             }
         }
