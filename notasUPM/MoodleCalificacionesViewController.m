@@ -151,27 +151,24 @@
 
                 if (celda != nil)
                 {
-                    //cada vez que coge una celda comprueba si el nombre de la columna es el de calificaciones o el de rango
-                    //de calificaciones. Si es calficaciones añade el valor en la posición 1 (ya que en la 0 esta el título
-                    // y si es el rango lo añade en la posición 2
+                    // Cada vez que coge una celda comprueba si el nombre de la columna es el de calificaciones o el de rango o el de peso.
+                    // Si es calficaciones añade el valor al array fila (en la 0 esta el título)
+                    // y comprueba que se haya metido en la posición 1. Si está en la posición
+                    // 2, lo intercambia con la 1.
+                    // Si es rango/peso, lo mete a continuación en el array fila.
                     
                         NSString *identificador = [miWebView stringByEvaluatingJavaScriptFromString:
                                          [NSString stringWithFormat:@"document.getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th')[%d].id", j+1]];
                         
                         if([identificador isEqualToString:@"grade"])
                         {
-                            while ([fila count]<1)
-                            {
-                                [fila addObject:@""];
-                            }
                             [fila addObject:celda];
+                            if ( ([fila objectAtIndex:1] != celda) && (fila.count > 1) )
+                                [fila exchangeObjectAtIndex:1 withObjectAtIndex:2];
+                            
                         }
-                        else if([identificador isEqualToString:@"range"])
+                        else if([identificador isEqualToString:@"range"] || [identificador isEqualToString:@"weight"])
                         {
-                            while ([fila count]<2)
-                            {
-                                [fila addObject:@""];
-                            }
                             [fila addObject:celda];
                         }
                 }
