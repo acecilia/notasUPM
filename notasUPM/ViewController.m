@@ -92,7 +92,7 @@
 	botonReload = [[UIButton alloc]initWithFrame:CGRectMake(topView.frame.size.width-50, 10, 30, 30)];
 	[botonReload addTarget:self action:@selector(actualizar) forControlEvents:UIControlEventTouchUpInside];
 	botonReload.backgroundColor = [UIColor clearColor];
-	[botonReload setBackgroundImage:[UIImage imageNamed:@"loading2"] forState:UIControlStateNormal];
+	[botonReload setBackgroundImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
 	[botonReload setBackgroundImage:[UIImage imageNamed:@"loadingRed"] forState:UIControlStateDisabled];
 	botonReload.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 	[topView addSubview:botonReload];
@@ -399,13 +399,14 @@
     scale.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     [botonReload.layer addAnimation:scale forKey:@"scaleFinal"];
     
-	[botonReload setEnabled:YES];
+	//[botonReload setEnabled:YES];
 	
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
     [botonReload.layer removeAllAnimations];
+    [botonReload setEnabled:YES];
 }
 
 
