@@ -39,6 +39,7 @@
 		413D813B186CF71A00416913 /* saveOk.png in Resources */ = {isa = PBXBuildFile; fileRef = 413D8117186CF71A00416913 /* saveOk.png */; };
 		413D813D186CFAAC00416913 /* fondoAzul.png in Resources */ = {isa = PBXBuildFile; fileRef = 413D813C186CFAAC00416913 /* fondoAzul.png */; };
 		414792DC186CF0CF0096EA08 /* ModelUPM.m in Sources */ = {isa = PBXBuildFile; fileRef = 414792DB186CF0CF0096EA08 /* ModelUPM.m */; };
+		41E89F3A1877709100A98197 /* loadingRedAntiguo.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E89F391877709000A98197 /* loadingRedAntiguo.png */; };
 		45313F63186232F9007EB2C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45313F62186232F9007EB2C9 /* Foundation.framework */; };
 		45313F65186232F9007EB2C9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45313F64186232F9007EB2C9 /* CoreGraphics.framework */; };
 		45313F67186232F9007EB2C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45313F66186232F9007EB2C9 /* UIKit.framework */; };
@@ -116,6 +117,7 @@
 		413D8117186CF71A00416913 /* saveOk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saveOk.png; sourceTree = "<group>"; };
 		413D813C186CFAAC00416913 /* fondoAzul.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fondoAzul.png; sourceTree = "<group>"; };
 		414792DB186CF0CF0096EA08 /* ModelUPM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelUPM.m; sourceTree = "<group>"; };
+		41E89F391877709000A98197 /* loadingRedAntiguo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loadingRedAntiguo.png; sourceTree = "<group>"; };
 		45313F5F186232F9007EB2C9 /* notasUPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notasUPM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45313F62186232F9007EB2C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		45313F64186232F9007EB2C9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -220,6 +222,7 @@
 				413D8108186CF71A00416913 /* LaunchImage-700-568h@2x.png */,
 				413D8109186CF71A00416913 /* loading2.png */,
 				413D810A186CF71A00416913 /* loadingRed.png */,
+				41E89F391877709000A98197 /* loadingRedAntiguo.png */,
 				413D810B186CF71A00416913 /* loadingWV.png */,
 				413D810C186CF71A00416913 /* loadingWVAnimated.png */,
 				413D810D186CF71A00416913 /* login.png */,
@@ -448,6 +451,7 @@
 				413D811B186CF71A00416913 /* backTop.png in Resources */,
 				413D8127186CF71A00416913 /* LaunchImage-2-700-568h@2x.png in Resources */,
 				413D8126186CF71A00416913 /* LaunchImage-2-568h@2x.png in Resources */,
+				41E89F3A1877709100A98197 /* loadingRedAntiguo.png in Resources */,
 				413D813B186CF71A00416913 /* saveOk.png in Resources */,
 				413D812B186CF71A00416913 /* LaunchImage-568h@2x.png in Resources */,
 				413D8119186CF71A00416913 /* atras.png in Resources */,
