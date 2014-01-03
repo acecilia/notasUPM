@@ -61,7 +61,7 @@
     
     UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
 	colorAzul.backgroundColor=COLOR_PRINCIPAL;
-    colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight |UIViewAutoresizingFlexibleBottomMargin;
     [self.navigationController.view insertSubview:colorAzul atIndex:0];
 
 	[self setNavTitleView];
