@@ -424,23 +424,8 @@
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
-    /*if (theAnimation == [[botonReload layer] animationForKey:@"scaleFinal"])
-    {
-        CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-        scale.toValue = @1.0;
-        scale.duration = 0.5;
-        scale.cumulative = YES;
-        scale.delegate = self;
-        scale.removedOnCompletion = YES;
-        scale.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        [botonReload.layer addAnimation:scale forKey:@"scaleFinal2"];
-        
-    }
-    else
-    {*/
-        [botonReload.layer removeAllAnimations];
-        [botonReload setEnabled:YES];
-    //}
+    [botonReload.layer removeAllAnimations];
+    [botonReload setEnabled:YES];
 }
 
 

@@ -125,25 +125,76 @@
 - (void)animarLoading
 {
 	[botonReload setEnabled:NO];
-
+    
+    CAAnimationGroup *animationGroup = [CAAnimationGroup animation];
+    animationGroup.duration = 1;
+    animationGroup.repeatCount = HUGE_VALF;
+    
 	CABasicAnimation *rotationAnimation;
 	rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-	rotationAnimation.repeatCount = 1000;
+	//rotationAnimation.repeatCount = INFINITY;
 	rotationAnimation.duration = 1;
-	rotationAnimation.cumulative = YES;
+	//rotationAnimation.cumulative = YES;
 	rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 * 1 * 1 ];
 	rotationAnimation.removedOnCompletion = NO;
-	[botonReload.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+	//[botonReload.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    
+    CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    scale.fromValue = @1.0;
+    scale.toValue = @0.85;
+    //scale.repeatCount = INFINITY;
+	scale.duration = 0.5;
+	//scale.cumulative = YES;
+    scale.autoreverses = YES;
+    scale.removedOnCompletion = NO;
+    scale.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    
+    animationGroup.animations = @[scale,rotationAnimation];
+    [botonReload.layer addAnimation:animationGroup forKey:@"pulse"];
 }
 
 - (void)dejarDeAnimarLoading
 {
-	[botonReload setEnabled:YES];
-	[botonReload.layer removeAllAnimations];
-	[UIView animateWithDuration:0.5 animations:^(void)
-	{
-		botonReload.alpha=0;
-	}];
+    CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    scale.toValue = @0.1;
+    //scale.autoreverses=YES;
+    scale.duration = 0.5;
+    scale.cumulative = YES;
+    scale.removedOnCompletion = NO;
+    scale.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [botonReload.layer addAnimation:scale forKey:@"scaleFinal"];
+    
+    CABasicAnimation *scale2 = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    scale2.fromValue = @0.1;
+    scale2.toValue = @1.0;
+    //scale2.autoreverses=YES;
+    scale2.beginTime = CACurrentMediaTime()+scale.duration;
+    scale2.duration = 0.5;
+    scale2.cumulative = YES;
+    scale2.removedOnCompletion = NO;
+    scale2.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [botonReload.layer addAnimation:scale2 forKey:@"scaleFinal2"];
+    
+    CABasicAnimation *rotationAnimation;
+	rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+	rotationAnimation.duration = 0.5;
+	rotationAnimation.beginTime = CACurrentMediaTime()+scale.duration;
+    rotationAnimation.delegate = self;
+    rotationAnimation.fromValue = [NSNumber numberWithFloat: -M_PI];
+	rotationAnimation.toValue = [NSNumber numberWithFloat: 0];
+	rotationAnimation.removedOnCompletion = YES;
+    rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+	[botonReload.layer addAnimation:rotationAnimation forKey:@"rotationAnimation2"];
+}
+
+- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
+{
+    [botonReload.layer removeAllAnimations];
+    [botonReload setEnabled:YES];
+    [UIView animateWithDuration:0.5 animations:^(void)
+     {
+         botonReload.alpha=0;
+     }];
 }
 
 
