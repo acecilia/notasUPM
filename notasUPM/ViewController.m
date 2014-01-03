@@ -51,11 +51,12 @@
 - (void)loadView
 {
 	self.view= [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-	topView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	self.view.backgroundColor=[UIColor whiteColor];
     
     UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
 	colorAzul.backgroundColor=COLOR_PRINCIPAL;
+    colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:colorAzul];
 
 	topView= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
