@@ -316,21 +316,95 @@
 - (void)animarLoading
 {
 	[botonReload setEnabled:NO];
+    
+    CAAnimationGroup *animationGroup = [CAAnimationGroup animation];
+    animationGroup.duration = 1;
+    animationGroup.repeatCount = HUGE_VALF;
 
 	CABasicAnimation *rotationAnimation;
 	rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-	rotationAnimation.repeatCount = 1000;
+	//rotationAnimation.repeatCount = INFINITY;
 	rotationAnimation.duration = 1;
-	rotationAnimation.cumulative = YES;
+	//rotationAnimation.cumulative = YES;
 	rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 * 1 * 1 ];
 	rotationAnimation.removedOnCompletion = NO;
-	[botonReload.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+	//[botonReload.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    
+    CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    scale.fromValue = @1.0;
+    scale.toValue = @0.85;
+    //scale.repeatCount = INFINITY;
+	scale.duration = 0.5;
+	//scale.cumulative = YES;
+    scale.autoreverses = YES;
+    scale.removedOnCompletion = NO;
+    scale.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    
+    animationGroup.animations = @[scale,rotationAnimation];
+    [botonReload.layer addAnimation:animationGroup forKey:@"pulse"];
+    
+    /*CABasicAnimation *scale2 = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    scale2.fromValue = @0.75; // Your from value (not obvious from the question)
+    scale2.toValue = @1.0;
+    //scale2.repeatCount = INFINITY;
+	scale2.duration = 0.5;
+	//scale.cumulative = YES;
+    scale2.removedOnCompletion = NO;
+    scale2.beginTime = 0.5;
+    scale2.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    */
+    
+    /*[UIView animateWithDuration:3  animations:^(void)
+     {
+     CGRect newFrame = botonReload.frame;
+     newFrame.size = CGSizeMake(5, 5);
+     botonReload.frame = newFrame;
+     [UIView beginAnimations:@"ScaleButton" context:NULL];
+     [UIView setAnimationDuration: 0.5f];
+     botonReload.transform = CGAffineTransformMakeScale(1.1,1.1);
+     [UIView commitAnimations];
+     }
+     completion:^(BOOL finished)
+     {
+     botonReload.frame=CGRectMake(topView.frame.size.width-50, 10, 30, 30);
+     }];*/
+    
+    /*[UIView animateWithDuration:3  animations:^(void)
+     {
+     botonReload.transform = CGAffineTransformMakeScale(1.1,1.1);
+     }];*/
+    
+    /*CAKeyframeAnimation *rotate = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.x"];
+    rotate.values = @[@0.0, @(- 20 * M_PI / 180.0f), @0.0];
+    rotate.duration = 0.4;
+    rotate.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                               [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];*/
+    
+    /*[botonReload.layer addAnimation:scale forKey:@"move forward by scaling"];
+    [botonReload.layer addAnimation:scale2 forKey:@"move forward by scaling2"];
+    //[botonReload.layer addAnimation:rotate forKey:@"rotate back and forth"];
+    botonReload.transform = CGAffineTransformIdentity; // Set end value (animation won't apply the value to the model)*/
 }
 
 - (void)dejarDeAnimarLoading
 {
+    CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    scale.toValue = @0.1;
+    scale.autoreverses=YES;
+    scale.duration = 0.5;
+    scale.cumulative = YES;
+    scale.delegate = self;
+    scale.removedOnCompletion = YES;
+    scale.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [botonReload.layer addAnimation:scale forKey:@"scaleFinal"];
+    
 	[botonReload setEnabled:YES];
-	[botonReload.layer removeAllAnimations];
+	
+}
+
+- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
+{
+    [botonReload.layer removeAllAnimations];
 }
 
 
