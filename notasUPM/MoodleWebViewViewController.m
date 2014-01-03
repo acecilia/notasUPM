@@ -153,11 +153,13 @@
     [botonReload.layer addAnimation:animationGroup forKey:@"pulse"];
 }
 
+
 - (void)dejarDeAnimarLoading
 {
     CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     scale.toValue = @0.1;
     //scale.autoreverses=YES;
+    scale.delegate = self;
     scale.duration = 0.5;
     scale.cumulative = YES;
     scale.removedOnCompletion = NO;
@@ -182,19 +184,25 @@
     rotationAnimation.delegate = self;
     rotationAnimation.fromValue = [NSNumber numberWithFloat: -M_PI];
 	rotationAnimation.toValue = [NSNumber numberWithFloat: 0];
-	rotationAnimation.removedOnCompletion = YES;
+	rotationAnimation.removedOnCompletion = NO;
     rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 	[botonReload.layer addAnimation:rotationAnimation forKey:@"rotationAnimation2"];
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
-    [botonReload.layer removeAllAnimations];
-    [botonReload setEnabled:YES];
-    [UIView animateWithDuration:0.5 animations:^(void)
-     {
-         botonReload.alpha=0;
-     }];
+    if(theAnimation == [botonReload.layer animationForKey:@"scaleFinal"])
+    {
+    }
+    else if(theAnimation == [botonReload.layer animationForKey:@"rotationAnimation2"])
+    {
+        [botonReload.layer removeAllAnimations];
+        [botonReload setEnabled:YES];
+        [UIView animateWithDuration:0.5 animations:^(void)
+         {
+             botonReload.alpha=0;
+         }];
+    }
 }
 
 

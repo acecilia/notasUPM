@@ -41,11 +41,7 @@
 		[self.tableView deselectRowAtIndexPath:selection animated:YES];
 	}
 
-	if(![modelo.webViewPolitecnicaVirtual isLoading])
-	{
-		[self dejarDeAnimarLoading];
-	}
-	else
+	if([modelo.webViewPolitecnicaVirtual isLoading])
 	{
 		[self animarLoading];
 	}
@@ -298,6 +294,7 @@
     CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     scale.toValue = @0.1;
     //scale.autoreverses=YES;
+    scale.delegate = self;
     scale.duration = 0.5;
     scale.cumulative = YES;
     scale.removedOnCompletion = NO;
@@ -322,15 +319,21 @@
     rotationAnimation.delegate = self;
     rotationAnimation.fromValue = [NSNumber numberWithFloat: -M_PI];
 	rotationAnimation.toValue = [NSNumber numberWithFloat: 0];
-	rotationAnimation.removedOnCompletion = YES;
+	rotationAnimation.removedOnCompletion = NO;
     rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 	[botonReload.layer addAnimation:rotationAnimation forKey:@"rotationAnimation2"];
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
-    [botonReload.layer removeAllAnimations];
-    [botonReload setEnabled:YES];
+    if(theAnimation == [botonReload.layer animationForKey:@"scaleFinal"])
+    {
+    }
+    else if(theAnimation == [botonReload.layer animationForKey:@"rotationAnimation2"])
+    {
+        [botonReload.layer removeAllAnimations];
+        [botonReload setEnabled:YES];
+    }
 }
 
 - (void)reload

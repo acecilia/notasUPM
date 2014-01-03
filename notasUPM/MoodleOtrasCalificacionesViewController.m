@@ -281,6 +281,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
     CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     scale.toValue = @0.1;
     //scale.autoreverses=YES;
+    scale.delegate = self;
     scale.duration = 0.5;
     scale.cumulative = YES;
     scale.removedOnCompletion = NO;
@@ -305,15 +306,27 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
     rotationAnimation.delegate = self;
     rotationAnimation.fromValue = [NSNumber numberWithFloat: -M_PI];
 	rotationAnimation.toValue = [NSNumber numberWithFloat: 0];
-	rotationAnimation.removedOnCompletion = YES;
+	rotationAnimation.removedOnCompletion = NO;
     rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 	[botonReload.layer addAnimation:rotationAnimation forKey:@"rotationAnimation2"];
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
-    [botonReload.layer removeAllAnimations];
-    [botonReload setEnabled:YES];
+    if(theAnimation == [botonReload.layer animationForKey:@"scaleFinal"])
+    {
+        [botonReload removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+        [botonReload addTarget:self action:@selector(download) forControlEvents:UIControlEventTouchUpInside];
+        botonReload.backgroundColor = [UIColor clearColor];
+        [botonReload setBackgroundImage:[UIImage imageNamed:@"descargar"] forState:UIControlStateNormal];
+        [botonReload setBackgroundImage:[UIImage imageNamed:@"loadingRed"] forState:UIControlStateDisabled];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:botonReload];
+    }
+    else if(theAnimation == [botonReload.layer animationForKey:@"rotationAnimation2"])
+    {
+        [botonReload.layer removeAllAnimations];
+        [botonReload setEnabled:YES];
+    }
 }
 
 
@@ -371,14 +384,6 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 		else
 		{
 			[self.tableView reloadData];
-
-			[botonReload removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents]; 
-			[botonReload addTarget:self action:@selector(download) forControlEvents:UIControlEventTouchUpInside];
-			botonReload.backgroundColor = [UIColor clearColor];
-			[botonReload setBackgroundImage:[UIImage imageNamed:@"descargar"] forState:UIControlStateNormal];
-			[botonReload setBackgroundImage:[UIImage imageNamed:@"loadingRed"] forState:UIControlStateDisabled];
-			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:botonReload];
-
 		}
 		[self dejarDeAnimarLoading];
 	}
