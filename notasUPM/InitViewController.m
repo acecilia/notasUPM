@@ -33,6 +33,16 @@
 	return UIStatusBarStyleDefault;
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
 - (void)didReceiveMemoryWarning
 {
 	[super didReceiveMemoryWarning];
