@@ -252,6 +252,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
     CAAnimationGroup *animationGroup = [CAAnimationGroup animation];
     animationGroup.duration = 1;
     animationGroup.repeatCount = HUGE_VALF;
+    animationGroup.removedOnCompletion=NO;
     
 	CABasicAnimation *rotationAnimation;
 	rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
