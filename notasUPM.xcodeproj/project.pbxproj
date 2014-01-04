@@ -71,7 +71,7 @@
 		4533D3EB186EEC83003E56CC /* expediente.png in Resources */ = {isa = PBXBuildFile; fileRef = 4533D3E7186EEC83003E56CC /* expediente.png */; };
 		4533D3EC186EEC83003E56CC /* moodle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4533D3E8186EEC83003E56CC /* moodle.png */; };
 		4533D3ED186EEC83003E56CC /* resumen.png in Resources */ = {isa = PBXBuildFile; fileRef = 4533D3E9186EEC83003E56CC /* resumen.png */; };
-		45E20643187766EE006F0782 /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E20642187766EE006F0782 /* reload.png */; };
+		45E206491877869D006F0782 /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E206481877869D006F0782 /* reload.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,7 +169,7 @@
 		4533D3E7186EEC83003E56CC /* expediente.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = expediente.png; sourceTree = "<group>"; };
 		4533D3E8186EEC83003E56CC /* moodle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moodle.png; sourceTree = "<group>"; };
 		4533D3E9186EEC83003E56CC /* resumen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resumen.png; sourceTree = "<group>"; };
-		45E20642187766EE006F0782 /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
+		45E206481877869D006F0782 /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,7 +200,7 @@
 		413D80F3186CF71A00416913 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				45E20642187766EE006F0782 /* reload.png */,
+				45E206481877869D006F0782 /* reload.png */,
 				413D80F4186CF71A00416913 /* adelante.png */,
 				413D80F5186CF71A00416913 /* atras.png */,
 				413D80F6186CF71A00416913 /* back.png */,
@@ -423,11 +423,11 @@
 				4533D3ED186EEC83003E56CC /* resumen.png in Resources */,
 				4533D3E5186EE97F003E56CC /* fondoAzul2.png in Resources */,
 				4533D3EC186EEC83003E56CC /* moodle.png in Resources */,
-				45E20643187766EE006F0782 /* reload.png in Resources */,
 				413D8120186CF71A00416913 /* descargar.png in Resources */,
 				413D812E186CF71A00416913 /* loadingRed.png in Resources */,
 				413D8132186CF71A00416913 /* menuButton@2x.png in Resources */,
 				413D812C186CF71A00416913 /* LaunchImage-700-568h@2x.png in Resources */,
+				45E206491877869D006F0782 /* reload.png in Resources */,
 				413D812A186CF71A00416913 /* LaunchImage-2@2x.png in Resources */,
 				413D8128186CF71A00416913 /* LaunchImage-2-700@2x.png in Resources */,
 				413D8135186CF71A00416913 /* Quicksand_Bold.otf in Resources */,
