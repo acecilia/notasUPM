@@ -391,6 +391,13 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Alvaro Roman";
 				TargetAttributes = {
+					45313F5E186232F9007EB2C9 = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
+					};
 					45313F79186232F9007EB2C9 = {
 						TestTargetID = 45313F5E186232F9007EB2C9;
 					};
