@@ -71,6 +71,11 @@
 		4533D3EB186EEC83003E56CC /* expediente.png in Resources */ = {isa = PBXBuildFile; fileRef = 4533D3E7186EEC83003E56CC /* expediente.png */; };
 		4533D3EC186EEC83003E56CC /* moodle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4533D3E8186EEC83003E56CC /* moodle.png */; };
 		4533D3ED186EEC83003E56CC /* resumen.png in Resources */ = {isa = PBXBuildFile; fileRef = 4533D3E9186EEC83003E56CC /* resumen.png */; };
+		45789E3F187837BC00985AD4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45789E3E187837BC00985AD4 /* Images.xcassets */; };
+		45789E43187838A600985AD4 /* icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 45789E40187838A600985AD4 /* icon-29.png */; };
+		45789E45187838A600985AD4 /* icon-58.png in Resources */ = {isa = PBXBuildFile; fileRef = 45789E42187838A600985AD4 /* icon-58.png */; };
+		45789E47187838D900985AD4 /* icon-80.png in Resources */ = {isa = PBXBuildFile; fileRef = 45789E46187838D900985AD4 /* icon-80.png */; };
+		45789E491878393100985AD4 /* icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 45789E481878393100985AD4 /* icon-120.png */; };
 		45E206491877869D006F0782 /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E206481877869D006F0782 /* reload.png */; };
 /* End PBXBuildFile section */
 
@@ -169,6 +174,11 @@
 		4533D3E7186EEC83003E56CC /* expediente.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = expediente.png; sourceTree = "<group>"; };
 		4533D3E8186EEC83003E56CC /* moodle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moodle.png; sourceTree = "<group>"; };
 		4533D3E9186EEC83003E56CC /* resumen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resumen.png; sourceTree = "<group>"; };
+		45789E3E187837BC00985AD4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		45789E40187838A600985AD4 /* icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-29.png"; sourceTree = "<group>"; };
+		45789E42187838A600985AD4 /* icon-58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-58.png"; sourceTree = "<group>"; };
+		45789E46187838D900985AD4 /* icon-80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-80.png"; sourceTree = "<group>"; };
+		45789E481878393100985AD4 /* icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-120.png"; sourceTree = "<group>"; };
 		45E206481877869D006F0782 /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -213,6 +223,10 @@
 				4533D3E4186EE97F003E56CC /* fondoAzul2.png */,
 				413D80FF186CF71A00416913 /* icon.png */,
 				413D8100186CF71A00416913 /* icon@2x.png */,
+				45789E40187838A600985AD4 /* icon-29.png */,
+				45789E46187838D900985AD4 /* icon-80.png */,
+				45789E42187838A600985AD4 /* icon-58.png */,
+				45789E481878393100985AD4 /* icon-120.png */,
 				413D8102186CF71A00416913 /* LaunchImage-2-568h@2x.png */,
 				413D8103186CF71A00416913 /* LaunchImage-2-700-568h@2x.png */,
 				413D8104186CF71A00416913 /* LaunchImage-2-700@2x.png */,
@@ -275,6 +289,7 @@
 		45313F68186232F9007EB2C9 /* notasUPM */ = {
 			isa = PBXGroup;
 			children = (
+				45789E3E187837BC00985AD4 /* Images.xcassets */,
 				45313F91186233C5007EB2C9 /* AlmacenamientoLocal.h */,
 				45313F92186233C5007EB2C9 /* AlmacenamientoLocal.m */,
 				45313F93186233C5007EB2C9 /* AppDelegate.h */,
@@ -392,6 +407,7 @@
 				ORGANIZATIONNAME = "Alvaro Roman";
 				TargetAttributes = {
 					45313F5E186232F9007EB2C9 = {
+						DevelopmentTeam = 37ZZ2J3RYA;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -429,12 +445,14 @@
 				413D8123186CF71A00416913 /* icon.png in Resources */,
 				4533D3ED186EEC83003E56CC /* resumen.png in Resources */,
 				4533D3E5186EE97F003E56CC /* fondoAzul2.png in Resources */,
+				45789E3F187837BC00985AD4 /* Images.xcassets in Resources */,
 				4533D3EC186EEC83003E56CC /* moodle.png in Resources */,
 				413D8120186CF71A00416913 /* descargar.png in Resources */,
 				413D812E186CF71A00416913 /* loadingRed.png in Resources */,
 				413D8132186CF71A00416913 /* menuButton@2x.png in Resources */,
 				413D812C186CF71A00416913 /* LaunchImage-700-568h@2x.png in Resources */,
 				45E206491877869D006F0782 /* reload.png in Resources */,
+				45789E47187838D900985AD4 /* icon-80.png in Resources */,
 				413D812A186CF71A00416913 /* LaunchImage-2@2x.png in Resources */,
 				413D8128186CF71A00416913 /* LaunchImage-2-700@2x.png in Resources */,
 				413D8135186CF71A00416913 /* Quicksand_Bold.otf in Resources */,
@@ -442,12 +460,14 @@
 				4533D3EB186EEC83003E56CC /* expediente.png in Resources */,
 				413D8130186CF71A00416913 /* loadingWVAnimated.png in Resources */,
 				45313F6D186232F9007EB2C9 /* InfoPlist.strings in Resources */,
+				45789E45187838A600985AD4 /* icon-58.png in Resources */,
 				413D812D186CF71A00416913 /* loading2.png in Resources */,
 				413D8137186CF71A00416913 /* Quicksand_Light.otf in Resources */,
 				413D811F186CF71A00416913 /* Default@2x.png in Resources */,
 				413D8134186CF71A00416913 /* navbar@2x.png in Resources */,
 				413D8131186CF71A00416913 /* login.png in Resources */,
 				413D812F186CF71A00416913 /* loadingWV.png in Resources */,
+				45789E43187838A600985AD4 /* icon-29.png in Resources */,
 				4533D3EA186EEC83003E56CC /* contacto.png in Resources */,
 				413D8124186CF71A00416913 /* icon@2x.png in Resources */,
 				413D8129186CF71A00416913 /* LaunchImage-2.png in Resources */,
@@ -459,6 +479,7 @@
 				413D8127186CF71A00416913 /* LaunchImage-2-700-568h@2x.png in Resources */,
 				413D8126186CF71A00416913 /* LaunchImage-2-568h@2x.png in Resources */,
 				41E89F3A1877709100A98197 /* loadingRedAntiguo.png in Resources */,
+				45789E491878393100985AD4 /* icon-120.png in Resources */,
 				413D813B186CF71A00416913 /* saveOk.png in Resources */,
 				413D812B186CF71A00416913 /* LaunchImage-568h@2x.png in Resources */,
 				413D8119186CF71A00416913 /* atras.png in Resources */,
@@ -558,7 +579,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rafael Herradon (866T9J99U7)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -597,7 +618,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rafael Herradon (866T9J99U7)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -617,12 +638,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Rafael Herradon (866T9J99U7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rafael Herradon (866T9J99U7)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "notasUPM/notasUPM-Prefix.pch";
 				INFOPLIST_FILE = "notasUPM/notasUPM-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "7BD1D4E2-88A4-4E74-BF3F-919B43350AC3";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -631,12 +654,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rafael Herradon (866T9J99U7)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "notasUPM/notasUPM-Prefix.pch";
 				INFOPLIST_FILE = "notasUPM/notasUPM-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "7BD1D4E2-88A4-4E74-BF3F-919B43350AC3";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
