@@ -13,6 +13,8 @@
 //descargarTodo
 - (void)descargarTodo:(NSMutableArray *)array :(NSString*) file;
 
+- (void) dejarDeDescargar;
+
 @end
 
 

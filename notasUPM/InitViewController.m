@@ -22,6 +22,8 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+    
+    [[NSThread currentThread] setName:@"hilo initViewController"];
 
 	self.topViewController = [[ViewController alloc]init];
 	//self.underLeftViewController = [[MenuViewController alloc]init];

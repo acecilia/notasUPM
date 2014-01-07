@@ -4,11 +4,13 @@
 @interface Descargador ()
 {
 	int i;
+    bool dejarDeDescargar;
 	NSMutableArray* arrayPDF;
 	NSString* URL;
 	NSString* offlineFile;
 	NSMutableData* webdata;
 	NSString * rutaPDF;
+    NSURLConnection *conexion;
 }
 @end
 
@@ -20,13 +22,23 @@
 	arrayPDF=array;
 	offlineFile=file;
 	i=0;
+    dejarDeDescargar = false;
 
 	[self comprobarSiEsNecesarioDescargar];
 }
 
+- (void)dejarDeDescargar
+{
+    dejarDeDescargar = true;
+    [conexion cancel];
+    conexion = nil;
+}
+
+
+
 - (void)comprobarSiEsNecesarioDescargar
 {
-	while([arrayPDF count]>i)
+	while([arrayPDF count]>i && dejarDeDescargar == false)
 	{
 		rutaPDF=[[[offlineFile stringByAppendingString:@"/ArchivosPDF/"]stringByAppendingString:[[arrayPDF objectAtIndex:i] objectAtIndex:0]]stringByAppendingString:[[arrayPDF objectAtIndex:i] objectAtIndex:2]];
 
@@ -39,10 +51,11 @@
 			URL = [[arrayPDF objectAtIndex:i] objectAtIndex:1];
 
 			NSURLRequest *myRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:URL]];
+            conexion=[NSURLConnection connectionWithRequest: myRequest delegate:self];
 
-			if([NSURLConnection connectionWithRequest: myRequest delegate:self]==nil)
+			if(conexion==nil)
 			{
-				if ([self.delegate respondsToSelector: @selector(voyDescargandoPorElNumero:conError:)]) 
+				if ([self.delegate respondsToSelector: @selector(voyDescargandoPorElNumero:conError:)])
 				{
 					[self.delegate voyDescargandoPorElNumero:i conError:[@"No se a podido crear la petición con URL: " stringByAppendingString:URL]];
 				}
@@ -66,7 +79,6 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-
 	[AlmacenamientoLocal escribirPDF:webdata:rutaPDF];
 
 	if([AlmacenamientoLocal existe:rutaPDF])

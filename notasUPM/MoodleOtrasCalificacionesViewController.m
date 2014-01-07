@@ -428,7 +428,8 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	{
 		if (buttonIndex == 0)
 		{
-			descargador.delegate=nil;
+			[descargador dejarDeDescargar];
+            descargador.delegate=nil;
 			descargador=nil;
 			[self dejarDeAnimarLoading];
 		}
