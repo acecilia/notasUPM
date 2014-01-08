@@ -274,6 +274,7 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
+    botonReload.alpha=1;
 	[self animarLoading];
 }
 
