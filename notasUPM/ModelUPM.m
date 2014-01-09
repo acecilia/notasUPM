@@ -207,6 +207,7 @@
 						celda=[celda substringToIndex:[celda length]-12];
 					}
 
+                    celda = [celda stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 					if (celda.length != 0)
 					{
 						[fila addObject:celda];
@@ -261,6 +262,7 @@
 
 				celda = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[%d].getElementsByTagName('tr')[%d].getElementsByTagName('td')[%d].innerText;",numTabla, i, j]];
 
+                celda = [celda stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 				if (celda.length != 0)
 				{
 					[fila addObject:celda];
