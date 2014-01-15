@@ -578,8 +578,6 @@
 							  [self.delegate modelUPMacaboDeCargarDatosExpedienteConError:errorDescription];
 							  }*/
 							errorDescription=nil;
-							[webView stopLoading];
-							indicePV=7;
 						}
 						else
 						{
@@ -610,17 +608,13 @@
 							[AlmacenamientoLocal escribir: CabeceraSeccion:@"CabeceraSeccion.plist"];
 							[AlmacenamientoLocal escribir: TableDataNotas:@"TableDataNotas.plist"];
 
-							[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('carpeta_activa').value='C';document.getElementById('accion').value='3_7_355'; document.getElementById('f').submit();"];
-							//salta directamente al apartado de expediente sin tener que cargar paso por paso
-							indicePV++;
-
 							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
-							/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)]) 
-							  {
-							  [self.delegate modelUPMacaboDeCargarDatosTablonDeNotasConError:errorDescription];
-							  }*/
 						}
 						errorDescription = nil;
+                        
+                        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('carpeta_activa').value='C';document.getElementById('accion').value='3_7_355'; document.getElementById('f').submit();"];
+                        //salta directamente al apartado de expediente sin tener que cargar paso por paso
+                        indicePV++;
 						break;
 
 					case 1:
