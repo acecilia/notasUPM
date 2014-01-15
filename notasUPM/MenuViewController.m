@@ -35,6 +35,7 @@
 
 	////////////loadView
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.scrollEnabled = NO;
 
 }
 
@@ -124,11 +125,19 @@
 				NC.view.layer.shadowOpacity = 0.75f;
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
-                UIView *gestureView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width/4, self.view.frame.size.height -44)];
-                gestureView.backgroundColor = [UIColor clearColor];
-                gestureView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-				[gestureView addGestureRecognizer:self.slidingViewController.panGesture];
-                [NC.view addSubview:gestureView];
+                [NC.view addGestureRecognizer:self.slidingViewController.panGesture];
+                
+                 //Se añade un reconocedor de gesto de iquierda a derecha dentro de la tabla para que
+                //en iOS 6 al abrir el menú lateral no muestre también el botón de eliminar celda:
+                //Se reconoce el gesto de izquierda a derecha en el navigationController para abrir el menú
+                //y ese gesto se pasa simultaneamente a las vistas inferiores. Una vez en las vistas
+                //inferiores el gesto de derecha a izquierda es captado por el modo de edicion de las
+                //celdas (aparece el botón de eliminar) y el de izquierda a derecha es eliminado, si
+                //no se eliminase también mostraría el botón de eliminar celda a la vez que se abre el menú
+                UISwipeGestureRecognizer *swipeLeftRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:nil];
+                swipeLeftRight.direction = UISwipeGestureRecognizerDirectionRight;
+                [VC.tableView addGestureRecognizer:swipeLeftRight];
+                
 				newTopViewController=NC;
 			}
 			break;
