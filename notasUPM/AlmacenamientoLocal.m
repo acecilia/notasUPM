@@ -206,6 +206,20 @@
 	return [[NSFileManager defaultManager] fileExistsAtPath:filePath];
 }
 
++ (BOOL)eliminar:(NSString *)offlineFile
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	NSString * filePath = [documentsDirectory stringByAppendingPathComponent:offlineFile];
+    NSError* error = [[NSError alloc] init];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+    if (error == nil)
+        return YES;
+    else
+        return NO;
+}
+
 @end
 
 

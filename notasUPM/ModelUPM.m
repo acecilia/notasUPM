@@ -370,7 +370,11 @@
 
 - (void)cargarAsignaturasMoodle
 {
-	asignaturas = [[NSMutableArray alloc]init];
+    if (asignaturas == nil || [asignaturas count]==0)
+    {
+       asignaturas = [[NSMutableArray alloc]init];
+    }
+	
 	NSString *strLength = [webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByClassName('unlist')[0].getElementsByTagName('li').length;"];
 	int numAsignaturas = [strLength intValue];
 
@@ -380,7 +384,18 @@
 		asignatura = [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByClassName('unlist')[0].getElementsByTagName('li')[%d].getElementsByTagName('a')[0].innerText;", i]];
 		linkAsignatura = [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByClassName('unlist')[0].getElementsByTagName('li')[%d].getElementsByTagName('a')[0].href;", i]];
 
-		[asignaturas addObject:[NSArray arrayWithObjects:asignatura, linkAsignatura, nil]];
+        NSArray* array = [NSArray arrayWithObjects:asignatura, linkAsignatura, nil];
+        NSMutableArray* asignaturasEliminadas = [AlmacenamientoLocal leer:@"asignaturasEliminadas.plist"];
+        
+        if (asignaturasEliminadas == nil)
+        {
+            asignaturasEliminadas = [[NSMutableArray alloc] init];
+        }
+        
+        if(![asignaturas containsObject:array] && ![asignaturasEliminadas containsObject:array])
+        {
+            [asignaturas addObject:array];
+        }
 	}
 
 	[AlmacenamientoLocal escribir: asignaturas:@"asignaturas.plist"];

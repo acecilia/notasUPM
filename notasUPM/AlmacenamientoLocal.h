@@ -25,6 +25,9 @@
 //existe
 + (bool)existe:(NSString *)offlineFile;
 
+//eliminar
++ (BOOL)eliminar:(NSString *)offlineFile;
+
 @end
 
 

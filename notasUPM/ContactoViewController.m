@@ -31,6 +31,7 @@
 	self.celdas = [NSArray arrayWithObjects:@"Puedes ponerte en contacto con los desarrolladores mandándonos un mail a:",@"\n", @"Utiliza esta direción para darnos a conocer sugerencias y problemas de la aplicación.\n\n¡Disfrútala!\n\nCreada por Andrés Cecilia y Álvaro Román.\n\nSoportada por la Escuela Técnica Superior de Ingeniería de Sistemas de Telecomunicación ETSIST.", nil];
 }
 
+
 - (void)setNavTitleView
 {
 	UILabel *titulo = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];

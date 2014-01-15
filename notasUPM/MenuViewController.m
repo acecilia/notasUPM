@@ -19,13 +19,6 @@
 
 @synthesize menu, iconos;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-	self = [super initWithStyle:style];
-	if (self) {}
-	return self;
-}
-
 
 - (void)viewDidLoad
 {
@@ -54,6 +47,7 @@
 {
 	return self.menu.count;
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -106,6 +100,7 @@
 	return cell;
 }
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   
@@ -129,7 +124,11 @@
 				NC.view.layer.shadowOpacity = 0.75f;
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
-				[NC.view addGestureRecognizer:self.slidingViewController.panGesture];
+                UIView *gestureView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width/4, self.view.frame.size.height -44)];
+                gestureView.backgroundColor = [UIColor clearColor];
+                gestureView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+				[gestureView addGestureRecognizer:self.slidingViewController.panGesture];
+                [NC.view addSubview:gestureView];
 				newTopViewController=NC;
 			}
 			break;
@@ -178,6 +177,7 @@
 {
 	return ALTURA_CELDA;
 }
+
 
 - (void)didReceiveMemoryWarning
 {

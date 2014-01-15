@@ -5,6 +5,8 @@
 #import "AppDelegate.h"
 #import "ModelUPM.h"
 
+#import "AlmacenamientoLocal.h"
+
 #define COLOR_LETRA [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:200/255.0]
 
 @interface MoodleViewController ()
@@ -116,6 +118,7 @@
 	cell.textLabel.text = [asignatura objectAtIndex:0];
 	cell.textLabel.font = [UIFont fontWithName:@"QuicksandBook-Regular" size:20];
 	cell.textLabel.textColor = COLOR_LETRA;
+    
 
 	return cell;
 }
@@ -139,6 +142,31 @@
 
 	[self.navigationController pushViewController:moodleAsignatura animated:YES];
 }
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return YES if you want the specified item to be editable.
+    return YES;
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSMutableArray* asignaturasEliminadas = [AlmacenamientoLocal leer:@"asignaturasEliminadas.plist"];
+        if (asignaturasEliminadas == nil)
+        {
+            asignaturasEliminadas = [[NSMutableArray alloc] init];
+        }
+        [asignaturasEliminadas addObject:[arrayAsignaturas objectAtIndex:indexPath.row]];
+        [AlmacenamientoLocal eliminar: [[arrayAsignaturas objectAtIndex:indexPath.row] objectAtIndex:0]];
+        
+        [arrayAsignaturas removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        
+        [AlmacenamientoLocal escribir: asignaturasEliminadas:@"asignaturasEliminadas.plist"];
+        [AlmacenamientoLocal escribir: arrayAsignaturas:@"asignaturas.plist"];
+    }
+}
+
 
 
 - (void)revealMenu
