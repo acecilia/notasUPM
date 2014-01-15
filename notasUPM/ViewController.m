@@ -15,7 +15,7 @@
 
 #define ALTURA_CELDA 100
 
-#define modoDebug NO  ////////////////////MODO DEGUB///////////////////////////////
+#define modoDebug YES  ////////////////////MODO DEGUB///////////////////////////////
 
 
 @interface ViewController ()

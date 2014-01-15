@@ -581,29 +581,13 @@
 						{
 							[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('ultima').click();"];
 							[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('form_ver').click();"];
+                            indicePV++;
 						}
 						else
 						{
-							//Segunda vez que se comprueba si la politécnica virtual está colgada
-							errorDescription = @"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias.";
-
-							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
-							/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)]) 
-							  {
-							  [self.delegate modelUPMacaboDeCargarDatosTablonDeNotasConError:errorDescription];
-							  }*/
-
-							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
-							/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosExpedienteConError:)]) 
-							  {
-							  [self.delegate modelUPMacaboDeCargarDatosExpedienteConError:errorDescription];
-							  }*/
-							errorDescription = nil;
-
-							[webView stopLoading];
+                            [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('lista_expedientes').getElementsByTagName(\"li\")[1].getElementsByTagName(\"a\")[0].click();"];
 						}
 
-						indicePV++;
 						break;
 					case 2:
 						expediente=[[NSMutableArray alloc]init];
