@@ -220,6 +220,21 @@
         return NO;
 }
 
++ (BOOL)eliminarTodo
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSError* error = [[NSError alloc] init];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:documentsDirectory error:&error];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectory withIntermediateDirectories:NO attributes:nil error:&error];
+    if (error == nil)
+        return YES;
+    else
+        return NO;
+}
+
 @end
 
 

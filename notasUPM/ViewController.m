@@ -4,6 +4,8 @@
 #import "AppDelegate.h"
 #import "ModelUPM.h"
 
+#import "almacenamientoLocal.h"
+
 #define COLOR_PRINCIPAL [UIColor colorWithRed:85/255.0 green:172/255.0 blue:239/255.0 alpha:1.0] //AZUL NUEVO
 #define COLOR_LETRA [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:200/255.0]
 
@@ -15,7 +17,7 @@
 
 #define ALTURA_CELDA 100
 
-#define modoDebug YES  ////////////////////MODO DEGUB///////////////////////////////
+#define modoDebug NO  ////////////////////MODO DEGUB///////////////////////////////
 
 
 @interface ViewController ()
@@ -206,17 +208,39 @@
 	{
 		if (buttonIndex == 1)
 		{
-			nombreDeUsuario = [alertView textFieldAtIndex:0].text;
+            [modelo addDelegate:self];
+            
+            //resetea la vista:
+            //elimina la imagen de la topView
+            NSArray *viewsToRemove = [topView subviews];
+            for (UIView *v in viewsToRemove) {
+                if (v.tag == 1)
+                    [v removeFromSuperview];
+            }
+            
+            labelNombre.text=@"";
+            labelApellido.text=@"";
+            imageView=nil;
+            
+            TableDataNotas = [[NSMutableArray alloc]init];
+            CabeceraSeccion = [[NSMutableArray alloc]init];
+            
+            [tabla reloadData];
+            
+            [AlmacenamientoLocal eliminarTodo];
+        
+            nombreDeUsuario = [alertView textFieldAtIndex:0].text;
 			pass = [alertView textFieldAtIndex:1].text;
-
+            
 			// Crear Model
 			[modelo inicializarConUsuario:nombreDeUsuario contraseña:pass];
 			[modelo cargarDatosPolitecnicaVirtual];
-			[modelo cargarDatosMoodle];
-
+			[modelo inicializarMoodleConNuevaCuenta];
+            
+            [self bajarVista];
 			[self animarLoading];
-
-			[self guardar];
+            
+            [self guardar];
 		}
 		else if (buttonIndex == 0)
 		{
@@ -278,6 +302,7 @@
 
 		[self addRoundMask:imageView];
 
+        imageView.tag = 1;
 		[topView addSubview:imageView];
 	}
 }
@@ -729,6 +754,30 @@
 	}
 }
 
+- (void)bajarVista
+{
+    if(topView.frame.origin.y==-MOVER)
+	{
+        [tabla setContentOffset:tabla.contentOffset animated:YES];
+        botonLogin.alpha = 1;
+        
+        [UIView animateWithDuration:0.3  animations:^(void)
+         {
+             topView.center = CGPointMake(topView.center.x, topView.center.y + MOVER);
+             botonLogin.center = CGPointMake(botonLogin.center.x, botonLogin.center.y - MOVER);
+             botonMenu.center = CGPointMake(botonMenu.center.x, botonMenu.center.y - MOVER);
+             botonReload.center = CGPointMake(botonReload.center.x, botonReload.center.y - MOVER);
+             labelNombre.center = CGPointMake(labelNombre.center.x, labelNombre.center.y - MOVER_LABELS);
+             labelApellido.center = CGPointMake(labelApellido.center.x, labelApellido.center.y - MOVER_LABELS);
+             [tabla setFrame:CGRectMake(0, tabla.frame.origin.y + MOVER, tabla.frame.size.width, tabla.frame.size.height)];
+         }
+                         completion:^(BOOL finished)
+         {
+             [tabla setFrame:CGRectMake(0, tabla.frame.origin.y, tabla.frame.size.width, tabla.frame.size.height - MOVER)];
+         }];
+    }
+}
+
 /*- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if(scrollView.contentOffset.y<0)
@@ -758,23 +807,7 @@
 	UITouch *touch = [touches anyObject];
 	if (touch.view == topView && topView.frame.origin.y != 0)
 	{
-        [tabla setContentOffset:tabla.contentOffset animated:YES];
-        botonLogin.alpha = 1;
-        
-		[UIView animateWithDuration:0.3  animations:^(void)
-		{
-			topView.center = CGPointMake(topView.center.x, topView.center.y + MOVER);
-			botonLogin.center = CGPointMake(botonLogin.center.x, botonLogin.center.y - MOVER);
-			botonMenu.center = CGPointMake(botonMenu.center.x, botonMenu.center.y - MOVER);
-			botonReload.center = CGPointMake(botonReload.center.x, botonReload.center.y - MOVER);
-			labelNombre.center = CGPointMake(labelNombre.center.x, labelNombre.center.y - MOVER_LABELS);
-			labelApellido.center = CGPointMake(labelApellido.center.x, labelApellido.center.y - MOVER_LABELS);
-			[tabla setFrame:CGRectMake(0, tabla.frame.origin.y + MOVER, tabla.frame.size.width, tabla.frame.size.height)];
-		}
-completion:^(BOOL finished)
-	   {
-		   [tabla setFrame:CGRectMake(0, tabla.frame.origin.y, tabla.frame.size.width, tabla.frame.size.height - MOVER)];
-	   }];
+        [self bajarVista];
 	}
 }
 

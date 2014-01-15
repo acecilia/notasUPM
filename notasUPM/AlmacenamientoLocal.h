@@ -27,6 +27,7 @@
 
 //eliminar
 + (BOOL)eliminar:(NSString *)offlineFile;
++ (BOOL)eliminarTodo;
 
 @end
 

@@ -38,6 +38,7 @@
 
 - (void)cargarDatosPolitecnicaVirtual;
 - (void)cargarDatosMoodle;
+- (void)inicializarMoodleConNuevaCuenta;
 
 - (void)addDelegate:(id)delegate;
 - (void)removeDelegate:(id)delegate;

@@ -4,6 +4,7 @@
 #define URL_POLITECNICA_VIRTUAL @"https://www.upm.es/politecnica_virtual/?c=1693DLFOA"
 #define URL_MOODLE_LOGIN @"https://moodle.upm.es/titulaciones/oficiales/login/login.php"
 #define URL_MOODLE @"http://moodle.upm.es/titulaciones/oficiales/"
+#define URL_LOGOUT_MOODLE @"http://moodle.upm.es/titulaciones/oficiales/login/logout.php"
 
 @interface ModelUPM ()
 {
@@ -226,11 +227,42 @@
 			}
 		}
 
-		for (int z = 1; z < [curso count]; z++)
+        //El jaleo de código que hay ahora es por si sale dos veces la misma asignatura pero con distintas notas coger la nota más alta
+        NSMutableArray* arrayAuxiliar = [[NSMutableArray alloc] initWithArray:curso copyItems:YES];
+        [arrayAuxiliar removeObjectAtIndex:0];
+        
+        while ([arrayAuxiliar count]>0)
+		{
+            NSString* nombreAsignatura = [[arrayAuxiliar objectAtIndex:0]objectAtIndex:0];
+            double notaMasAlta = [self obtieneNota:[[arrayAuxiliar objectAtIndex:0]objectAtIndex:4]];
+            double creditos = [[[arrayAuxiliar objectAtIndex:0]objectAtIndex:1] doubleValue];
+            NSMutableIndexSet *notasYaObtenidas = [NSMutableIndexSet indexSet];
+            [notasYaObtenidas addIndex:0];
+
+            for (int z = 1; z < [arrayAuxiliar count]; z++)
+            {
+                if([[[arrayAuxiliar objectAtIndex:z]objectAtIndex:0]isEqualToString:nombreAsignatura])
+                {
+                    double notaActual = [self obtieneNota:[[arrayAuxiliar objectAtIndex:z]objectAtIndex:4]];
+                    [notasYaObtenidas addIndex:z];
+                    
+                    if(notaActual>notaMasAlta)
+                    {
+                        notaMasAlta = notaActual;
+                    }
+                }
+            }
+			sumaDeNotas=sumaDeNotas+notaMasAlta*creditos;
+			sumaDeCreditos=sumaDeCreditos+creditos;
+            
+            [arrayAuxiliar removeObjectsAtIndexes:notasYaObtenidas];
+		}
+        
+		/*for (int z = 1; z < [curso count]; z++)
 		{
 			sumaDeNotas=sumaDeNotas+[self obtieneNota:[[curso objectAtIndex:z]objectAtIndex:4]]*[[[curso objectAtIndex:z]objectAtIndex:1] doubleValue];
 			sumaDeCreditos=sumaDeCreditos+[[[curso objectAtIndex:z]objectAtIndex:1] doubleValue];
-		}
+		}*/
 		[curso insertObject:[NSString stringWithFormat:@"%.3f",sumaDeNotas/sumaDeCreditos] atIndex:1];
 		sumaDeNotas=0;
 		sumaDeCreditos=0;
@@ -366,6 +398,21 @@
 	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('identificador').value='%@';", user]];
 	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('clave').value='%@';", pass]];
 	[webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input')[2].click();"];
+}
+
+- (void)inicializarMoodleConNuevaCuenta
+{
+    moodleEstaCargando = YES;
+    
+	webViewMoodle = [[UIWebView alloc]init];
+    
+	[webViewMoodle loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL_MOODLE_LOGIN]]];
+    
+	webViewMoodle.frame = CGRectMake(160, 240, 160, 240);
+	webViewMoodle.scalesPageToFit=YES;
+	webViewMoodle.delegate = self;
+    
+	asignaturas=[AlmacenamientoLocal leer:@"asignaturas.plist"];
 }
 
 - (void)cargarAsignaturasMoodle
@@ -585,7 +632,8 @@
 						}
 						else
 						{
-                            [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('lista_expedientes').getElementsByTagName(\"li\")[1].getElementsByTagName(\"a\")[0].click();"];
+                            //para gente que se ha cambiado de titulación selecciona el último expediente (el de abajo del todo)
+                            [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('lista_expedientes').getElementsByTagName(\"li\")[document.getElementById('lista_expedientes').getElementsByTagName(\"li\").length-1].getElementsByTagName(\"a\")[0].click();"];
 						}
 
 						break;
