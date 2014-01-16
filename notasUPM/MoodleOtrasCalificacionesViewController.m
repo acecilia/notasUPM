@@ -4,6 +4,10 @@
 #import "QuartzCore/CAAnimation.h"
 #import "AppDelegate.h"
 
+
+#import "ECSlidingViewController.h"
+
+
 #define COLOR_LETRA [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:200/255.0]
 #define GRIS [UIColor colorWithRed:232/255.0 green:237/255.0 blue:241/255.0 alpha:1.0]
 
@@ -581,6 +585,29 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	transition.subtype = kCATransitionFromBottom;
 	[self.navigationController.view.layer addAnimation:transition forKey:nil];
 	[self.navigationController pushViewController:vc animated:NO];
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        NSString* file=[[[offlineFile stringByAppendingString:@"/ArchivosPDF/"]stringByAppendingString:[[arrayPDF objectAtIndex:indexPath.row] objectAtIndex:0]]stringByAppendingString:[[arrayPDF objectAtIndex:indexPath.row] objectAtIndex:2]];
+        
+        [AlmacenamientoLocal eliminar: file];
+        
+        [tableView setEditing:NO animated:YES];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.navigationController.view removeGestureRecognizer:self.slidingViewController.panGesture];
+}
+
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
+    [tableView reloadData];
 }
 
 - (void)voyDescargandoPorElNumero:(int) numero conError:(NSString*) error

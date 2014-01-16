@@ -125,20 +125,8 @@
 				NC.view.layer.shadowOpacity = 0.75f;
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
-                NC.view.backgroundColor = [UIColor redColor];
                 
                 [NC.view addGestureRecognizer:self.slidingViewController.panGesture];
-                
-                /*UIView* gesto = [[UIView alloc]initWithFrame:CGRectMake(0, 44, (NC.view.frame.size.width*10)/12, NC.view.frame.size.height-44)];
-                
-                gesto.backgroundColor=[UIColor orangeColor];
-                gesto.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight;
-                
-                
-                [gesto addGestureRecognizer:self.slidingViewController.panGesture];
-                [gesto addGestureRecognizer:VC.tableView.panGestureRecognizer];
-                gesto.tag = 10;
-                [NC.view addSubview:gesto];*/
                 
 				newTopViewController=NC;
 			}

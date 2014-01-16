@@ -544,6 +544,7 @@
 	return altura;
 }
 
+
 - (void)didReceiveMemoryWarning
 {
 	[super didReceiveMemoryWarning];
