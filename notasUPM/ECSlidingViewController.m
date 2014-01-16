@@ -106,6 +106,8 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 	self.resetTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resetTopView)];
 	_panGesture          = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(updateTopViewHorizontalCenterWithRecognizer:)];
     
+    _panGesture.delegate = (id)self;
+    
 	self.resetTapGesture.enabled = NO;
 	self.resetStrategy = ECTapping | ECPanning;
 	self.panningVelocityXThreshold = 100;
@@ -113,6 +115,24 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 	self.topViewSnapshot = [[UIView alloc] initWithFrame:CGRectZero];
 	[self.topViewSnapshot setAutoresizingMask:self.autoResizeToFillScreen];
 	[self.topViewSnapshot addGestureRecognizer:self.resetTapGesture];
+}
+
+//ANULA EL GESTO DE DERECHA A IZQUIERDA PERMITIENDO QUE SEA DETECTADO POR VISTAS INFERIORES
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    UIPanGestureRecognizer* gesto = (UIPanGestureRecognizer*)gestureRecognizer;
+    id startPointTmp = [gesto valueForKey:@"_firstScreenLocation"];
+    id endPointTmp = [gesto valueForKey:@"_lastScreenLocation"];
+    CGPoint startPoint = [startPointTmp CGPointValue];
+    CGPoint endPoint = [endPointTmp CGPointValue];
+    if(startPoint.x > endPoint.x)
+    {
+        return NO;
+    }
+    else
+    {
+       return YES;
+    }
 }
 
 - (void)setTopViewController:(UIViewController *)theTopViewController

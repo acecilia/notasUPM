@@ -179,66 +179,13 @@
 
 - (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray* subViews = self.navigationController.view.subviews;
-    for(UIView*v in subViews)
-    {
-        if (v.tag==10)
-            v.frame=CGRectMake(0, 44, (self.navigationController.view.frame.size.width*2)/12, self.navigationController.view.frame.size.height-44);
-    }
+    [self.navigationController.view removeGestureRecognizer:self.slidingViewController.panGesture];
 }
 
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray* subViews = self.navigationController.view.subviews;
-    for(UIView*v in subViews)
-    {
-        if (v.tag==10)
-            v.frame=CGRectMake(0, 44, (self.navigationController.view.frame.size.width*10)/12, self.navigationController.view.frame.size.height-44);
-    }
+    [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
 }
-
-
-
-/*- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
-{
-    if(self.tableView.editing)
-    {
-        return NO;
-    }
-    else
-    {
-        return YES;
-    }
-}
-
-//se permite que los gestos hacia la izquierda y la derecha sean transmitidos a las vistas inferiores para poder utilizarlos para abrir el modo de edición de celdas
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    if(self.slidingViewController.underLeftShowing)
-    {
-        [self.tableView setEditing:NO animated:YES];
-        return NO;
-    }
-    else if(otherGestureRecognizer == self.tableView.panGestureRecognizer)
-    {
-        return NO;
-    }
-    else
-    {
-        return YES;
-    }
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    //UITableViewCell* celda = [[UITableViewCell alloc] init];
-    
-    if ([otherGestureRecognizer.view isKindOfClass:[UITableView class]]) {
-        return YES;
-    }
-    return NO;
-}*/
-
 
 
 - (void)revealMenu
