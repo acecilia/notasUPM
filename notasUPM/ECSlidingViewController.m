@@ -106,10 +106,6 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 	self.resetTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resetTopView)];
 	_panGesture          = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(updateTopViewHorizontalCenterWithRecognizer:)];
     
-    //añado el delegate para poder permitir que el gesto se transmita a las vistas inferiores
-    //si es necesario
-    _panGesture.delegate = (id) self;
-    
 	self.resetTapGesture.enabled = NO;
 	self.resetStrategy = ECTapping | ECPanning;
 	self.panningVelocityXThreshold = 100;
@@ -117,19 +113,6 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 	self.topViewSnapshot = [[UIView alloc] initWithFrame:CGRectZero];
 	[self.topViewSnapshot setAutoresizingMask:self.autoResizeToFillScreen];
 	[self.topViewSnapshot addGestureRecognizer:self.resetTapGesture];
-}
-
-//se permite que los gestos hacia la izquierda y la derecha sean transmitidos a las vistas inferiores para poder utilizarlos para abrir el modo de edición de celdas
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    if([otherGestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]] )
-    {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
 }
 
 - (void)setTopViewController:(UIViewController *)theTopViewController

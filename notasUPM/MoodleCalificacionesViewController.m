@@ -440,26 +440,26 @@
 			titulo.tag=1;
 			titulo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
-			UILabel *nota = [[UILabel alloc] initWithFrame:CGRectMake(8, ALTURA_CELDA/4+5, cell.frame.size.width/2-5, (ALTURA_CELDA*3)/4)];
+			UILabel *nota = [[UILabel alloc] initWithFrame:CGRectMake(5, ALTURA_CELDA/4+5, cell.frame.size.width/2-10, (ALTURA_CELDA*3)/4)];
 			nota.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:50];
 			nota.backgroundColor=[UIColor clearColor];
 			[cell addSubview:nota];
 			nota.tag=2;
-			nota.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+			nota.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
             
             UIView *separador = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.size.width/2, ALTURA_CELDA/4, 1, (ALTURA_CELDA*3)/4)];
 			separador.backgroundColor=GRIS;
 			[cell addSubview:separador];
-			fondoTitulo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+			separador.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
             
-            UILabel *maximo = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/2 + 5, ALTURA_CELDA/4 + 5, cell.frame.size.width/2-5, (ALTURA_CELDA*3)/4)];
+            UILabel *maximo = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/2 + 5, ALTURA_CELDA/4 + 5, cell.frame.size.width/2-10, (ALTURA_CELDA*3)/4)];
 			maximo.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:35];
 			maximo.backgroundColor=[UIColor clearColor];
             maximo.alpha = 0.5;
             maximo.textAlignment = NSTextAlignmentCenter;
 			[cell addSubview:maximo];
 			maximo.tag=3;
-			maximo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+			maximo.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 		}
 		else
 		{
