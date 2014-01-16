@@ -587,6 +587,18 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	[self.navigationController pushViewController:vc animated:NO];
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([miWebView isLoading])
+    {
+        return YES;
+    }
+    else
+    {
+        return YES;
+    }
+}
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -594,6 +606,8 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
         NSString* file=[[[offlineFile stringByAppendingString:@"/ArchivosPDF/"]stringByAppendingString:[[arrayPDF objectAtIndex:indexPath.row] objectAtIndex:0]]stringByAppendingString:[[arrayPDF objectAtIndex:indexPath.row] objectAtIndex:2]];
         
         [AlmacenamientoLocal eliminar: file];
+        
+        ((UIImageView *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:1]).image = [UIImage imageNamed:@"saveFail"];
         
         [tableView setEditing:NO animated:YES];
     }
@@ -607,7 +621,6 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.navigationController.view addGestureRecognizer:self.slidingViewController.panGesture];
-    [tableView reloadData];
 }
 
 - (void)voyDescargandoPorElNumero:(int) numero conError:(NSString*) error
