@@ -1,5 +1,8 @@
 #import "ModelUPM.h"
 #import "AlmacenamientoLocal.h"
+#import "MoodleViewController.h"
+#import "ExpedienteViewController.h"
+#import "ViewController.h"
 
 #define URL_POLITECNICA_VIRTUAL @"https://www.upm.es/politecnica_virtual/?c=1693DLFOA"
 #define URL_MOODLE_LOGIN @"https://moodle.upm.es/titulaciones/oficiales/login/login.php"
@@ -34,15 +37,66 @@
 
 -(void) despertarDelegatesParaEvento:(SEL)evento
 {
-	NSArray *arrayToEnumerate = [delegates copy];
+	NSMutableArray *arrayToEnumerate = [delegates copy];
+    
+    /*if(evento == @selector(modelUPMacaboDeCargarDatosMoodleConError:))
+    {
+        NSArray *arrayAuxiliar = [arrayToEnumerate copy];
+        
+        for(id delegateLoop in arrayAuxiliar)
+        {
+            if ([[delegateLoop class] isEqual:[MoodleViewController class]])
+            {
+                for(id delegateLoop in arrayAuxiliar)
+                {
+                    if ([[delegateLoop class] isEqual:[ViewController class]])
+                    {
+                        [arrayToEnumerate removeObjectIdenticalTo:delegateLoop];
+                    }
+                }
+                break;
+            }
+        }
+    }
+    
+    if(evento == @selector(modelUPMacaboDeCargarDatosExpedienteConError:))
+    {
+        NSArray *arrayAuxiliar = [arrayToEnumerate copy];
+        
+        for(id delegateLoop in arrayAuxiliar)
+        {
+            if ([[delegateLoop class] isEqual:[ExpedienteViewController class]])
+            {
+                for(id delegateLoop in arrayAuxiliar)
+                {
+                    if ([[delegateLoop class] isEqual:[ViewController class]])
+                    {
+                        [arrayToEnumerate removeObjectIdenticalTo:delegateLoop];
+                    }
+                }
+                break;
+            }
+        }
+    }*/
 
 	for(id delegate in arrayToEnumerate)
 	{
 		if ([delegate respondsToSelector: evento]) 
 		{
-			IMP metodo = [delegate methodForSelector:evento];
-            void (*func)(__strong id,SEL,NSString*) = (void (*)(__strong id, SEL,NSString*))metodo;
-			func(delegate, evento, errorDescription);
+            UIViewController* controlador = (UIViewController*) delegate;
+            if(controlador.isViewLoaded && controlador.view.window)
+            {
+                IMP metodo = [delegate methodForSelector:evento];
+                void (*func)(__strong id,SEL,NSString*) = (void (*)(__strong id, SEL,NSString*))metodo;
+                func(delegate, evento, errorDescription);
+            }
+            else
+            {
+                IMP metodo = [delegate methodForSelector:evento];
+                void (*func)(__strong id,SEL,NSString*) = (void (*)(__strong id, SEL,NSString*))metodo;
+                func(delegate, evento, nil);
+            }
+
 		}
 	}
 }
@@ -558,8 +612,8 @@
 							errorDescription = @"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias.";
 
 							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
-							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
-							errorDescription=nil;
+                            [self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
+                            errorDescription=nil;
 						}
 						else
 						{
@@ -692,7 +746,6 @@
 	else if (webView == webViewMoodle)
 	{
 		moodleEstaCargando = NO;
-
 		[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosMoodleConError:)];
 	}
 	errorDescription=nil;

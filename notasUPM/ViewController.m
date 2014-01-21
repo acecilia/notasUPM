@@ -625,7 +625,7 @@
 
 - (void)modelUPMacaboDeCargarDatosExpedienteConError:(NSString *)error
 {
-	[modelo removeDelegate:self];
+    [modelo removeDelegate:self];
 	[self dejarDeAnimarLoading];
 }
 
