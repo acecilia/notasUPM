@@ -27,7 +27,7 @@
 		413D813B186CF71A00416913 /* saveOk.png in Resources */ = {isa = PBXBuildFile; fileRef = 413D8117186CF71A00416913 /* saveOk.png */; };
 		413D813D186CFAAC00416913 /* fondoAzul.png in Resources */ = {isa = PBXBuildFile; fileRef = 413D813C186CFAAC00416913 /* fondoAzul.png */; };
 		414792DC186CF0CF0096EA08 /* ModelUPM.m in Sources */ = {isa = PBXBuildFile; fileRef = 414792DB186CF0CF0096EA08 /* ModelUPM.m */; };
-		41919744188DF5680068BDD9 /* SeleccionadorDeExpediente.m in Sources */ = {isa = PBXBuildFile; fileRef = 41919743188DF5680068BDD9 /* SeleccionadorDeExpediente.m */; };
+		41919744188DF5680068BDD9 /* SelectorDeExpediente.m in Sources */ = {isa = PBXBuildFile; fileRef = 41919743188DF5680068BDD9 /* SelectorDeExpediente.m */; };
 		41E89F3A1877709100A98197 /* loadingRedAntiguo.png in Resources */ = {isa = PBXBuildFile; fileRef = 41E89F391877709000A98197 /* loadingRedAntiguo.png */; };
 		45313F63186232F9007EB2C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45313F62186232F9007EB2C9 /* Foundation.framework */; };
 		45313F65186232F9007EB2C9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45313F64186232F9007EB2C9 /* CoreGraphics.framework */; };
@@ -95,8 +95,8 @@
 		413D8117186CF71A00416913 /* saveOk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saveOk.png; sourceTree = "<group>"; };
 		413D813C186CFAAC00416913 /* fondoAzul.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fondoAzul.png; sourceTree = "<group>"; };
 		414792DB186CF0CF0096EA08 /* ModelUPM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelUPM.m; sourceTree = "<group>"; };
-		41919742188DF5680068BDD9 /* SeleccionadorDeExpediente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeleccionadorDeExpediente.h; sourceTree = "<group>"; };
-		41919743188DF5680068BDD9 /* SeleccionadorDeExpediente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeleccionadorDeExpediente.m; sourceTree = "<group>"; };
+		41919742188DF5680068BDD9 /* SelectorDeExpediente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectorDeExpediente.h; sourceTree = "<group>"; };
+		41919743188DF5680068BDD9 /* SelectorDeExpediente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectorDeExpediente.m; sourceTree = "<group>"; };
 		41E89F391877709000A98197 /* loadingRedAntiguo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loadingRedAntiguo.png; sourceTree = "<group>"; };
 		45313F5F186232F9007EB2C9 /* notasUPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notasUPM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45313F62186232F9007EB2C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -257,8 +257,8 @@
 				45313F9A186233C5007EB2C9 /* ECSlidingViewController.m */,
 				45313F9B186233C5007EB2C9 /* ExpedienteViewController.h */,
 				45313F9C186233C5007EB2C9 /* ExpedienteViewController.m */,
-				41919742188DF5680068BDD9 /* SeleccionadorDeExpediente.h */,
-				41919743188DF5680068BDD9 /* SeleccionadorDeExpediente.m */,
+				41919742188DF5680068BDD9 /* SelectorDeExpediente.h */,
+				41919743188DF5680068BDD9 /* SelectorDeExpediente.m */,
 				45313F9D186233C5007EB2C9 /* InitViewController.h */,
 				45313F9E186233C5007EB2C9 /* InitViewController.m */,
 				45313F9F186233C5007EB2C9 /* MenuViewController.h */,
@@ -460,7 +460,7 @@
 				45313FB4186233C5007EB2C9 /* AppDelegate.m in Sources */,
 				45313FC0186233C5007EB2C9 /* MoodleWebViewViewController.m in Sources */,
 				45313FB6186233C5007EB2C9 /* Descargador.m in Sources */,
-				41919744188DF5680068BDD9 /* SeleccionadorDeExpediente.m in Sources */,
+				41919744188DF5680068BDD9 /* SelectorDeExpediente.m in Sources */,
 				414792DC186CF0CF0096EA08 /* ModelUPM.m in Sources */,
 				45313FB7186233C5007EB2C9 /* ECSlidingViewController.m in Sources */,
 			);

@@ -3,12 +3,12 @@
 #import "MenuViewController.h"
 #import "AppDelegate.h"
 #import "ModelUPM.h"
-#import "SeleccionadorDeExpediente.h"
+#import "SelectorDeExpediente.h"
 
 #define COLOR_LETRA [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:200/255.0]
 #define COLOR_PRINCIPAL [UIColor colorWithRed:85/255.0 green:172/255.0 blue:239/255.0 alpha:1.0] //AZUL NUEVO
 
-@interface SeleccionadorDeExpediente ()
+@interface SelectorDeExpediente ()
 {
     
     NSMutableArray *arrayExpediente;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation SeleccionadorDeExpediente
+@implementation SelectorDeExpediente
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
