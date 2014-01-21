@@ -10,6 +10,8 @@
 {
 	int indicePV;
 	NSMutableArray* delegates;
+    int numExpedientes;
+    int contadorExpedientes;
 }
 
 @end
@@ -58,31 +60,11 @@
 	}
 
 	[delegates addObject:delegate];
-
-	/*NSArray *arrayToEnumerate2 = [delegates copy];
-	  NSLog(@"\n\n\n\nAñadiendo delegate:\n");
-	  NSLog(@"Numero de delegates: %d\n",[delegates count]);
-	  for(id delegateLoop in arrayToEnumerate2)
-	  {
-	  NSLog(@"Delegate: %@\n",NSStringFromClass([delegateLoop class]));
-	  }
-	  NSLog(@"\n\n\n\nFIN");*/
-
-
 }
 
 - (void)removeDelegate:(id)delegate
 {
 	[delegates removeObjectIdenticalTo:delegate];
-
-	/*NSArray *arrayToEnumerate = [delegates copy];
-	  NSLog(@"\n\n\n\nEliminado delegate: %@\n",NSStringFromClass([delegate class]));
-	  NSLog(@"Numero de delegates: %d\n",[delegates count]);
-	  for(id delegateLoop in arrayToEnumerate)
-	  {
-	  NSLog(@"Delegate: %@\n",NSStringFromClass([delegateLoop class]));
-	  }
-	  NSLog(@"\n\n\n\nFIN");*/
 }
 
 
@@ -94,14 +76,11 @@
 
 }
 
+
 - (void)inicializarConUsuario:(NSString *)usuario contraseña:(NSString *)contraseña
 {
 	user = usuario;
 	pass = contraseña;
-
-	indicePV = 0;
-
-	TableDataNotas = [[NSMutableArray alloc]init];
 }
 
 
@@ -110,6 +89,9 @@
 - (void)cargarDatosPolitecnicaVirtual
 {
 	indicePV=0;
+    contadorExpedientes = 0;
+    numExpedientes = 1;
+    
 	webViewPolitecnicaVirtual = [[UIWebView alloc]init];
 
 	webViewPolitecnicaVirtual.frame = CGRectMake(0, 240, 160, 240);
@@ -138,14 +120,10 @@
 {
 	NSString *dirImagen = [webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:@"document.getElementById('usuario_datos').getElementsByTagName('dd')[0].getElementsByTagName('img')[0].src;"];
 
-	//NSURLResponse *response;
 	NSURL *url = [[NSURL alloc] initWithString:dirImagen];
-	//NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-	//[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:nil];
 	foto = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
 
 	[AlmacenamientoLocal escribirImagen: foto:@"fotoDePerfil.png"];
-
 	return dirImagen;
 }
 
@@ -162,7 +140,7 @@
 
 
 
-- (void)verNotasExpediente:(UIWebView *)miWebView
+- (void)verNotasExpediente:(UIWebView *)miWebView :(NSMutableArray*)expedient
 {
 	NSMutableArray* fila=[[NSMutableArray alloc]init];
 	NSMutableArray* curso=[[NSMutableArray alloc]init];
@@ -228,6 +206,7 @@
 		}
 
         //El jaleo de código que hay ahora es por si sale dos veces la misma asignatura pero con distintas notas coger la nota más alta
+        
         NSMutableArray* arrayAuxiliar = [[NSMutableArray alloc] initWithArray:curso copyItems:YES];
         [arrayAuxiliar removeObjectAtIndex:0];
         
@@ -252,26 +231,35 @@
                     }
                 }
             }
-			sumaDeNotas=sumaDeNotas+notaMasAlta*creditos;
-			sumaDeCreditos=sumaDeCreditos+creditos;
+            
+            //Añade a la media solo los creditos que tienen nota: no añade a la media las prácticas en empresas, por ejemplo
+            if(notaMasAlta>0)
+            {
+                sumaDeNotas=sumaDeNotas+notaMasAlta*creditos;
+                sumaDeCreditos=sumaDeCreditos+creditos;
+            }
             
             [arrayAuxiliar removeObjectsAtIndexes:notasYaObtenidas];
 		}
         
-		/*for (int z = 1; z < [curso count]; z++)
-		{
-			sumaDeNotas=sumaDeNotas+[self obtieneNota:[[curso objectAtIndex:z]objectAtIndex:4]]*[[[curso objectAtIndex:z]objectAtIndex:1] doubleValue];
-			sumaDeCreditos=sumaDeCreditos+[[[curso objectAtIndex:z]objectAtIndex:1] doubleValue];
-		}*/
+        //si la suma de creditos es cero evita que se divida por cero y salga el valor nan
+        if(sumaDeCreditos==0)
+        {
+            sumaDeNotas=0;
+            sumaDeCreditos=1;
+        }
+        
 		[curso insertObject:[NSString stringWithFormat:@"%.3f",sumaDeNotas/sumaDeCreditos] atIndex:1];
 		sumaDeNotas=0;
 		sumaDeCreditos=0;
 
-		[expediente addObject:curso];
+		[expedient addObject:curso];
 		curso = [[NSMutableArray alloc]init];
 	}
 
 }
+
+
 
 
 - (void)obtenerNotasTablon:(UIWebView *)miWebView datosTabla:(NSMutableArray *)TableData numTabla:(int)numTabla
@@ -279,8 +267,6 @@
 	NSMutableArray* fila=[[NSMutableArray alloc]init];
 
 	int numFilas = [[miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('tbody')[%d].getElementsByTagName('tr').length;", numTabla]]intValue];
-
-
 
 	for (int i = 0; i < numFilas ; i++)
 	{
@@ -403,6 +389,7 @@
 - (void)inicializarMoodleConNuevaCuenta
 {
     moodleEstaCargando = YES;
+    asignaturas = [[NSMutableArray alloc]init];
     
 	webViewMoodle = [[UIWebView alloc]init];
     
@@ -411,8 +398,6 @@
 	webViewMoodle.frame = CGRectMake(160, 240, 160, 240);
 	webViewMoodle.scalesPageToFit=YES;
 	webViewMoodle.delegate = self;
-    
-	asignaturas=[AlmacenamientoLocal leer:@"asignaturas.plist"];
 }
 
 - (void)cargarAsignaturasMoodle
@@ -431,6 +416,7 @@
 		asignatura = [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByClassName('unlist')[0].getElementsByTagName('li')[%d].getElementsByTagName('a')[0].innerText;", i]];
 		linkAsignatura = [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByClassName('unlist')[0].getElementsByTagName('li')[%d].getElementsByTagName('a')[0].href;", i]];
 
+        
         NSArray* array = [NSArray arrayWithObjects:asignatura, linkAsignatura, nil];
         NSMutableArray* asignaturasEliminadas = [AlmacenamientoLocal leer:@"asignaturasEliminadas.plist"];
         
@@ -450,10 +436,6 @@
 	moodleEstaCargando = NO;
 
 	[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosMoodleConError:)];
-	/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosMoodleConError:)]) 
-	  {
-	  [self.delegate modelUPMacaboDeCargarDatosMoodleConError:errorDescription];
-	  }*/
 
 	errorDescription = nil;
 }
@@ -495,7 +477,21 @@
 
 - (NSMutableArray *)getExpediente
 {
-	return expediente;
+    return expediente;
+}
+
+
+- (NSMutableArray *)getExpediente: (int) numeroExpediente
+{
+    if (numeroExpediente<=numExpedientes)
+    {
+       return [[expediente objectAtIndex:numeroExpediente]objectAtIndex:1];
+    }
+    else
+    {
+        return nil;
+    }
+	
 }
 
 - (NSMutableArray *)getConvocatorias
@@ -526,15 +522,8 @@
 		if([webView.request.URL.absoluteString isEqualToString:@"https://www.upm.es/politecnica_virtual/login.upm"])
 		{
 			errorDescription = @"El nombre de usuario y/o la contraseña son incorrectos";
-
 			[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
-
-			/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)]) 
-			  {
-			  [self.delegate modelUPMacaboDeCargarDatosTablonDeNotasConError:errorDescription];
-			  }*/
 			errorDescription = nil;
-
 			[webView stopLoading];
 		}
 		else
@@ -553,35 +542,19 @@
 
 						[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosPersonalesconError:)];
 
-						/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosPersonalesconError:)]) 
-						  {
-						  [self.delegate modelUPMacaboDeCargarDatosPersonalesconError:errorDescription];
-						  }*/
-
-
-
 						int secciones=[[webView stringByEvaluatingJavaScriptFromString:@"document.body.getElementsByTagName(\"table\").length;"] intValue];
-
-						if(secciones==0)//POLITECNICA VIRTUAL CAIDA
+                        
+                        if(secciones==0)//POLITECNICA VIRTUAL CAIDA
 						{
 							//Primera vez que se comprueba si la politécnica virtual está colgada
 							errorDescription = @"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias.";
 
 							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
-							/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)]) 
-							  {
-							  [self.delegate modelUPMacaboDeCargarDatosTablonDeNotasConError:errorDescription];
-							  }*/
 							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
-							/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosExpedienteConError:)]) 
-							  {
-							  [self.delegate modelUPMacaboDeCargarDatosExpedienteConError:errorDescription];
-							  }*/
 							errorDescription=nil;
 						}
 						else
 						{
-
 							TableDataNotas=[[NSMutableArray alloc]init];
 							CabeceraSeccion=[[NSMutableArray alloc]init];
 							int i=0;
@@ -603,8 +576,6 @@
 
 								i++;
 							}
-							//[CabeceraSeccion addObject:@"EXPEDIENTE"];
-
 							[AlmacenamientoLocal escribir: CabeceraSeccion:@"CabeceraSeccion.plist"];
 							[AlmacenamientoLocal escribir: TableDataNotas:@"TableDataNotas.plist"];
 
@@ -612,39 +583,61 @@
 						}
 						errorDescription = nil;
                         
-                        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('carpeta_activa').value='C';document.getElementById('accion').value='3_7_355'; document.getElementById('f').submit();"];
                         //salta directamente al apartado de expediente sin tener que cargar paso por paso
+                        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('carpeta_activa').value='C';document.getElementById('accion').value='3_7_355'; document.getElementById('f').submit();"];
                         indicePV++;
 						break;
 
 					case 1:
 						if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName(\"label\")[1].getElementsByTagName(\"strong\")[1].textContent;"]isEqualToString:@"Completo por curso"])
 						{
+                            if (contadorExpedientes == 0)
+                            {
+                                expediente=[[NSMutableArray alloc]init];
+                            }
+                            
+                            NSMutableArray* expedienteAuxiliar = [[NSMutableArray alloc]init];
+                            NSString* cadena = [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('expediente').textContent;"];
+                            [expedienteAuxiliar addObject:cadena];
+                            [expediente insertObject:expedienteAuxiliar atIndex:contadorExpedientes];
+                            
 							[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('ultima').click();"];
 							[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('form_ver').click();"];
                             indicePV++;
 						}
 						else
 						{
-                            //para gente que se ha cambiado de titulación selecciona el último expediente (el de abajo del todo)
-                            [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('lista_expedientes').getElementsByTagName(\"li\")[document.getElementById('lista_expedientes').getElementsByTagName(\"li\").length-1].getElementsByTagName(\"a\")[0].click();"];
+                            //para gente que se ha cambiado de titulación
+                            numExpedientes = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('lista_expedientes').getElementsByTagName(\"li\").length;"] intValue];
+
+                            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('lista_expedientes').getElementsByTagName(\"li\")[%d].getElementsByTagName(\"a\")[0].click();", contadorExpedientes]];
+                            
+                            //[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('lista_expedientes').getElementsByTagName(\"li\")[document.getElementById('lista_expedientes').getElementsByTagName(\"li\").length-1].getElementsByTagName(\"a\")[0].click();"];
 						}
 
 						break;
 					case 2:
-						expediente=[[NSMutableArray alloc]init];
-						[self verNotasExpediente:webView];
-
-						[AlmacenamientoLocal escribir: expediente:@"expediente.plist"];
-
-						indicePV = 0;
-
-						[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
-						/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosExpedienteConError:)]) 
-						  {
-						  [self.delegate modelUPMacaboDeCargarDatosExpedienteConError:errorDescription];
-						  }*/
-
+                    {
+                        NSMutableArray* expedienteAuxiliar = [[NSMutableArray alloc]init];
+                        [self verNotasExpediente:webView:expedienteAuxiliar];
+                        [[expediente objectAtIndex:contadorExpedientes] addObject:expedienteAuxiliar];
+                        
+                        contadorExpedientes++;
+                        
+                        //si faltan expedientes por cargar vuelve atras y selecciona el siguiente
+                        if (contadorExpedientes < numExpedientes)
+                        {
+                            indicePV = 1;
+                        
+                            [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('accion').value='3_7_355';document.getElementById('accion_anterior').value='0'; document.getElementById('f').submit();"];
+                            
+                        }
+                        else
+                        {
+                            [AlmacenamientoLocal escribir: expediente:@"expediente.plist"];
+                            [self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
+                        }
+                    }
 						break;
 					default:
 						break;
@@ -685,28 +678,14 @@
 
 	if (webView == webViewPolitecnicaVirtual)
 	{
-
 		[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
-		/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)]) 
-		  {
-		  [self.delegate modelUPMacaboDeCargarDatosTablonDeNotasConError:errorDescription];
-		  }*/
-
 		[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
-		/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosExpedienteConError:)]) 
-		  {
-		  [self.delegate modelUPMacaboDeCargarDatosExpedienteConError:errorDescription];
-		  }*/
 	}
 	else if (webView == webViewMoodle)
 	{
 		moodleEstaCargando = NO;
 
 		[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosMoodleConError:)];
-		/*if ([self.delegate respondsToSelector: @selector(modelUPMacaboDeCargarDatosMoodleConError:)]) 
-		  {
-		  [self.delegate modelUPMacaboDeCargarDatosMoodleConError:errorDescription];
-		  }*/
 	}
 	errorDescription=nil;
 }

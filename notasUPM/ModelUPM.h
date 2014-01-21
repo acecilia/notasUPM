@@ -25,6 +25,7 @@
 	UIWebView* webViewMoodle;
 
 	int errorNum;
+    
 	NSString *errorDescription;
 }
 
@@ -51,6 +52,7 @@
 - (NSString *)getApellidos;
 - (NSMutableArray *)getAsignaturas;
 - (NSMutableArray *)getExpediente;
+- (NSMutableArray *)getExpediente:(int) numeroExpediente;
 - (NSMutableArray *)getConvocatorias;
 - (NSMutableArray *)getSections;
 

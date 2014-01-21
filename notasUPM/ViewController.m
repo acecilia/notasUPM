@@ -370,47 +370,7 @@
     animationGroup.animations = @[scale,rotationAnimation];
     [botonReload.layer addAnimation:animationGroup forKey:@"pulse"];
     
-    /*CABasicAnimation *scale2 = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    scale2.fromValue = @0.75; // Your from value (not obvious from the question)
-    scale2.toValue = @1.0;
-    //scale2.repeatCount = INFINITY;
-	scale2.duration = 0.5;
-	//scale.cumulative = YES;
-    scale2.removedOnCompletion = NO;
-    scale2.beginTime = 0.5;
-    scale2.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    */
-    
-    /*[UIView animateWithDuration:3  animations:^(void)
-     {
-     CGRect newFrame = botonReload.frame;
-     newFrame.size = CGSizeMake(5, 5);
-     botonReload.frame = newFrame;
-     [UIView beginAnimations:@"ScaleButton" context:NULL];
-     [UIView setAnimationDuration: 0.5f];
-     botonReload.transform = CGAffineTransformMakeScale(1.1,1.1);
-     [UIView commitAnimations];
-     }
-     completion:^(BOOL finished)
-     {
-     botonReload.frame=CGRectMake(topView.frame.size.width-50, 10, 30, 30);
-     }];*/
-    
-    /*[UIView animateWithDuration:3  animations:^(void)
-     {
-     botonReload.transform = CGAffineTransformMakeScale(1.1,1.1);
-     }];*/
-    
-    /*CAKeyframeAnimation *rotate = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.x"];
-    rotate.values = @[@0.0, @(- 20 * M_PI / 180.0f), @0.0];
-    rotate.duration = 0.4;
-    rotate.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
-                               [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];*/
-    
-    /*[botonReload.layer addAnimation:scale forKey:@"move forward by scaling"];
-    [botonReload.layer addAnimation:scale2 forKey:@"move forward by scaling2"];
-    //[botonReload.layer addAnimation:rotate forKey:@"rotate back and forth"];
-    botonReload.transform = CGAffineTransformIdentity; // Set end value (animation won't apply the value to the model)*/
+
 }
 
 - (void)dejarDeAnimarLoading
@@ -691,8 +651,18 @@
 - (void)modelUPMacaboDeCargarDatosPersonalesconError:(NSString *)error
 {
 	if (error == nil)
-	{ 
-		if (labelNombre.text.length==0 || labelApellido.text.length==0)
+	{
+        NSArray *viewsToRemove = [topView subviews];
+        for (UIView *v in viewsToRemove) {
+            if (v.tag == 1)
+                [v removeFromSuperview];
+        }
+        
+        labelNombre.text=@"";
+        labelApellido.text=@"";
+        imageView=nil;
+        
+		/*if (labelNombre.text.length==0 || labelApellido.text.length==0)
 		{
 			labelNombre.text = [modelo getNombre];
 			labelApellido.text = [modelo getApellidos];
@@ -701,7 +671,11 @@
 		if(imageView==nil)
 		{
 			[self drawImage];
-		}
+		}*/
+        labelNombre.text = [modelo getNombre];
+        labelApellido.text = [modelo getApellidos];
+        
+        [self drawImage];
 	}
 	else
 	{

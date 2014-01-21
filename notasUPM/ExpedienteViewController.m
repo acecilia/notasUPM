@@ -24,6 +24,7 @@
 @end
 
 @implementation ExpedienteViewController
+@synthesize numeroExpediente,tituloBarra;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -51,15 +52,13 @@
 {
 	[super viewDidLoad];
     
-    //self.view= [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-	//self.navigationController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    
 	self.navigationController.view.backgroundColor=[UIColor whiteColor];
     
     UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height/2)];
 	colorAzul.backgroundColor=COLOR_PRINCIPAL;
     colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight |UIViewAutoresizingFlexibleBottomMargin;
-    [self.navigationController.view insertSubview:colorAzul atIndex:0];
+    self.tableView.backgroundView = [[UIImageView alloc] init];
+    [self.tableView.backgroundView addSubview:colorAzul];
 
 	[self setNavTitleView];
 
@@ -70,9 +69,9 @@
 	modelo = appDelegate.modelo;
 	[modelo addDelegate:self];
     
-    self.tableView.backgroundColor=[UIColor clearColor];
+    self.tableView.backgroundColor=[UIColor whiteColor];
     
-	arrayExpediente = [modelo getExpediente];
+	arrayExpediente = [modelo getExpediente:numeroExpediente];
 	[self.tableView reloadData];
 }
 
@@ -82,7 +81,7 @@
 
 	UILabel *titulo = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
 
-	titulo.text = @"Expediente";
+	titulo.text = tituloBarra;
 	titulo.textAlignment = NSTextAlignmentCenter;
 	titulo.textColor = [UIColor whiteColor];
 	titulo.backgroundColor = [UIColor clearColor];
@@ -97,11 +96,26 @@
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:botonReload];
 
 
-	UIButton* botonMenu = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
+	/*UIButton* botonMenu = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
 	[botonMenu addTarget:self action:@selector(revealMenu) forControlEvents:UIControlEventTouchUpInside];
 	botonMenu.backgroundColor = [UIColor clearColor];
 	[botonMenu setBackgroundImage:[UIImage imageNamed:@"menuButton"] forState:UIControlStateNormal];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:botonMenu];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:botonMenu];*/
+    
+    UIImage *imagenBack = [UIImage imageNamed:@"back"];
+	UIButton *botonBack = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
+	[botonBack addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchDown];
+	[botonBack setBackgroundColor:[UIColor clearColor]];
+	[botonBack setBackgroundImage:imagenBack forState:UIControlStateNormal];
+	[botonBack setTitle:@"" forState:UIControlStateNormal];
+	UIBarButtonItem *leftBack = [[UIBarButtonItem alloc]initWithCustomView:botonBack];
+	self.navigationItem.leftBarButtonItem = leftBack;
+}
+
+- (void)back
+{
+	[self.navigationController popViewControllerAnimated:YES];
+	[modelo removeDelegate:self];
 }
 
 
@@ -145,6 +159,7 @@
 		textoDerecha.numberOfLines = 0;
 		textoDerecha.lineBreakMode = NSLineBreakByWordWrapping;
 		textoDerecha.backgroundColor=[UIColor clearColor];
+        textoDerecha.textAlignment = NSTextAlignmentCenter;
 		[cell addSubview:textoDerecha];
 		textoDerecha.tag=2;
 		textoDerecha.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
@@ -366,13 +381,16 @@
 {
 	if (error == nil)
 	{
-		arrayExpediente = [modelo getExpediente];
+		arrayExpediente = [modelo getExpediente:numeroExpediente];
 		[self.tableView reloadData];
 	}
 	else
 	{
-		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE POLITÉCNICA VIRTUAL en el expediente" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-		[alerta show];
+        if (![error isEqualToString:@"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias."])
+        {
+            UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE POLITÉCNICA VIRTUAL en el expediente" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alerta show];
+        }
 	}
 	[modelo removeDelegate:self];
 	[self dejarDeAnimarLoading];

@@ -2,7 +2,7 @@
 #import "ECSlidingViewController.h"
 #import "MoodleViewController.h"
 #import "ContactoViewController.h"
-#import "ExpedienteViewController.h"
+#import "SeleccionadorDeExpediente.h"
 #import "MoodleAsignaturaViewController.h"
 #import "ViewController.h"
 
@@ -133,7 +133,7 @@
 			break;
 		case 2:
 			{
-				UITableViewController *VC = [[ExpedienteViewController alloc] init];
+				UITableViewController *VC = [[SeleccionadorDeExpediente alloc] init];
 				UINavigationController *NC=[[UINavigationController alloc] initWithRootViewController:VC];
 				NC.view.layer.shadowOpacity = 0.75f;
 				NC.view.layer.shadowRadius = 10.0f;
