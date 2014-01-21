@@ -15,6 +15,10 @@
 	NSMutableArray* delegates;
     int numExpedientes;
     int contadorExpedientes;
+    
+    NSError* errorGlobal;
+    
+    bool alertaYaAvisada;
 }
 
 @end
@@ -83,20 +87,9 @@
 	{
 		if ([delegate respondsToSelector: evento]) 
 		{
-            UIViewController* controlador = (UIViewController*) delegate;
-            if(controlador.isViewLoaded && controlador.view.window)
-            {
-                IMP metodo = [delegate methodForSelector:evento];
-                void (*func)(__strong id,SEL,NSString*) = (void (*)(__strong id, SEL,NSString*))metodo;
-                func(delegate, evento, errorDescription);
-            }
-            else
-            {
-                IMP metodo = [delegate methodForSelector:evento];
-                void (*func)(__strong id,SEL,NSString*) = (void (*)(__strong id, SEL,NSString*))metodo;
-                func(delegate, evento, nil);
-            }
-
+            IMP metodo = [delegate methodForSelector:evento];
+            void (*func)(__strong id,SEL,NSString*) = (void (*)(__strong id, SEL,NSString*))metodo;
+            func(delegate, evento, errorGlobal.localizedDescription);
 		}
 	}
 }
@@ -145,6 +138,7 @@
 	indicePV=0;
     contadorExpedientes = 0;
     numExpedientes = 1;
+    alertaYaAvisada = false;
     
 	webViewPolitecnicaVirtual = [[UIWebView alloc]init];
 
@@ -420,6 +414,7 @@
 
 - (void)cargarDatosMoodle
 {
+    alertaYaAvisada = false;
 	moodleEstaCargando = YES;
 
 	webViewMoodle = [[UIWebView alloc]init];
@@ -442,6 +437,7 @@
 
 - (void)inicializarMoodleConNuevaCuenta
 {
+    alertaYaAvisada = false;
     moodleEstaCargando = YES;
     asignaturas = [[NSMutableArray alloc]init];
     
@@ -491,7 +487,7 @@
 
 	[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosMoodleConError:)];
 
-	errorDescription = nil;
+	//errorDescription = nil;
 }
 
 
@@ -569,7 +565,7 @@
 
 - (NSString *)getDescripcionError
 {
-	return errorDescription;
+	return [errorGlobal localizedDescription];
 }
 
 
@@ -583,9 +579,13 @@
 	{
 		if([webView.request.URL.absoluteString isEqualToString:@"https://www.upm.es/politecnica_virtual/login.upm"])
 		{
-			errorDescription = @"El nombre de usuario y/o la contraseña son incorrectos";
+            NSMutableDictionary* details = [NSMutableDictionary dictionary];
+            [details setValue:@"El nombre de usuario y/o la contraseña son incorrectos" forKey:NSLocalizedDescriptionKey];
+            errorGlobal = [NSError errorWithDomain:@"Global" code:200 userInfo:details];
+            
 			[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
-			errorDescription = nil;
+            
+			errorGlobal = nil;
 			[webView stopLoading];
 		}
 		else
@@ -609,11 +609,17 @@
                         if(secciones==0)//POLITECNICA VIRTUAL CAIDA
 						{
 							//Primera vez que se comprueba si la politécnica virtual está colgada
-							errorDescription = @"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias.";
+							//errorDescription = @"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias.";
+                           
+                            NSMutableDictionary* details = [NSMutableDictionary dictionary];
+                            [details setValue:@"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias." forKey:NSLocalizedDescriptionKey];
+                            errorGlobal = [NSError errorWithDomain:@"Global" code:200 userInfo:details];
 
 							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
                             [self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
-                            errorDescription=nil;
+                            
+                            //errorDescription=nil;
+                            errorGlobal = nil;
 						}
 						else
 						{
@@ -643,7 +649,8 @@
 
 							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
 						}
-						errorDescription = nil;
+                        errorGlobal = nil;
+						//errorDescription = nil;
                         
                         //salta directamente al apartado de expediente sin tener que cargar paso por paso
                         [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('carpeta_activa').value='C';document.getElementById('accion').value='3_7_355'; document.getElementById('f').submit();"];
@@ -726,17 +733,30 @@
 	if ([webView isLoading])
 	{
 		[webView stopLoading];
-		//webView=nil;
 	}
 
 	if (error.code == NSURLErrorNotConnectedToInternet)
 	{
-		errorDescription = @"No está conectado a Internet";
+        NSMutableDictionary* details = [NSMutableDictionary dictionary];
+        [details setValue:@"No está conectado a Internet" forKey:NSLocalizedDescriptionKey];
+        errorGlobal = [NSError errorWithDomain:error.domain code:error.code userInfo:details];
 	}
 	else
 	{
-		errorDescription = error.localizedDescription;
+		errorGlobal = [error copy];
 	}
+    
+    if(error.code == NSURLErrorNotConnectedToInternet)
+    {
+        if(alertaYaAvisada)
+        {
+            errorGlobal = nil;
+        }
+        else
+        {
+            alertaYaAvisada = true;
+        }
+    }
 
 	if (webView == webViewPolitecnicaVirtual)
 	{
@@ -748,7 +768,7 @@
 		moodleEstaCargando = NO;
 		[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosMoodleConError:)];
 	}
-	errorDescription=nil;
+	errorGlobal=nil;
 }
 
 

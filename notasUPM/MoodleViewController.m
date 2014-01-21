@@ -23,13 +23,15 @@
 
 @implementation MoodleViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	self = [super init];
 	if (self)
-	{
-
-	}
+    {
+    	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+        modelo = appDelegate.modelo;
+        [modelo addDelegate:self];
+    }
 	return self;
 }
 
@@ -58,7 +60,7 @@
 	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
 	modelo = appDelegate.modelo;
 	//modelo.delegate = self;
-	[modelo addDelegate:self];
+	//[modelo addDelegate:self];
 
 	arrayAsignaturas = [modelo getAsignaturas];
 	[self.tableView reloadData];

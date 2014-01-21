@@ -24,9 +24,9 @@
 	UIWebView* webViewPolitecnicaVirtual;
 	UIWebView* webViewMoodle;
 
-	int errorNum;
+	//int errorNum;
     
-	NSString *errorDescription;
+	//NSString *errorDescription;
 }
 
 //@property (weak, nonatomic) id<ModelUPMDelegate> delegate;

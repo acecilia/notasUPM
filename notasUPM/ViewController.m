@@ -623,11 +623,10 @@
 
 // ModelUPM Delegate
 
-- (void)modelUPMacaboDeCargarDatosExpedienteConError:(NSString *)error
+/*- (void)modelUPMacaboDeCargarDatosExpedienteConError:(NSString *)error
 {
     [modelo removeDelegate:self];
-	[self dejarDeAnimarLoading];
-}
+}*/
 
 - (void)modelUPMacaboDeCargarDatosTablonDeNotasConError:(NSString *)error
 {
@@ -644,8 +643,9 @@
 
 		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE POLITÉCNICA VIRTUAL en seccion Inicio" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alerta show];
-		[self dejarDeAnimarLoading];
 	}
+    [modelo removeDelegate:self];
+    [self dejarDeAnimarLoading];
 }
 
 - (void)modelUPMacaboDeCargarDatosPersonalesconError:(NSString *)error
@@ -684,7 +684,7 @@
 	}
 }
 
-- (void)modelUPMacaboDeCargarDatosMoodleConError:(NSString *)error
+/*- (void)modelUPMacaboDeCargarDatosMoodleConError:(NSString *)error
 {
 	if (error == nil)
 	{
@@ -703,7 +703,7 @@
 			[alerta show];
 		}
 	}
-}
+}*/
 
 
 - (void)subirVista

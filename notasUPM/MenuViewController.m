@@ -12,7 +12,9 @@
 
 @interface MenuViewController ()
 {
-    
+    MoodleViewController* MoodleVC;
+    SelectorDeExpediente* SelectorVC;
+    ContactoViewController* ContactoVC;
 }
 @end
 
@@ -37,7 +39,10 @@
 	////////////loadView
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.scrollEnabled = NO;
-
+    
+    MoodleVC = [[MoodleViewController alloc] init];
+    SelectorVC = [[SelectorDeExpediente alloc] init];
+    ContactoVC = [[ContactoViewController alloc] init];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -121,8 +126,8 @@
 			break;
 		case 1:
 			{
-				UITableViewController *VC = [[MoodleViewController alloc] init];
-				UINavigationController *NC=[[UINavigationController alloc] initWithRootViewController:VC];
+				//UITableViewController *VC = [[MoodleViewController alloc] init];
+				UINavigationController *NC=[[UINavigationController alloc] initWithRootViewController:MoodleVC];
 				NC.view.layer.shadowOpacity = 0.75f;
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -134,8 +139,8 @@
 			break;
 		case 2:
 			{
-				UITableViewController *VC = [[SelectorDeExpediente alloc] init];
-				UINavigationController *NC=[[UINavigationController alloc] initWithRootViewController:VC];
+				//UITableViewController *VC = [[SelectorDeExpediente alloc] init];
+				UINavigationController *NC=[[UINavigationController alloc] initWithRootViewController:SelectorVC];
 				NC.view.layer.shadowOpacity = 0.75f;
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -145,8 +150,8 @@
 			break;
 		case 3:
 			{
-				UITableViewController *VC = [[ContactoViewController alloc] init];
-				UINavigationController *NC=[[UINavigationController alloc] initWithRootViewController:VC];
+				//UITableViewController *VC = [[ContactoViewController alloc] init];
+				UINavigationController *NC=[[UINavigationController alloc] initWithRootViewController:ContactoVC];
 				NC.view.layer.shadowOpacity = 0.75f;
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;

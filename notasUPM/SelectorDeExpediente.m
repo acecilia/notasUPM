@@ -20,10 +20,15 @@
 
 @implementation SelectorDeExpediente
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)init
 {
-	self = [super initWithStyle:style];
-	if (self) {}
+	self = [super init];
+	if (self)
+    {
+    	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+        modelo = appDelegate.modelo;
+        [modelo addDelegate:self];
+    }
 	return self;
 }
 
@@ -47,14 +52,11 @@
 	[super viewDidLoad];
     
 	self.navigationController.view.backgroundColor=[UIColor whiteColor];
+    //[modelo addDelegate:self];
     
 	[self setNavTitleView];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-	modelo = appDelegate.modelo;
-	[modelo addDelegate:self];
     
     self.tableView.backgroundColor=[UIColor whiteColor];
     
@@ -283,7 +285,7 @@
 	{
         if (![error isEqualToString:@"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias."])
         {
-            UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE POLITÉCNICA VIRTUAL en el expediente" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE POLITÉCNICA VIRTUAL en el selector de expediente" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alerta show];
         }
 	}
