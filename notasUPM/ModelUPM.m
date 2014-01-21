@@ -483,9 +483,17 @@
 
 - (NSMutableArray *)getExpediente: (int) numeroExpediente
 {
-    if (numeroExpediente<=numExpedientes)
+    if ([expediente count] > numeroExpediente)
     {
-       return [[expediente objectAtIndex:numeroExpediente]objectAtIndex:1];
+        if([[expediente objectAtIndex:numeroExpediente]count]>1)
+        {
+            return [[expediente objectAtIndex:numeroExpediente]objectAtIndex:1];
+        }
+        else
+        {
+            return nil;
+        }
+       
     }
     else
     {

@@ -46,6 +46,13 @@
 	{
 		[self animarLoading];
 	}
+    
+    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+}
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    [self.navigationController.navigationBar setShadowImage:nil];
 }
 
 - (void)viewDidLoad
@@ -77,8 +84,6 @@
 
 - (void)setNavTitleView
 {
-	[self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
-
 	UILabel *titulo = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
 
 	titulo.text = tituloBarra;
@@ -159,7 +164,7 @@
 		textoDerecha.numberOfLines = 0;
 		textoDerecha.lineBreakMode = NSLineBreakByWordWrapping;
 		textoDerecha.backgroundColor=[UIColor clearColor];
-        textoDerecha.textAlignment = NSTextAlignmentCenter;
+        //textoDerecha.textAlignment = NSTextAlignmentCenter;
 		[cell addSubview:textoDerecha];
 		textoDerecha.tag=2;
 		textoDerecha.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;

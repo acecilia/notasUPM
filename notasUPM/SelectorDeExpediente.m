@@ -69,9 +69,7 @@
 }
 
 - (void)setNavTitleView
-{
-	[self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
-    
+{    
 	UILabel *titulo = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
     
 	titulo.text = @"Expediente";
