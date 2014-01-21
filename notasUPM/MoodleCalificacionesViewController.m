@@ -2,6 +2,7 @@
 #import "QuartzCore/CAAnimation.h"
 #import "AlmacenamientoLocal.h"
 #import "AppDelegate.h"
+#import "Animador.h"
 
 #define AZUL [UIColor colorWithRed:39/255.0 green:130/255.0 blue:191/255.0 alpha:1.0]
 #define GRIS_OSCURO [UIColor colorWithRed:110/255.0 green:184/255.0 blue:236/255.0 alpha:1.0]
@@ -260,59 +261,13 @@
 
 - (void)animarLoading
 {
-	[botonReload setEnabled:NO];
-    
-    CAAnimationGroup *animationGroup = [CAAnimationGroup animation];
-    animationGroup.duration = 1;
-    animationGroup.repeatCount = HUGE_VALF;
-    animationGroup.removedOnCompletion=NO;
-    
-	CABasicAnimation *rotationAnimation;
-	rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-	//rotationAnimation.repeatCount = INFINITY;
-	rotationAnimation.duration = 1;
-	//rotationAnimation.cumulative = YES;
-	rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 * 1 * 1 ];
-	rotationAnimation.removedOnCompletion = NO;
-	//[botonReload.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-    
-    CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    scale.fromValue = @1.0;
-    scale.toValue = @0.85;
-    //scale.repeatCount = INFINITY;
-	scale.duration = 0.5;
-	//scale.cumulative = YES;
-    scale.autoreverses = YES;
-    scale.removedOnCompletion = NO;
-    scale.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    
-    animationGroup.animations = @[scale,rotationAnimation];
-    [botonReload.layer addAnimation:animationGroup forKey:@"pulse"];
+    [botonReload setEnabled:NO];
+    [Animador animarBoton:botonReload];
 }
 
 - (void)dejarDeAnimarLoading
 {
-    CABasicAnimation *scale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    scale.toValue = @0.1;
-    //scale.autoreverses=YES;
-    scale.delegate = self;
-    scale.duration = 0.5;
-    scale.cumulative = YES;
-    scale.removedOnCompletion = NO;
-    scale.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    [botonReload.layer addAnimation:scale forKey:@"scaleFinal"];
-    
-    //Es necesario repetir la animacion scale2 para que no se produzcan cosas raras
-    CABasicAnimation *scale2 = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    scale2.fromValue = @0.1;
-    scale2.toValue = @1.0;
-    //scale2.autoreverses=YES;
-    scale2.beginTime = CACurrentMediaTime()+scale.duration;
-    scale2.duration = 0.5;
-    scale2.cumulative = YES;
-    scale2.removedOnCompletion = NO;
-    scale2.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    [botonReload.layer addAnimation:scale2 forKey:@"scaleFinal2"];
+    [Animador dejarDeAnimarBoton:botonReload conDelegate:self];
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag

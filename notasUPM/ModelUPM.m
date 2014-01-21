@@ -43,50 +43,21 @@
 {
 	NSMutableArray *arrayToEnumerate = [delegates copy];
     
-    /*if(evento == @selector(modelUPMacaboDeCargarDatosMoodleConError:))
-    {
-        NSArray *arrayAuxiliar = [arrayToEnumerate copy];
-        
-        for(id delegateLoop in arrayAuxiliar)
-        {
-            if ([[delegateLoop class] isEqual:[MoodleViewController class]])
-            {
-                for(id delegateLoop in arrayAuxiliar)
-                {
-                    if ([[delegateLoop class] isEqual:[ViewController class]])
-                    {
-                        [arrayToEnumerate removeObjectIdenticalTo:delegateLoop];
-                    }
-                }
-                break;
-            }
-        }
-    }
-    
-    if(evento == @selector(modelUPMacaboDeCargarDatosExpedienteConError:))
-    {
-        NSArray *arrayAuxiliar = [arrayToEnumerate copy];
-        
-        for(id delegateLoop in arrayAuxiliar)
-        {
-            if ([[delegateLoop class] isEqual:[ExpedienteViewController class]])
-            {
-                for(id delegateLoop in arrayAuxiliar)
-                {
-                    if ([[delegateLoop class] isEqual:[ViewController class]])
-                    {
-                        [arrayToEnumerate removeObjectIdenticalTo:delegateLoop];
-                    }
-                }
-                break;
-            }
-        }
-    }*/
-
 	for(id delegate in arrayToEnumerate)
 	{
 		if ([delegate respondsToSelector: evento]) 
 		{
+            if(errorGlobal.code == NSURLErrorNotConnectedToInternet)
+            {
+                if(alertaYaAvisada)
+                {
+                    errorGlobal = nil;
+                }
+                else
+                {
+                    alertaYaAvisada = true;
+                }
+            }
             IMP metodo = [delegate methodForSelector:evento];
             void (*func)(__strong id,SEL,NSString*) = (void (*)(__strong id, SEL,NSString*))metodo;
             func(delegate, evento, errorGlobal.localizedDescription);
@@ -745,18 +716,6 @@
 	{
 		errorGlobal = [error copy];
 	}
-    
-    if(error.code == NSURLErrorNotConnectedToInternet)
-    {
-        if(alertaYaAvisada)
-        {
-            errorGlobal = nil;
-        }
-        else
-        {
-            alertaYaAvisada = true;
-        }
-    }
 
 	if (webView == webViewPolitecnicaVirtual)
 	{
