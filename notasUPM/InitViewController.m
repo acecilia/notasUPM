@@ -26,8 +26,7 @@
     [[NSThread currentThread] setName:@"hilo initViewController"];
 
 	self.topViewController = [[ViewController alloc]init];
-	//self.underLeftViewController = [[MenuViewController alloc]init];
-	//[self setUnderLeftViewController:[[MenuViewController alloc]init]];
+	self.underLeftViewController = [[MenuViewController alloc]init];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle

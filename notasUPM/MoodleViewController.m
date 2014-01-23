@@ -44,8 +44,10 @@
 	if (selection) {
 		[self.tableView deselectRowAtIndexPath:selection animated:YES];
 	}
-
-	if(modelo.moodleEstaCargando != 0)
+    
+    [self setNavTitleView];
+    
+    if(modelo.moodleEstaCargando != 0)
 	{
 		[self animarLoading];
 	}
@@ -55,13 +57,8 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-
-	[self setNavTitleView];
-
-	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-	modelo = appDelegate.modelo;
-	//modelo.delegate = self;
-	//[modelo addDelegate:self];
+    
+    [modelo cargarDatosMoodle];
 
 	arrayAsignaturas = [modelo getAsignaturas];
 	[self.tableView reloadData];
@@ -203,13 +200,13 @@
 	[self.slidingViewController anchorTopViewTo:ECRight];
 }
 
-- (void)configurarSlideView
+/*- (void)configurarSlideView
 {
 	if (![self.slidingViewController.underLeftViewController isKindOfClass:[MenuViewController class]])
 	{
 		self.slidingViewController.underLeftViewController  = [[MenuViewController alloc] init];
 	}
-}
+}*/
 
 
 - (void)animarLoading

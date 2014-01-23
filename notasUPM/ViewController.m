@@ -153,7 +153,6 @@
 		{
 			// Si se ejecuta la app por primera vez crea el modelo
 			[modelo inicializarConUsuario:nombreDeUsuario contraseña:pass];
-			[modelo cargarDatosMoodle];
 			[modelo cargarDatosPolitecnicaVirtual];
 			[self animarLoading];
 
@@ -409,11 +408,11 @@
 	self.view.layer.shadowColor = [UIColor blackColor].CGColor;
 
 
-	if (![self.slidingViewController.underLeftViewController isKindOfClass:[MenuViewController class]])
+	/*if (![self.slidingViewController.underLeftViewController isKindOfClass:[MenuViewController class]])
 	{
 		//self.slidingViewController.underLeftViewController  = [[MenuViewController alloc] init];
 		[self.slidingViewController setUnderLeftViewController:[[MenuViewController alloc]init]];
-	}
+	}*/
 
 
 	[self.view addGestureRecognizer:self.slidingViewController.panGesture];

@@ -19,11 +19,15 @@
 	return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self setNavTitleView];
+}
+
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-
-	[self setNavTitleView];
 
 	self.tableView.alwaysBounceVertical = NO;
 	self.tableView.separatorColor = [UIColor clearColor];

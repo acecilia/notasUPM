@@ -17,8 +17,6 @@
     int contadorExpedientes;
     
     NSError* errorGlobal;
-    
-    bool alertaYaAvisada;
 }
 
 @end
@@ -47,17 +45,6 @@
 	{
 		if ([delegate respondsToSelector: evento]) 
 		{
-            if(errorGlobal.code == NSURLErrorNotConnectedToInternet)
-            {
-                if(alertaYaAvisada)
-                {
-                    errorGlobal = nil;
-                }
-                else
-                {
-                    alertaYaAvisada = true;
-                }
-            }
             IMP metodo = [delegate methodForSelector:evento];
             void (*func)(__strong id,SEL,NSString*) = (void (*)(__strong id, SEL,NSString*))metodo;
             func(delegate, evento, errorGlobal.localizedDescription);
@@ -109,7 +96,6 @@
 	indicePV=0;
     contadorExpedientes = 0;
     numExpedientes = 1;
-    alertaYaAvisada = false;
     
 	webViewPolitecnicaVirtual = [[UIWebView alloc]init];
 
@@ -385,7 +371,6 @@
 
 - (void)cargarDatosMoodle
 {
-    alertaYaAvisada = false;
 	moodleEstaCargando = YES;
 
 	webViewMoodle = [[UIWebView alloc]init];
@@ -408,7 +393,6 @@
 
 - (void)inicializarMoodleConNuevaCuenta
 {
-    alertaYaAvisada = false;
     moodleEstaCargando = YES;
     asignaturas = [[NSMutableArray alloc]init];
     
@@ -719,7 +703,19 @@
 
 	if (webView == webViewPolitecnicaVirtual)
 	{
+        NSMutableArray* delegateArray = [delegates copy];
+        
 		[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
+        
+        //las alertas de error de webViewPolitecnicaVirtual solo se sacan por viewController si viewController y expedienteViewController están aladidas al delegate para que no salgan repetidas en la vista del expediente ya que siempre van a producirse los mismos errores al ser el mismo webView
+        for (id delegate in delegateArray)
+        {
+            if ([delegate isKindOfClass:[ViewController class]])
+            {
+                errorGlobal = nil;
+            }
+        }
+        
 		[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
 	}
 	else if (webView == webViewMoodle)

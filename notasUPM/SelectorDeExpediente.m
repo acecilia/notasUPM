@@ -42,7 +42,10 @@
 		[self.tableView deselectRowAtIndexPath:selection animated:YES];
 	}
     
-	if([modelo.webViewPolitecnicaVirtual isLoading])
+    [self setNavTitleView];
+    self.tableView.backgroundColor=[UIColor whiteColor];
+    
+    if([modelo.webViewPolitecnicaVirtual isLoading])
 	{
 		[self animarLoading];
 	}
@@ -51,15 +54,6 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    
-	self.navigationController.view.backgroundColor=[UIColor whiteColor];
-    //[modelo addDelegate:self];
-    
-	[self setNavTitleView];
-    
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    self.tableView.backgroundColor=[UIColor whiteColor];
     
 	arrayExpediente = [modelo getExpediente];
     
@@ -75,7 +69,7 @@
 {    
 	UILabel *titulo = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
     
-	titulo.text = @"Expediente";
+	titulo.text = @"Expedientes";
 	titulo.textAlignment = NSTextAlignmentCenter;
 	titulo.textColor = [UIColor whiteColor];
 	titulo.backgroundColor = [UIColor clearColor];

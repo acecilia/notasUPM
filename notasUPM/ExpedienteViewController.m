@@ -27,10 +27,15 @@
 @implementation ExpedienteViewController
 @synthesize numeroExpediente,tituloBarra;
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)init
 {
-	self = [super initWithStyle:style];
-	if (self) {}
+	self = [super init];
+	if (self)
+    {
+    	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+        modelo = appDelegate.modelo;
+        [modelo addDelegate:self];
+    }
 	return self;
 }
 
@@ -42,13 +47,29 @@
 	if (selection) {
 		[self.tableView deselectRowAtIndexPath:selection animated:YES];
 	}
-
+    
+    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+    
+    [self setNavTitleView];
+    
+    self.navigationController.view.backgroundColor=[UIColor whiteColor];
+    
+    UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height/2)];
+	colorAzul.backgroundColor=COLOR_PRINCIPAL;
+    colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight |UIViewAutoresizingFlexibleBottomMargin;
+    self.tableView.backgroundView = [[UIImageView alloc] init];
+    [self.tableView.backgroundView addSubview:colorAzul];
+    
+	self.tableView.allowsSelection = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    self.tableView.backgroundColor=[UIColor whiteColor];
+    
+    
 	if([modelo.webViewPolitecnicaVirtual isLoading])
 	{
 		[self animarLoading];
 	}
-    
-    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -59,25 +80,6 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    
-	self.navigationController.view.backgroundColor=[UIColor whiteColor];
-    
-    UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height/2)];
-	colorAzul.backgroundColor=COLOR_PRINCIPAL;
-    colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight |UIViewAutoresizingFlexibleBottomMargin;
-    self.tableView.backgroundView = [[UIImageView alloc] init];
-    [self.tableView.backgroundView addSubview:colorAzul];
-
-	[self setNavTitleView];
-
-	self.tableView.allowsSelection = NO;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-	modelo = appDelegate.modelo;
-	[modelo addDelegate:self];
-    
-    self.tableView.backgroundColor=[UIColor whiteColor];
     
 	arrayExpediente = [modelo getExpediente:numeroExpediente];
 	[self.tableView reloadData];
