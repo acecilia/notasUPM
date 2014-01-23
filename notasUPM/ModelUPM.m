@@ -192,6 +192,13 @@
 					}
 
                     celda = [celda stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    
+                    //elimina varios saltos de carro seguidos dejando un único salto de carro
+                    while ([@"\n\n" rangeOfString:celda].location != NSNotFound)
+                    {
+                        celda=[celda stringByReplacingOccurrencesOfString:@"\n\n" withString:@"\n"];
+                    }
+                    
 					if (celda.length != 0)
 					{
 						[fila addObject:celda];
@@ -286,6 +293,13 @@
 				celda = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('tbody')[%d].getElementsByTagName('tr')[%d].getElementsByTagName('td')[%d].innerText;",numTabla, i, j]];
 
                 celda = [celda stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                
+                //elimina varios saltos de carro seguidos dejando un único salto de carro
+                while ([celda rangeOfString:@"\n\n"].location != NSNotFound)
+                {
+                    celda=[celda stringByReplacingOccurrencesOfString:@"\n\n" withString:@"\n"];
+                }
+                
 				if (celda.length != 0)
 				{
 					[fila addObject:celda];

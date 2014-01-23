@@ -16,8 +16,6 @@
 #define MOVER 152
 #define MOVER_LABELS 12
 
-#define ALTURA_CELDA 100
-
 #define modoDebug NO  ////////////////////MODO DEGUB///////////////////////////////
 
 
@@ -114,6 +112,8 @@
 	tabla.dataSource=self;
 	tabla.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     tabla.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tabla.rowHeight = 100;
+    tabla.sectionHeaderHeight = 40;
 	[self.view addSubview:tabla];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
@@ -452,19 +452,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"Cell %li",(long)indexPath.section]];
-	NSString * cadena=@"";
 
 	if(cell==nil)
 	{
 		cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:[NSString stringWithFormat:@"Cell %li",(long)indexPath.section]];
         cell.contentView.backgroundColor=[UIColor whiteColor];
 
-		UIView *fondoTitulo = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, ALTURA_CELDA/4)];
+		UIView *fondoTitulo = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, tableView.rowHeight/4)];
 		fondoTitulo.backgroundColor=GRIS;
 		[cell addSubview:fondoTitulo];
 		fondoTitulo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
-		UILabel *titulo = [[UILabel alloc] initWithFrame:CGRectMake(8, 2, cell.frame.size.width-20, ALTURA_CELDA/4)];
+		UILabel *titulo = [[UILabel alloc] initWithFrame:CGRectMake(8, 2, cell.frame.size.width-20, tableView.rowHeight/4)];
 		titulo.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:18];
 		titulo.backgroundColor=[UIColor clearColor];
 		[cell addSubview:titulo];
@@ -472,16 +471,16 @@
 		titulo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [titulo setAdjustsFontSizeToFitWidth:YES];
 
-		UILabel *textoDerecha = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/3, ALTURA_CELDA/4, (cell.frame.size.width*2)/3-10, (ALTURA_CELDA*3)/4)];
+		UILabel *textoDerecha = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/3, tableView.rowHeight/4, (cell.frame.size.width*2)/3-10, (tableView.rowHeight*3)/4)];
 		textoDerecha.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:18];
 		textoDerecha.numberOfLines = 0;
-		textoDerecha.lineBreakMode = NSLineBreakByWordWrapping;
+		//textoDerecha.lineBreakMode = NSLineBreakByWordWrapping;
 		textoDerecha.backgroundColor=[UIColor clearColor];
 		[cell addSubview:textoDerecha];
 		textoDerecha.tag=2;
 		textoDerecha.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
 
-		UILabel *textoIzquierda = [[UILabel alloc] initWithFrame:CGRectMake(8, ALTURA_CELDA/4, cell.frame.size.width/3 -10, (ALTURA_CELDA*3)/4)];
+		UILabel *textoIzquierda = [[UILabel alloc] initWithFrame:CGRectMake(8, tableView.rowHeight/4, cell.frame.size.width/3 -10, (tableView.rowHeight*3)/4)];
 		textoIzquierda.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:22];
 		textoIzquierda.backgroundColor=[UIColor clearColor];
 		[cell addSubview:textoIzquierda];
@@ -494,21 +493,24 @@
 
 
 	//información adicional
-	cadena=[cadena stringByAppendingString:[[[TableDataNotas objectAtIndex: indexPath.section] objectAtIndex: indexPath.row] objectAtIndex:2]];
-
 	UILabel* infoAdicional=((UILabel *)[cell viewWithTag:2]);
-	infoAdicional.text=cadena;
-	cadena=@"";
+    
+    infoAdicional.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:18];
+    
+	infoAdicional.text=[[[TableDataNotas objectAtIndex: indexPath.section] objectAtIndex: indexPath.row] objectAtIndex:2];
+    
+    NSString *str = infoAdicional.text;
 
-	CGSize size = [infoAdicional.text sizeWithFont:infoAdicional.font];
-	if (size.width > infoAdicional.bounds.size.width) 
-	{
-		infoAdicional.adjustsFontSizeToFitWidth=YES;
-	}
-	else
-	{
-		infoAdicional.adjustsFontSizeToFitWidth=NO;
-	}
+    CGSize size = [str sizeWithFont:infoAdicional.font constrainedToSize:CGSizeMake(infoAdicional.frame.size.width, 10000) lineBreakMode:NSLineBreakByWordWrapping];
+    
+    while(size.height > infoAdicional.frame.size.height)
+    {
+        infoAdicional.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:infoAdicional.font.pointSize -1];
+        
+        size = [str sizeWithFont:infoAdicional.font constrainedToSize:CGSizeMake(infoAdicional.frame.size.width, 10000) lineBreakMode:NSLineBreakByWordWrapping];
+    }
+    
+ 
 
 	//nota
 	UILabel* nota=((UILabel *)[cell viewWithTag:3]);
@@ -516,21 +518,16 @@
 	nota.text=[[[TableDataNotas objectAtIndex: indexPath.section] objectAtIndex: indexPath.row] objectAtIndex:1];
 
 	size = [nota.text sizeWithFont:nota.font];
-	if (size.width > nota.bounds.size.width) 
+	if (size.width > nota.frame.size.width)
 	{
-		nota.adjustsFontSizeToFitWidth=YES;
+        [nota setAdjustsFontSizeToFitWidth:YES];
 	}
 	else
 	{
-		nota.adjustsFontSizeToFitWidth=NO;
-	}
+        [nota setAdjustsFontSizeToFitWidth:NO];
+    }
 
 	return cell;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	return ALTURA_CELDA;
 }
 
 
@@ -567,9 +564,11 @@
 	return [CabeceraSeccion objectAtIndex:section];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-	return 40;
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [tabla reloadData];
 }
 
 
