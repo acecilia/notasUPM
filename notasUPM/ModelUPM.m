@@ -309,7 +309,7 @@
 
 		if (fila.count != 0)
 		{
-			if([fila count]<3)
+			while([fila count]<3)
 			{
 				[fila insertObject:@"No disponible" atIndex:1];
 			}
