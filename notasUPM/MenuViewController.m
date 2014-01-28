@@ -48,19 +48,19 @@
     MoodleNC.view.layer.shadowOpacity = 0.75f;
     MoodleNC.view.layer.shadowRadius = 10.0f;
     MoodleNC.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    [MoodleNC.view addGestureRecognizer:self.slidingViewController.panGesture];
+    
     
     SelectorNC=[[UINavigationController alloc] initWithRootViewController:SelectorVC];
     SelectorNC.view.layer.shadowOpacity = 0.75f;
     SelectorNC.view.layer.shadowRadius = 10.0f;
     SelectorNC.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    [SelectorNC.view addGestureRecognizer:self.slidingViewController.panGesture];
+    
     
     ContactoNC=[[UINavigationController alloc] initWithRootViewController:ContactoVC];
     ContactoNC.view.layer.shadowOpacity = 0.75f;
     ContactoNC.view.layer.shadowRadius = 10.0f;
     ContactoNC.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    [ContactoNC.view addGestureRecognizer:self.slidingViewController.panGesture];
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -151,7 +151,7 @@
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
                 
                 [NC.view addGestureRecognizer:self.slidingViewController.panGesture];*/
-                
+                [MoodleNC.view addGestureRecognizer:self.slidingViewController.panGesture];
 				newTopViewController=MoodleNC;
 			}
 			break;
@@ -163,7 +163,7 @@
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
 				[NC.view addGestureRecognizer:self.slidingViewController.panGesture];*/
-                
+                [SelectorNC.view addGestureRecognizer:self.slidingViewController.panGesture];
 				newTopViewController=SelectorNC;
 			}
 			break;
@@ -175,7 +175,11 @@
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
 				[NC.view addGestureRecognizer:self.slidingViewController.panGesture];*/
+                /*while (ContactoNC.view.gestureRecognizers.count) {
+                    [ContactoNC.view removeGestureRecognizer:[ContactoNC.view.gestureRecognizers objectAtIndex:0]];
+                }*/
                 
+                [ContactoNC.view addGestureRecognizer:self.slidingViewController.panGesture];
 				newTopViewController=ContactoNC;
 			}
 			break;
