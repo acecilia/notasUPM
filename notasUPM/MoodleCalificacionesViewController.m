@@ -500,11 +500,6 @@
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-	[super didReceiveMemoryWarning];
-}
-
 // ModelUPM Delegate
 - (void)modelUPMacaboDeCargarDatosMoodleConError:(NSString *)error
 {
@@ -520,6 +515,17 @@
 		[self dejarDeAnimarLoading];
 	}
 	[modelo removeDelegate:self];
+}
+
+
+- (void)didReceiveMemoryWarning
+{
+	[super didReceiveMemoryWarning];
+}
+
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
 }
 
 @end
