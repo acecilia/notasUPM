@@ -50,10 +50,20 @@
     
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
     
+	if([modelo.webViewPolitecnicaVirtual isLoading])
+	{
+		[self animarLoading];
+	}
+}
+
+-(void) loadView
+{
+    [super loadView];
+    
     [self setNavTitleView];
     
     self.navigationController.view.backgroundColor=[UIColor whiteColor];
-
+    
     UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 0)];
 	colorAzul.backgroundColor=COLOR_PRINCIPAL;
     colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -65,12 +75,6 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.tableView.backgroundColor=[UIColor whiteColor];
-    
-    
-	if([modelo.webViewPolitecnicaVirtual isLoading])
-	{
-		[self animarLoading];
-	}
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -355,7 +359,10 @@
 	if (error == nil)
 	{
 		arrayExpediente = [modelo getExpediente:numeroExpediente];
-		[self.tableView reloadData];
+        if ([self isViewLoaded])
+        {
+            [self.tableView reloadData];
+        }
 	}
 	else
 	{

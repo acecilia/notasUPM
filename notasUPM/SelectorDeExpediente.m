@@ -33,6 +33,13 @@
 	return self;
 }
 
+-(void) loadView
+{
+    [super loadView];
+    [self setNavTitleView];
+    self.tableView.backgroundColor=[UIColor whiteColor];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
@@ -41,9 +48,6 @@
 	if (selection) {
 		[self.tableView deselectRowAtIndexPath:selection animated:YES];
 	}
-    
-    [self setNavTitleView];
-    self.tableView.backgroundColor=[UIColor whiteColor];
     
     if([modelo.webViewPolitecnicaVirtual isLoading])
 	{
@@ -228,7 +232,10 @@
 	if (error == nil)
 	{
 		arrayExpediente = [modelo getExpediente];
-		[self.tableView reloadData];
+        if ([self isViewLoaded])
+        {
+            [self.tableView reloadData];
+        }
 	}
 	else
 	{

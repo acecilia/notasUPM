@@ -465,6 +465,7 @@
 	{
 		cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:[NSString stringWithFormat:@"Cell %li",(long)indexPath.section]];
         cell.contentView.backgroundColor=[UIColor whiteColor];
+        [cell setFrame:CGRectMake(0, 0, tableView.frame.size.width, tableView.rowHeight)];
 
 		UIView *fondoTitulo = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, tableView.rowHeight/4)];
 		fondoTitulo.backgroundColor=GRIS;
@@ -479,16 +480,15 @@
 		titulo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [titulo setAdjustsFontSizeToFitWidth:YES];
 
-		UILabel *textoDerecha = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/3, tableView.rowHeight/4, (cell.frame.size.width*2)/3-10, (tableView.rowHeight*3)/4)];
+		UILabel *textoDerecha = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/3, cell.frame.size.height/4, (cell.frame.size.width*2)/3-10, (cell.frame.size.height*3)/4)];
 		textoDerecha.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:18];
 		textoDerecha.numberOfLines = 0;
-		//textoDerecha.lineBreakMode = NSLineBreakByWordWrapping;
 		textoDerecha.backgroundColor=[UIColor clearColor];
 		[cell addSubview:textoDerecha];
 		textoDerecha.tag=2;
 		textoDerecha.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
 
-		UILabel *textoIzquierda = [[UILabel alloc] initWithFrame:CGRectMake(8, tableView.rowHeight/4, cell.frame.size.width/3 -10, (tableView.rowHeight*3)/4)];
+		UILabel *textoIzquierda = [[UILabel alloc] initWithFrame:CGRectMake(8, cell.frame.size.height/4, cell.frame.size.width/3 -10, (cell.frame.size.height*3)/4)];
 		textoIzquierda.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:22];
 		textoIzquierda.backgroundColor=[UIColor clearColor];
 		[cell addSubview:textoIzquierda];
@@ -508,9 +508,9 @@
 	infoAdicional.text=[[[TableDataNotas objectAtIndex: indexPath.section] objectAtIndex: indexPath.row] objectAtIndex:2];
     
     NSString *str = infoAdicional.text;
-
-    CGSize size = [str sizeWithFont:infoAdicional.font constrainedToSize:CGSizeMake(infoAdicional.frame.size.width, 10000) lineBreakMode:NSLineBreakByWordWrapping];
     
+    CGSize size = [str sizeWithFont:infoAdicional.font constrainedToSize:CGSizeMake(infoAdicional.frame.size.width, 10000) lineBreakMode:NSLineBreakByWordWrapping];
+
     while(size.height > infoAdicional.frame.size.height)
     {
         infoAdicional.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:infoAdicional.font.pointSize -1];

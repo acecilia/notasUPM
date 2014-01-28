@@ -45,12 +45,16 @@
 		[self.tableView deselectRowAtIndexPath:selection animated:YES];
 	}
     
-    [self setNavTitleView];
-    
     if(modelo.moodleEstaCargando != 0)
 	{
 		[self animarLoading];
 	}
+}
+
+-(void) loadView
+{
+    [super loadView];
+    [self setNavTitleView];
 }
 
 
@@ -270,7 +274,10 @@
 	if (error == nil)
 	{
 		arrayAsignaturas = [modelo getAsignaturas];
-		[self.tableView reloadData];
+        if ([self isViewLoaded])
+        {
+            [self.tableView reloadData];
+        }
 	}
 	else
 	{
