@@ -54,11 +54,6 @@
 	self.view= [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	self.view.backgroundColor=[UIColor whiteColor];
-    
-    UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
-	colorAzul.backgroundColor=COLOR_PRINCIPAL;
-    colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight |UIViewAutoresizingFlexibleBottomMargin;
-    [self.view addSubview:colorAzul];
 
 	topView= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
 	topView.backgroundColor=COLOR_PRINCIPAL;
@@ -116,11 +111,24 @@
     tabla.sectionHeaderHeight = 40;
 	[self.view addSubview:tabla];
     
+    UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, tabla.frame.size.width, 0)];
+	colorAzul.backgroundColor=COLOR_PRINCIPAL;
+    colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    colorAzul.tag = 1;
+    tabla.backgroundView = [[UIImageView alloc] init];
+    [tabla.backgroundView addSubview:colorAzul];
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
 	[tabla addGestureRecognizer:tap];
 }
 
-
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if(tabla.contentOffset.y<=0)
+    {
+        [tabla.backgroundView viewWithTag:1].frame = CGRectMake(0, 0, tabla.frame.size.width, -tabla.contentOffset.y);
+    }
+}
 
 
 - (void)viewDidLoad
