@@ -86,17 +86,23 @@
 	if(cell==nil)
 	{
 		cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:[NSString stringWithFormat:@"Cell %li",(long)indexPath.section]];
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.backgroundColor = [UIColor clearColor];
+        
+        UILabel *texto = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+		texto.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        texto.numberOfLines = 0;
+        texto.lineBreakMode = NSLineBreakByWordWrapping;
+        texto.textColor = [UIColor blackColor];
+        texto.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:16];
+        texto.textAlignment = NSTextAlignmentCenter;
+        texto.tag = 1;
+        texto.backgroundColor = [UIColor clearColor];
+		[cell addSubview:texto];
+        
 	}
-	cell.textLabel.numberOfLines = 0;
-	cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-	cell.textLabel.textColor = [UIColor blackColor];
-	cell.textLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:16];
-	cell.textLabel.textAlignment = NSTextAlignmentCenter;
-	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	cell.backgroundColor = [UIColor clearColor];
 
-	cell.textLabel.text = [NSString stringWithFormat:@"%@", [self.celdas objectAtIndex:indexPath.row]];
-
+    ((UILabel*)[cell viewWithTag:1]).text = [NSString stringWithFormat:@"%@", [self.celdas objectAtIndex:indexPath.row]];
 	cell.userInteractionEnabled = NO;
 
 	return cell;

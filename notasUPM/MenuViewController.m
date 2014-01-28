@@ -12,9 +12,9 @@
 
 @interface MenuViewController ()
 {
-    MoodleViewController* MoodleVC;
-    SelectorDeExpediente* SelectorVC;
-    ContactoViewController* ContactoVC;
+    UINavigationController *MoodleNC;
+    UINavigationController *SelectorNC;
+    UINavigationController *ContactoNC;
 }
 @end
 
@@ -40,9 +40,27 @@
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.scrollEnabled = NO;
     
-    MoodleVC = [[MoodleViewController alloc] init];
-    SelectorVC = [[SelectorDeExpediente alloc] init];
-    ContactoVC = [[ContactoViewController alloc] init];
+    MoodleViewController* MoodleVC = [[MoodleViewController alloc] init];
+    SelectorDeExpediente* SelectorVC = [[SelectorDeExpediente alloc] init];
+    ContactoViewController* ContactoVC = [[ContactoViewController alloc] init];
+    
+    MoodleNC=[[UINavigationController alloc] initWithRootViewController:MoodleVC];
+    MoodleNC.view.layer.shadowOpacity = 0.75f;
+    MoodleNC.view.layer.shadowRadius = 10.0f;
+    MoodleNC.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    [MoodleNC.view addGestureRecognizer:self.slidingViewController.panGesture];
+    
+    SelectorNC=[[UINavigationController alloc] initWithRootViewController:SelectorVC];
+    SelectorNC.view.layer.shadowOpacity = 0.75f;
+    SelectorNC.view.layer.shadowRadius = 10.0f;
+    SelectorNC.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    [SelectorNC.view addGestureRecognizer:self.slidingViewController.panGesture];
+    
+    ContactoNC=[[UINavigationController alloc] initWithRootViewController:ContactoVC];
+    ContactoNC.view.layer.shadowOpacity = 0.75f;
+    ContactoNC.view.layer.shadowRadius = 10.0f;
+    ContactoNC.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    [ContactoNC.view addGestureRecognizer:self.slidingViewController.panGesture];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -126,37 +144,39 @@
 			break;
 		case 1:
 			{
-				//UITableViewController *VC = [[MoodleViewController alloc] init];
+				/*UITableViewController *VC = [[MoodleViewController alloc] init];
 				UINavigationController *NC=[[UINavigationController alloc] initWithRootViewController:MoodleVC];
 				NC.view.layer.shadowOpacity = 0.75f;
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
                 
-                [NC.view addGestureRecognizer:self.slidingViewController.panGesture];
+                [NC.view addGestureRecognizer:self.slidingViewController.panGesture];*/
                 
-				newTopViewController=NC;
+				newTopViewController=MoodleNC;
 			}
 			break;
 		case 2:
 			{
-				//UITableViewController *VC = [[SelectorDeExpediente alloc] init];
+				/*UITableViewController *VC = [[SelectorDeExpediente alloc] init];
 				UINavigationController *NC=[[UINavigationController alloc] initWithRootViewController:SelectorVC];
 				NC.view.layer.shadowOpacity = 0.75f;
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
-				[NC.view addGestureRecognizer:self.slidingViewController.panGesture];
-				newTopViewController=NC;
+				[NC.view addGestureRecognizer:self.slidingViewController.panGesture];*/
+                
+				newTopViewController=SelectorNC;
 			}
 			break;
 		case 3:
 			{
-				//UITableViewController *VC = [[ContactoViewController alloc] init];
+				/*UITableViewController *VC = [[ContactoViewController alloc] init];
 				UINavigationController *NC=[[UINavigationController alloc] initWithRootViewController:ContactoVC];
 				NC.view.layer.shadowOpacity = 0.75f;
 				NC.view.layer.shadowRadius = 10.0f;
 				NC.view.layer.shadowColor = [UIColor blackColor].CGColor;
-				[NC.view addGestureRecognizer:self.slidingViewController.panGesture];
-				newTopViewController=NC;
+				[NC.view addGestureRecognizer:self.slidingViewController.panGesture];*/
+                
+				newTopViewController=ContactoNC;
 			}
 			break;
 		default:
