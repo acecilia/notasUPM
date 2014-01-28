@@ -54,9 +54,15 @@
     
     self.navigationController.view.backgroundColor=[UIColor whiteColor];
     
-    UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height/2)];
+    /*self.tableView.autoresizesSubviews = YES;
+    
+    self.tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 50)];
+    self.tableView.tableHeaderView.backgroundColor = COLOR_PRINCIPAL;
+    /self.tableView.tableHeaderView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight |UIViewAutoresizingFlexibleBottomMargin;*/
+    UIView* colorAzul= [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 0)];
 	colorAzul.backgroundColor=COLOR_PRINCIPAL;
     colorAzul.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight |UIViewAutoresizingFlexibleBottomMargin;
+    colorAzul.tag = 1;
     self.tableView.backgroundView = [[UIImageView alloc] init];
     [self.tableView.backgroundView addSubview:colorAzul];
     
@@ -70,6 +76,15 @@
 	{
 		[self animarLoading];
 	}
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat scroll = self.tableView.contentOffset.y;
+    if(scroll<=0)
+    {
+        [self.tableView.backgroundView viewWithTag:1].frame = CGRectMake(0, 0, self.tableView.frame.size.width, -scroll);
+    }
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -218,6 +233,8 @@
 	{
 		nota.adjustsFontSizeToFitWidth=NO;
 	}
+    
+    cell.backgroundColor = [UIColor redColor];
 
 
 	return cell;
