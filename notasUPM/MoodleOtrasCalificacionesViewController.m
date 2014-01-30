@@ -22,7 +22,7 @@
 	NSString *pass;
 
 	NSMutableArray *arrayPDF;
-	NSMutableArray *arraynombrePDF;
+	NSMutableArray *arrayDeTrabajo;
 
 	UIButton *botonReload;
 
@@ -74,6 +74,9 @@
 
 	miWebView = [[UIWebView alloc]init];
 	miWebView.delegate = self;
+    miWebView.frame = CGRectMake(0, 240, 600, 600);
+    miWebView.scalesPageToFit = YES;
+    [self.tableView addSubview:miWebView];
 
 	if(modelo.moodleEstaCargando == 0)
 	{
@@ -85,6 +88,8 @@
 	}
 
 	arrayPDF =[AlmacenamientoLocal leer:[offlineFile stringByAppendingString:@"/PDFs.plist"]];
+    
+    [self iniciarArrayDeTrabajo];
 
 	[self.tableView reloadData];
 }
@@ -148,10 +153,11 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	NSString * nombreDelElemento,*URLDelElemento,*textoTag, *tipoDoc, *tag;
 	//NSString *textoSeccion, *nombreEntregable;
 
-    if(arrayPDF == nil || [arrayPDF count]==0)
+    /*if(arrayPDF == nil || [arrayPDF count]==0)
     {
         arrayPDF=[[NSMutableArray alloc]init];
-    }
+    }*/
+    [arrayDeTrabajo removeAllObjects];
 
 	//int numTags = [[miWebView stringByEvaluatingJavaScriptFromString:@"document.getElementsByClassName('topics')[0].getElementsByTagName('*').length;"]intValue];
     int numTags = [[miWebView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('*').length;"]intValue];
@@ -188,7 +194,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 					}
 
 					//[arrayPDF addObject:[NSArray arrayWithObjects:nombreDelElemento, URLDelElemento, tipoDoc, nil]];
-                    [[self devolverArrayDeTrabajo] addObject:[NSArray arrayWithObjects:nombreDelElemento, URLDelElemento, tipoDoc,nil]];
+                    [arrayDeTrabajo addObject:[NSMutableArray arrayWithObjects:nombreDelElemento, URLDelElemento, tipoDoc,nil]];
 				}
 			}
             //si es una carpeta
@@ -213,7 +219,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
                     URLDelElemento = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('*')[%d].getAttribute('href');", i]];
                 }
                 
-                [[self devolverArrayDeTrabajo] addObject:[NSArray arrayWithObjects:nombreDelElemento, URLDelElemento, tipoDoc, [[NSMutableArray alloc]init],nil]];
+                [arrayDeTrabajo addObject:[NSMutableArray arrayWithObjects:nombreDelElemento, URLDelElemento, tipoDoc, [[NSMutableArray alloc]init],nil]];
             }
 			/*else if ([textoTag rangeOfString:@"icon"].location != NSNotFound)
 			  {
@@ -235,11 +241,12 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 }
 
 
--(NSMutableArray*) devolverArrayDeTrabajo
+-(void) iniciarArrayDeTrabajo
 {
+    arrayDeTrabajo = [[NSMutableArray alloc] init];
     if(arrayIndices==nil || [arrayIndices count]==0)
     {
-        return arrayPDF;
+        arrayDeTrabajo = arrayPDF;
     }
     else
     {
@@ -249,7 +256,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
             arrayAuxiliar = [arrayAuxiliar objectAtIndex:[[arrayIndices objectAtIndex:i] integerValue]];
         }
         
-        return [arrayAuxiliar objectAtIndex:3];
+        arrayDeTrabajo = [arrayAuxiliar objectAtIndex:3];
     }
     
 }
@@ -398,7 +405,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	if([webView.request.URL.absoluteString isEqualToString:URL])
 	{ 
 		[self buscarPDFs];
-		if([[self devolverArrayDeTrabajo] count]==0)
+		if([arrayDeTrabajo count]==0)
 		{
 			UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR" message:@"No se han encontrado PDF's" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 			[alerta show];
@@ -452,7 +459,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [self devolverArrayDeTrabajo].count;
+	return arrayDeTrabajo.count;
 }
 
 
@@ -460,7 +467,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ID"];
 
-	if (((NSArray *)[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row]).count >1)
+	if (((NSArray *)[arrayDeTrabajo objectAtIndex:indexPath.row]).count >1)
 	{
 		cell = [tableView dequeueReusableCellWithIdentifier:@"pdf"];
 	}
@@ -471,7 +478,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 
 	if (cell == nil)
 	{
-		if (((NSArray *)[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row]).count >1)
+		if (((NSArray *)[arrayDeTrabajo objectAtIndex:indexPath.row]).count >1)
 		{
 			cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"pdf"];
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -512,12 +519,12 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 		}
 	}
 
-	if (((NSArray *)[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row]).count >1)
+	if (((NSArray *)[arrayDeTrabajo objectAtIndex:indexPath.row]).count >1)
 	{
         //Si es un PDF
-        if([[[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row]objectAtIndex:2] isEqualToString:@".pdf"])
+        if([[[arrayDeTrabajo objectAtIndex:indexPath.row]objectAtIndex:2] isEqualToString:@".pdf"])
         {
-            NSString* file=[[[offlineFile stringByAppendingString:@"/ArchivosPDF/"]stringByAppendingString:[[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:0]]stringByAppendingString:[[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:2]];
+            NSString* file=[[[offlineFile stringByAppendingString:@"/ArchivosPDF/"]stringByAppendingString:[[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:0]]stringByAppendingString:[[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:2]];
             
             ((UIImageView *)[cell viewWithTag:1]).frame=CGRectMake(10, (cell.frame.size.height/2)-15, 30, 30);
             
@@ -533,7 +540,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 
         }
         //Si es una carpeta
-        else if([[[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row]objectAtIndex:2] isEqualToString:@"carpeta"])
+        else if([[[arrayDeTrabajo objectAtIndex:indexPath.row]objectAtIndex:2] isEqualToString:@"carpeta"])
         {
             ((UIImageView *)[cell viewWithTag:1]).frame=CGRectMake(10, (cell.frame.size.height/2)-15, 30, 30);
             
@@ -541,12 +548,12 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
         }
         
         ((UILabel *)[cell viewWithTag:2]).frame=CGRectMake(30 +10 + 10, 15, cell.frame.size.width-30- 20-10-10-10, cell.frame.size.height-30);
-        ((UILabel *)[cell viewWithTag:2]).text= [[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row]objectAtIndex:0];
+        ((UILabel *)[cell viewWithTag:2]).text= [[arrayDeTrabajo objectAtIndex:indexPath.row]objectAtIndex:0];
 	}
 	else
 	{
 		((UILabel *)[cell viewWithTag:1]).frame=CGRectMake(15, 15, cell.frame.size.width-30, cell.frame.size.height-30);
-		((UILabel *)[cell viewWithTag:1]).text= [[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row]objectAtIndex:0];
+		((UILabel *)[cell viewWithTag:1]).text= [[arrayDeTrabajo objectAtIndex:indexPath.row]objectAtIndex:0];
 		cell.userInteractionEnabled = NO;
 	}
 
@@ -558,9 +565,9 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	NSString *str = @"";
 	CGSize size = [str sizeWithFont:[UIFont fontWithName:@"QuicksandBook-Regular" size:20] constrainedToSize:CGSizeMake(280, 999) lineBreakMode:NSLineBreakByWordWrapping];
 
-	if (((NSArray *)[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row]).count >1)
+	if (((NSArray *)[arrayDeTrabajo objectAtIndex:indexPath.row]).count >1)
 	{
-		str = [[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row]objectAtIndex:0];
+		str = [[arrayDeTrabajo objectAtIndex:indexPath.row]objectAtIndex:0];
 
 		if(!UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
 		{
@@ -573,7 +580,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	}
 	else
 	{
-		str = [[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row]objectAtIndex:0];
+		str = [[arrayDeTrabajo objectAtIndex:indexPath.row]objectAtIndex:0];
 
 		if(!UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
 		{
@@ -590,12 +597,12 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([[[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:2] isEqualToString:@".pdf"])
+    if([[[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:2] isEqualToString:@".pdf"])
     {
         MoodleWebViewViewController *vc = [[MoodleWebViewViewController alloc] init];
-        vc.URL = [[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:1];
-        vc.offlineFile=[[[offlineFile stringByAppendingString:@"/ArchivosPDF/"]stringByAppendingString:[[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:0]]stringByAppendingString:[[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:2]];
-        vc.navViewTitle= [[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:0];
+        vc.URL = [[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:1];
+        vc.offlineFile=[[[offlineFile stringByAppendingString:@"/ArchivosPDF/"]stringByAppendingString:[[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:0]]stringByAppendingString:[[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:2]];
+        vc.navViewTitle= [[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:0];
         
         CATransition* transition = [CATransition animation];
         transition.duration = 0.40;
@@ -604,10 +611,10 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
         [self.navigationController.view.layer addAnimation:transition forKey:nil];
         [self.navigationController pushViewController:vc animated:NO];
     }
-    else if([[[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:2] isEqualToString:@"carpeta"])
+    else if([[[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:2] isEqualToString:@"carpeta"])
     {
         MoodleOtrasCalificacionesViewController *vc = [[MoodleOtrasCalificacionesViewController alloc] init];
-        vc.URL = [[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:1];
+        vc.URL = [[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:1];
         vc.offlineFile= offlineFile;
         
         NSMutableArray* arrayIndicesAuxiliar = [[NSMutableArray alloc] initWithArray:arrayIndices];
@@ -634,7 +641,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        NSString* file=[[[offlineFile stringByAppendingString:@"/ArchivosPDF/"]stringByAppendingString:[[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:0]]stringByAppendingString:[[[self devolverArrayDeTrabajo] objectAtIndex:indexPath.row] objectAtIndex:2]];
+        NSString* file=[[[offlineFile stringByAppendingString:@"/ArchivosPDF/"]stringByAppendingString:[[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:0]]stringByAppendingString:[[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:2]];
         
         [AlmacenamientoLocal eliminar: file];
         
