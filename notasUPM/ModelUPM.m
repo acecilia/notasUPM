@@ -116,9 +116,29 @@
 
 - (void)loginPolitecnicaVirtual
 {
-	[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('user').value='%@';", user]];
+	/*[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('user').value='%@';", user]];
 	[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('pass').value='%@';", pass]];
-	[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:@"document.getElementById('form_login_enviar').click();"];
+	[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:@"document.getElementById('form_login_enviar').click();"];*/
+    
+    int numTag = [[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input').length;"] intValue];
+    for (int i=0; i<numTag; i++)
+    {
+        if ([[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"text"])
+        {
+            [webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,user]];
+            //	[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('identificador').value='%@';", user]];
+        }
+        else if ([[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"password"])
+        {
+            [webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,pass]];
+            //	[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('clave').value='%@';", pass]];
+        }
+        else if ([[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"submit"])
+        {
+            [webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].click();", i]];
+            //[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input')[2].click();"];
+        }
+    }
 }
 
 - (NSString*)cargarFoto
@@ -400,16 +420,23 @@
 
 - (void)loginMoodle
 {
-	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('identificador').value='%@';", user]];
-	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('clave').value='%@';", pass]];
-    
     int numTag = [[webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input').length;"] intValue];
     for (int i=0; i<numTag; i++)
     {
-        if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"submit"])
+        if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"text"])
+        {
+            [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,user]];
+           //	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('identificador').value='%@';", user]];
+        }
+        else if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"password"])
+        {
+            [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,pass]];
+            //	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('clave').value='%@';", pass]];
+        }
+        else if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"submit"])
         {
             [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].click();", i]];
-           //[webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input')[2].click();"];
+            //[webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input')[2].click();"];
         }
     }
 }
@@ -589,9 +616,9 @@
 							//Primera vez que se comprueba si la politécnica virtual está colgada
 							//errorDescription = @"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias.";
                            
-                            NSMutableDictionary* details = [NSMutableDictionary dictionary];
+                            /*NSMutableDictionary* details = [NSMutableDictionary dictionary];
                             [details setValue:@"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias." forKey:NSLocalizedDescriptionKey];
-                            errorGlobal = [NSError errorWithDomain:@"Global" code:200 userInfo:details];
+                            errorGlobal = [NSError errorWithDomain:@"Global" code:200 userInfo:details];*/
 
 							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
                             [self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
