@@ -177,7 +177,11 @@
 	for (int numTabla = 0; numTabla < maxTabla ; numTabla++)
 	{
 		NSString *titulo = @"";
-		titulo = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('thead')[%d].getElementsByTagName('tr')[0].innerText;",numTabla]];
+		//titulo = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('thead')[%d].getElementsByTagName('tr')[0].innerText;",numTabla]];
+        //titulo = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('table')[%d].getElementsByTagName('caption')[0].innerText;",numTabla]];
+        titulo = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementsByTagName('table')[%d].caption.innerText;",numTabla]];
+        
+        
 
 		if (titulo.length != 0)
 		{

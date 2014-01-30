@@ -16,7 +16,7 @@
 #define MOVER 152
 #define MOVER_LABELS 12
 
-#define modoDebug YES  ////////////////////MODO DEGUB///////////////////////////////
+#define modoDebug NO  ////////////////////MODO DEGUB///////////////////////////////
 
 
 @interface ViewController ()

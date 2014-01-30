@@ -74,9 +74,10 @@
 
 	miWebView = [[UIWebView alloc]init];
 	miWebView.delegate = self;
-    miWebView.frame = CGRectMake(0, 240, 600, 600);
+    
+    /*miWebView.frame = CGRectMake(0, 240, 600, 600);
     miWebView.scalesPageToFit = YES;
-    [self.tableView addSubview:miWebView];
+    [self.tableView addSubview:miWebView];*/
 
 	if(modelo.moodleEstaCargando == 0)
 	{
@@ -88,6 +89,11 @@
 	}
 
 	arrayPDF =[AlmacenamientoLocal leer:[offlineFile stringByAppendingString:@"/PDFs.plist"]];
+    
+    if(arrayPDF == nil)
+    {
+        arrayPDF = [[NSMutableArray alloc]init];
+    }
     
     [self iniciarArrayDeTrabajo];
 
@@ -160,15 +166,15 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
     [arrayDeTrabajo removeAllObjects];
 
 	//int numTags = [[miWebView stringByEvaluatingJavaScriptFromString:@"document.getElementsByClassName('topics')[0].getElementsByTagName('*').length;"]intValue];
-    int numTags = [[miWebView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('*').length;"]intValue];
+    int numTags = [[miWebView stringByEvaluatingJavaScriptFromString:@"document.getElementById('region-main').getElementsByTagName('*').length;"]intValue];
 
 	for (int i = 0; i < numTags; i++)
 	{
-		tag =  [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('*')[%d].tagName;", i]];
+		tag =  [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('region-main').getElementsByTagName('*')[%d].tagName;", i]];
 
 		if ([tag isEqualToString:@"A"])
 		{
-			textoTag = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('*')[%d].getElementsByTagName('img')[0].src;", i]];
+			textoTag = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('region-main').getElementsByTagName('*')[%d].getElementsByTagName('img')[0].src;", i]];
 
 			if ([textoTag rangeOfString:@"pdf"].location != NSNotFound || [textoTag rangeOfString:@"document"].location != NSNotFound)
 			{//aqui hay que ir especificando los diferentes tipos de documentos y la forma de previsualizarlos
@@ -176,12 +182,12 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 				{
 					tipoDoc=@".pdf";
 
-					nombreDelElemento= [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('*')[%d].innerText;", i]];
+					nombreDelElemento= [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('region-main').getElementsByTagName('*')[%d].innerText;", i]];
 					nombreDelElemento =  [nombreDelElemento stringByReplacingOccurrencesOfString:@"Archivo" withString:@""];
 					nombreDelElemento =  [nombreDelElemento stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
 					nombreDelElemento=[nombreDelElemento stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-					URLDelElemento = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('*')[%d].getAttribute('onclick');", i]];
+					URLDelElemento = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('region-main').getElementsByTagName('*')[%d].getAttribute('onclick');", i]];
 					NSArray *obteniendoURL = [URLDelElemento componentsSeparatedByString:@"\'"];
 
 					if([obteniendoURL count]>=2)
@@ -190,10 +196,9 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 					}
 					else
 					{
-						URLDelElemento = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('*')[%d].getAttribute('href');", i]];
+						URLDelElemento = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('region-main').getElementsByTagName('*')[%d].getAttribute('href');", i]];
 					}
 
-					//[arrayPDF addObject:[NSArray arrayWithObjects:nombreDelElemento, URLDelElemento, tipoDoc, nil]];
                     [arrayDeTrabajo addObject:[NSMutableArray arrayWithObjects:nombreDelElemento, URLDelElemento, tipoDoc,nil]];
 				}
 			}
@@ -202,12 +207,12 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
             {
                 tipoDoc=@"carpeta";
                 
-                nombreDelElemento= [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('*')[%d].innerText;", i]];
+                nombreDelElemento= [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('region-main').getElementsByTagName('*')[%d].innerText;", i]];
                 nombreDelElemento =  [nombreDelElemento stringByReplacingOccurrencesOfString:@"Carpeta" withString:@""];
                 nombreDelElemento =  [nombreDelElemento stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
                 nombreDelElemento=[nombreDelElemento stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                 
-                URLDelElemento = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('*')[%d].getAttribute('onclick');", i]];
+                URLDelElemento = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('region-main').getElementsByTagName('*')[%d].getAttribute('onclick');", i]];
                 NSArray *obteniendoURL = [URLDelElemento componentsSeparatedByString:@"\'"];
                 
                 if([obteniendoURL count]>=2)
@@ -216,10 +221,10 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
                 }
                 else
                 {
-                    URLDelElemento = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('*')[%d].getAttribute('href');", i]];
+                    URLDelElemento = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('region-main').getElementsByTagName('*')[%d].getAttribute('href');", i]];
                 }
                 
-                [arrayDeTrabajo addObject:[NSMutableArray arrayWithObjects:nombreDelElemento, URLDelElemento, tipoDoc, [[NSMutableArray alloc]init],nil]];
+                [arrayDeTrabajo addObject:[NSMutableArray arrayWithObjects:nombreDelElemento, URLDelElemento, tipoDoc,nil]];
             }
 			/*else if ([textoTag rangeOfString:@"icon"].location != NSNotFound)
 			  {
@@ -236,6 +241,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 		  [arrayPDF addObject:[NSArray arrayWithObjects:textoSeccion, nil]];
 		  }*/
 	}
+    [self anadirArrayDeTrabajo];
 	[AlmacenamientoLocal escribir: arrayPDF:[offlineFile stringByAppendingString:@"/PDFs.plist"]];
 
 }
@@ -246,7 +252,33 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
     arrayDeTrabajo = [[NSMutableArray alloc] init];
     if(arrayIndices==nil || [arrayIndices count]==0)
     {
-        arrayDeTrabajo = arrayPDF;
+        arrayDeTrabajo = [[NSMutableArray alloc] initWithArray:arrayPDF];
+    }
+    else
+    {
+        NSMutableArray* arrayAuxiliar = [[NSMutableArray alloc] initWithArray:arrayPDF];
+        for (int i=0; i<[arrayIndices count]; i++)
+        {
+            arrayAuxiliar = [arrayAuxiliar objectAtIndex:[[arrayIndices objectAtIndex:i] integerValue]];
+        }
+        
+        if([arrayAuxiliar count] < 4)
+        {
+            arrayDeTrabajo = [[NSMutableArray alloc]init];
+        }
+        else
+        {
+            arrayDeTrabajo = [[NSMutableArray alloc] initWithArray:[arrayAuxiliar objectAtIndex:3]];
+        }
+        
+    }
+}
+
+-(void) anadirArrayDeTrabajo
+{
+    if(arrayIndices==nil || [arrayIndices count] == 0)
+    {
+        arrayPDF = [[NSMutableArray alloc] initWithArray:arrayDeTrabajo];
     }
     else
     {
@@ -255,8 +287,12 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
         {
             arrayAuxiliar = [arrayAuxiliar objectAtIndex:[[arrayIndices objectAtIndex:i] integerValue]];
         }
-        
-        arrayDeTrabajo = [arrayAuxiliar objectAtIndex:3];
+        if([arrayAuxiliar count] >=4)
+        {
+            [arrayAuxiliar removeObjectAtIndex:3];
+        }
+        [arrayAuxiliar insertObject:[[NSMutableArray alloc] initWithArray:arrayDeTrabajo] atIndex:3];
+        //[[arrayPDF objectAtIndex:[[arrayIndices objectAtIndex:0] integerValue]]insertObject:[[NSMutableArray alloc] initWithArray:arrayDeTrabajo] atIndex:3];
     }
     
 }
@@ -374,7 +410,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	descargador = [[Descargador alloc]init];
 	descargador.delegate = self;
 
-	alertaDescargarTodo = [[UIAlertView alloc]initWithTitle:@"Descargando PDFs" message:[[NSString stringWithFormat:@"%d/", 0] stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)[arrayPDF count]]] delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles: nil];
+	alertaDescargarTodo = [[UIAlertView alloc]initWithTitle:@"Descargando PDFs" message:[[NSString stringWithFormat:@"%d/", 0] stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)[arrayDeTrabajo count]]] delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles: nil];
 
 	alertaDescargarTodo.tag = 13;
 
@@ -387,7 +423,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 	[indicator startAnimating];
 	[alertaDescargarTodo addSubview:indicator];*/
 
-	[descargador descargarTodo:arrayPDF:offlineFile];
+	[descargador descargarTodo:arrayDeTrabajo:offlineFile];
 }
 
 
@@ -665,7 +701,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 {
 	if(error==nil)
 	{
-		alertaDescargarTodo.message=[[NSString stringWithFormat:@"%d/", numero+1] stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)[arrayPDF count]]];
+		alertaDescargarTodo.message=[[NSString stringWithFormat:@"%d/", numero+1] stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)[arrayDeTrabajo count]]];
 	}
 	else
 	{
