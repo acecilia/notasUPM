@@ -616,9 +616,14 @@
                             /*NSMutableDictionary* details = [NSMutableDictionary dictionary];
                             [details setValue:@"Se ha producido un error, seguramente debido a una actualización de Politécnica Virtual. Acceda a través del navegador o inténtelo de nuevo más tarde. Disculpe las molestias." forKey:NSLocalizedDescriptionKey];
                             errorGlobal = [NSError errorWithDomain:@"Global" code:200 userInfo:details];*/
+                            TableDataNotas=[[NSMutableArray alloc]init];
+							CabeceraSeccion=[[NSMutableArray alloc]init];
+                            
+                            [AlmacenamientoLocal escribir: CabeceraSeccion:@"CabeceraSeccion.plist"];
+							[AlmacenamientoLocal escribir: TableDataNotas:@"TableDataNotas.plist"];
 
 							[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
-                            [self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
+                            //[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
                             
                             //errorDescription=nil;
                             errorGlobal = nil;
