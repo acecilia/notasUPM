@@ -137,6 +137,7 @@
 				MoodleOtrasCalificacionesViewController *vc = [[MoodleOtrasCalificacionesViewController alloc] init];
 				vc.URL = [asignatura objectAtIndex:1];
 				vc.offlineFile= [asignatura objectAtIndex:0];
+                vc.arrayIndices = [[NSMutableArray alloc]init];
 				[self.navigationController pushViewController:vc animated:YES];
 			}
 			break;
