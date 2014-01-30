@@ -4,6 +4,7 @@
 
 @interface MoodleOtrasCalificacionesViewController : UITableViewController <DescargadorDelegate, ModelUPMDelegate, UIWebViewDelegate, UIAlertViewDelegate>
 
+@property(strong, nonatomic) NSMutableArray *arrayIndices;
 @property(strong, nonatomic) NSString *URL;
 @property(strong, nonatomic) NSString *offlineFile;
 @end

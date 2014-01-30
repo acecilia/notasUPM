@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4134D5B6189893D300FCCC1B /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 4134D5B5189893D300FCCC1B /* folder.png */; };
 		413C0CC61870877B00429A23 /* MoodleCalificacionesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C0CC51870877B00429A23 /* MoodleCalificacionesViewController.m */; };
 		413D8118186CF71A00416913 /* adelante.png in Resources */ = {isa = PBXBuildFile; fileRef = 413D80F4186CF71A00416913 /* adelante.png */; };
 		413D8119186CF71A00416913 /* atras.png in Resources */ = {isa = PBXBuildFile; fileRef = 413D80F5186CF71A00416913 /* atras.png */; };
@@ -76,6 +77,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4134D5B5189893D300FCCC1B /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
 		413C0CC51870877B00429A23 /* MoodleCalificacionesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoodleCalificacionesViewController.m; sourceTree = "<group>"; };
 		413D80F4186CF71A00416913 /* adelante.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = adelante.png; sourceTree = "<group>"; };
 		413D80F5186CF71A00416913 /* atras.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atras.png; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 		413D80F3186CF71A00416913 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4134D5B5189893D300FCCC1B /* folder.png */,
 				45E206481877869D006F0782 /* reload.png */,
 				413D80F4186CF71A00416913 /* adelante.png */,
 				413D80F5186CF71A00416913 /* atras.png */,
@@ -417,6 +420,7 @@
 				4533D3EB186EEC83003E56CC /* expediente.png in Resources */,
 				413D8130186CF71A00416913 /* loadingWVAnimated.png in Resources */,
 				45313F6D186232F9007EB2C9 /* InfoPlist.strings in Resources */,
+				4134D5B6189893D300FCCC1B /* folder.png in Resources */,
 				413D812D186CF71A00416913 /* loading2.png in Resources */,
 				413D8137186CF71A00416913 /* Quicksand_Light.otf in Resources */,
 				413D8134186CF71A00416913 /* navbar@2x.png in Resources */,

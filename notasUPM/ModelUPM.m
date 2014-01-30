@@ -402,7 +402,16 @@
 {
 	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('identificador').value='%@';", user]];
 	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('clave').value='%@';", pass]];
-	[webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input')[2].click();"];
+    
+    int numTag = [[webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input').length;"] intValue];
+    for (int i=0; i<numTag; i++)
+    {
+        if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"submit"])
+        {
+            [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].click();", i]];
+           //[webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input')[2].click();"];
+        }
+    }
 }
 
 - (void)inicializarMoodleConNuevaCuenta
