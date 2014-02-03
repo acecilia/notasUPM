@@ -652,7 +652,7 @@
         else if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('accion').value;"] isEqualToString:@"3_7_355"])
         {
             //Si está en la página de los expedientes
-            if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName(\"label\")[1].getElementsByTagName(\"strong\")[1].textContent;"]isEqualToString:@"Completo por curso"])
+            if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('form_ver').type;"]isEqualToString:@"submit"])
             {
                 if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('ultima').checked;"]isEqualToString:@"false"])
                 {
