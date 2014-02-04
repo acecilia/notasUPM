@@ -580,21 +580,22 @@
 	if (webView == webViewPolitecnicaVirtual)
 	{
         //LOGEO
-        if ([webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('form_login_enviar').value;"].length != 0)
+        if([webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('login_error').innerText;"].length != 0)
         {
-            [self loginPolitecnicaVirtual];
-        }
-        //ERROR DE AUTENTIFICACION
-        else if([webView.request.URL.absoluteString isEqualToString:@"https://www.upm.es/politecnica_virtual/login.upm"])
-		{
             NSMutableDictionary* details = [NSMutableDictionary dictionary];
-            [details setValue:@"El nombre de usuario y/o la contraseña son incorrectos" forKey:NSLocalizedDescriptionKey];
+            [details setValue:[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('login_error').innerText;"] forKey:NSLocalizedDescriptionKey];
             errorGlobal = [NSError errorWithDomain:@"Global" code:200 userInfo:details];
             
 			[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
             
 			errorGlobal = nil;
 			[webView stopLoading];
+        }
+        //ERROR DE AUTENTIFICACION
+        else if ([webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('form_login_enviar').value;"].length != 0)
+		{
+            [self loginPolitecnicaVirtual];
+            
 		}
         //ESTA EN LA PAGINA DEL TABLON DE NOTAS
         else if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('accion').value;"] isEqualToString:@"16_13_1693"])
