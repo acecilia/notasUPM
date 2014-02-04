@@ -663,9 +663,9 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([miWebView isLoading])
+    if ([[[arrayDeTrabajo objectAtIndex:indexPath.row] objectAtIndex:2] isEqualToString:@"carpeta"])
     {
-        return YES;
+        return NO;
     }
     else
     {
