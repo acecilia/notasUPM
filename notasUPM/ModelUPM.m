@@ -586,9 +586,9 @@
             [details setValue:[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('login_error').innerText;"] forKey:NSLocalizedDescriptionKey];
             errorGlobal = [NSError errorWithDomain:@"Global" code:200 userInfo:details];
             
-			[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
+			[self avisarDelegatesDePV];
             
-			errorGlobal = nil;
+            errorGlobal = nil;
 			[webView stopLoading];
         }
         //ERROR DE AUTENTIFICACION
@@ -743,20 +743,7 @@
 
 	if (webView == webViewPolitecnicaVirtual)
 	{
-        NSMutableArray* delegateArray = [delegates copy];
-        
-		[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
-        
-        //las alertas de error de webViewPolitecnicaVirtual solo se sacan por viewController si viewController y expedienteViewController están aladidas al delegate para que no salgan repetidas en la vista del expediente ya que siempre van a producirse los mismos errores al ser el mismo webView
-        for (id delegate in delegateArray)
-        {
-            if ([delegate isKindOfClass:[ViewController class]])
-            {
-                errorGlobal = nil;
-            }
-        }
-        
-		[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
+        [self avisarDelegatesDePV];
 	}
 	else if (webView == webViewMoodle)
 	{
@@ -764,6 +751,24 @@
 		[self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosMoodleConError:)];
 	}
 	errorGlobal=nil;
+}
+
+-(void) avisarDelegatesDePV
+{
+    NSMutableArray* delegateArray = [delegates copy];
+    
+    [self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosTablonDeNotasConError:)];
+    
+    //las alertas de error de webViewPolitecnicaVirtual solo se sacan por viewController si viewController y expedienteViewController están aladidas al delegate para que no salgan repetidas en la vista del expediente ya que siempre van a producirse los mismos errores al ser el mismo webView
+    for (id delegate in delegateArray)
+    {
+        if ([delegate isKindOfClass:[ViewController class]])
+        {
+            errorGlobal = nil;
+        }
+    }
+    
+    [self despertarDelegatesParaEvento:@selector(modelUPMacaboDeCargarDatosExpedienteConError:)];
 }
 
 

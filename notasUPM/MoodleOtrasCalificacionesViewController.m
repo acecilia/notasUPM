@@ -23,6 +23,7 @@
 
 	NSMutableArray *arrayPDF;
 	NSMutableArray *arrayDeTrabajo;
+    NSMutableArray *arrayDeCarpetas;
 
 	UIButton *botonReload;
 
@@ -152,6 +153,40 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 
 }*/
 
+-(void) eliminarContenidoSinCarpetas
+{
+    arrayDeCarpetas = [[NSMutableArray alloc]init];
+    
+    for(NSMutableArray* carpeta in arrayDeTrabajo)
+    {
+        if ([[carpeta objectAtIndex:2]isEqualToString:@"carpeta"])
+        {
+            [arrayDeCarpetas addObject:carpeta];
+        }
+    }
+    
+    [arrayDeTrabajo removeAllObjects];
+}
+
+-(void) anadirContenidoDeCarpetas
+{
+    for(int i=0; i<[arrayDeTrabajo count]; i++)
+    {
+        if ([[[arrayDeTrabajo objectAtIndex:i] objectAtIndex:2]isEqualToString:@"carpeta"])
+        {
+            for(int e=0; e<[arrayDeCarpetas count]; e++)
+            {
+                if ([[[arrayDeCarpetas objectAtIndex:e]objectAtIndex:0]isEqualToString:[[arrayDeTrabajo objectAtIndex:i] objectAtIndex:0]])
+                {
+                    [arrayDeTrabajo removeObjectAtIndex:i];
+                    [arrayDeTrabajo insertObject:[arrayDeCarpetas objectAtIndex:e] atIndex:i];
+                    [arrayDeCarpetas removeObjectAtIndex:e];
+                }
+            }
+        }
+    }
+}
+
 
 
 - (void)buscarPDFs
@@ -163,7 +198,9 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
     {
         arrayPDF=[[NSMutableArray alloc]init];
     }*/
-    [arrayDeTrabajo removeAllObjects];
+    
+    [self eliminarContenidoSinCarpetas];
+    //[arrayDeTrabajo removeAllObjects];
 
 	//int numTags = [[miWebView stringByEvaluatingJavaScriptFromString:@"document.getElementsByClassName('topics')[0].getElementsByTagName('*').length;"]intValue];
     int numTags = [[miWebView stringByEvaluatingJavaScriptFromString:@"document.getElementById('region-main').getElementsByTagName('*').length;"]intValue];
@@ -241,6 +278,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 		  [arrayPDF addObject:[NSArray arrayWithObjects:textoSeccion, nil]];
 		  }*/
 	}
+    [self anadirContenidoDeCarpetas];
     [self anadirArrayDeTrabajo];
 	[AlmacenamientoLocal escribir: arrayPDF:[offlineFile stringByAppendingString:@"/PDFs.plist"]];
 
