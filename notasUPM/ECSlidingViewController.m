@@ -125,14 +125,30 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     id endPointTmp = [gesto valueForKey:@"_lastScreenLocation"];
     CGPoint startPoint = [startPointTmp CGPointValue];
     CGPoint endPoint = [endPointTmp CGPointValue];
-    if(startPoint.x > endPoint.x)
+    
+    if(!UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
     {
-        return NO;
+        if(startPoint.x > endPoint.x)
+        {
+            return NO;
+        }
+        else
+        {
+            return YES;
+        }
     }
     else
     {
-       return YES;
+        if(startPoint.y > endPoint.y)
+        {
+            return NO;
+        }
+        else
+        {
+            return YES;
+        }
     }
+    
 }
 
 - (void)setTopViewController:(UIViewController *)theTopViewController
