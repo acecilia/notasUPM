@@ -3,6 +3,7 @@
 #import "MoodleViewController.h"
 #import "ExpedienteViewController.h"
 #import "ViewController.h"
+#import "AppDelegate.h"
 
 #define URL_POLITECNICA_VIRTUAL @"https://www.upm.es/politecnica_virtual/?c=1693DLFOA"
 #define URL_MOODLE_LOGIN @"https://moodle.upm.es/titulaciones/oficiales/login/login.php"
@@ -424,13 +425,21 @@
 
 - (void)loginMoodle
 {
-	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('identificador').value='%@';", user]];
-	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('clave').value='%@';", pass]];
+	/*[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('identificador').value='%@';", user]];
+	[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('clave').value='%@';", pass]];*/
     
     int numTag = [[webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input').length;"] intValue];
     for (int i=0; i<numTag; i++)
     {
-        if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"submit"])
+        if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"text"])
+        {
+            [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,user]];
+        }
+        else if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"password"])
+        {
+            [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,pass]];
+        }
+        else if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"submit"])
         {
             [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].click();", i]];
             //[webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input')[2].click();"];
@@ -441,6 +450,10 @@
 - (void)inicializarMoodleConNuevaCuenta
 {
     moodleEstaCargando = YES;
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    [self addDelegate:appDelegate.MoodleNC.topViewController];
+    
     asignaturas = [[NSMutableArray alloc]init];
     
 	webViewMoodle = [[UIWebView alloc]init];
@@ -579,7 +592,7 @@
 
 	if (webView == webViewPolitecnicaVirtual)
 	{
-        //LOGEO
+        //ERROR DE AUTENTIFICACION
         if([webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('login_error').innerText;"].length != 0)
         {
             NSMutableDictionary* details = [NSMutableDictionary dictionary];
@@ -591,7 +604,7 @@
             errorGlobal = nil;
 			[webView stopLoading];
         }
-        //ERROR DE AUTENTIFICACION
+        //LOGEO
         else if ([webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('form_login_enviar').value;"].length != 0)
 		{
             [self loginPolitecnicaVirtual];
@@ -711,7 +724,7 @@
 	}
 	else if (webView == webViewMoodle)
 	{
-		if([webView.request.URL.absoluteString isEqualToString:URL_MOODLE_LOGIN])
+		if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input').length;"] intValue]>=3)
 		{ 
 			[self loginMoodle];
 		}

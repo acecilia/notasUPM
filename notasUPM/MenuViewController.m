@@ -5,6 +5,7 @@
 #import "SelectorDeExpediente.h"
 #import "MoodleAsignaturaViewController.h"
 #import "ViewController.h"
+#import "AppDelegate.h"
 
 #define COLOR_PRINCIPAL [UIColor colorWithRed:85/255.0 green:172/255.0 blue:239/255.0 alpha:1.0] //AZUL NUEVO
 
@@ -60,6 +61,12 @@
     ContactoNC.view.layer.shadowOpacity = 0.75f;
     ContactoNC.view.layer.shadowRadius = 10.0f;
     ContactoNC.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+    appDelegate.MoodleNC = MoodleNC;
+    appDelegate.SelectorNC = SelectorNC;
+    appDelegate.ContactoNC = ContactoNC;
+    
     
 }
 

@@ -47,6 +47,9 @@
     
     if(modelo.moodleEstaCargando != 0)
 	{
+        AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+        modelo = appDelegate.modelo;
+        [modelo addDelegate:self];
 		[self animarLoading];
 	}
 }

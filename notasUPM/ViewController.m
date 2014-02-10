@@ -48,6 +48,16 @@
 
 @implementation ViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+    
+    if(modelo.moodleEstaCargando != 0)
+	{
+        [modelo addDelegate:self];
+		[self animarLoading];
+	}
+}
 
 - (void)loadView
 {    
