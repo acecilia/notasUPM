@@ -77,8 +77,7 @@
 //pone las webviews en modo escritorio
 + (void)initialize {
 	// Set user agent (the only problem is that we can't modify the User-Agent later in the program)
-	//NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:@"Mozilla/5.0", @"UserAgent", nil];
-    NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.73.11 (KHTML, like Gecko) Version/7.0.1 Safari/537.73.11", @"UserAgent", nil];
+	NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9) AppleWebKit/537.71 (KHTML, like Gecko) Version/7.0 Safari/537.71", @"UserAgent", nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];
 
 }
