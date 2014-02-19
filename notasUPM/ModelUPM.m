@@ -593,7 +593,7 @@
     if ([webView.request.URL.absoluteString rangeOfString:@"error"].location != NSNotFound)
     {
         NSMutableDictionary *details = [NSMutableDictionary dictionary];
-        [details setValue:@"Los servidores no se encuantran disponibles en estos momentos. Por favor, inténtelo de nuevo en unos minutos." forKey:NSLocalizedDescriptionKey];
+        [details setValue:@"Los servidores no se encuentran disponibles en estos momentos. Por favor, inténtelo de nuevo en unos minutos." forKey:NSLocalizedDescriptionKey];
         errorGlobal = [NSError errorWithDomain:@"Global" code:404 userInfo: details];
         
         [self avisarDelegatesDePV];
