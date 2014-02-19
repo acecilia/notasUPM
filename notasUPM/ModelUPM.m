@@ -77,7 +77,8 @@
 //pone las webviews en modo escritorio
 + (void)initialize {
 	// Set user agent (the only problem is that we can't modify the User-Agent later in the program)
-	NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:@"Mozilla/5.0", @"UserAgent", nil];
+	//NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:@"Mozilla/5.0", @"UserAgent", nil];
+    NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.73.11 (KHTML, like Gecko) Version/7.0.1 Safari/537.73.11", @"UserAgent", nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];
 
 }
@@ -416,7 +417,7 @@
 
 	[webViewMoodle loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL_MOODLE]]];
 
-	webViewMoodle.frame = CGRectMake(160, 240, 160, 240);
+	webViewMoodle.frame = CGRectMake(160, 240, 500, 700);
 	webViewMoodle.scalesPageToFit=YES;
 	webViewMoodle.delegate = self;
 
