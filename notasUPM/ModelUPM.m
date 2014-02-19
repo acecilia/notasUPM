@@ -77,7 +77,7 @@
 //pone las webviews en modo escritorio
 + (void)initialize {
 	// Set user agent (the only problem is that we can't modify the User-Agent later in the program)
-	NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:@"Mozilla/5.0", @"UserAgent", nil];
+	NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9) AppleWebKit/537.71 (KHTML, like Gecko) Version/7.0 Safari/537.71", @"UserAgent", nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];
 
 }
@@ -590,6 +590,18 @@
 {
 	NSLog(@"%@",webView.request.URL.absoluteString);
 
+    if ([webView.request.URL.absoluteString rangeOfString:@"error"].location != NSNotFound)
+    {
+        NSMutableDictionary *details = [NSMutableDictionary dictionary];
+        [details setValue:@"Los servidores no se encuantran disponibles en estos momentos. Por favor, inténtelo de nuevo en unos minutos." forKey:NSLocalizedDescriptionKey];
+        errorGlobal = [NSError errorWithDomain:@"Global" code:404 userInfo: details];
+        
+        [self avisarDelegatesDePV];
+        
+        errorGlobal = nil;
+        [webView stopLoading];
+    }
+    
 	if (webView == webViewPolitecnicaVirtual)
 	{
         //ERROR DE AUTENTIFICACION
