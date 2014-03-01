@@ -75,11 +75,53 @@
 
 
 //pone las webviews en modo escritorio
-+ (void)initialize {
++ (void)initialize
+{
 	// Set user agent (the only problem is that we can't modify the User-Agent later in the program)
-	NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9) AppleWebKit/537.71 (KHTML, like Gecko) Version/7.0 Safari/537.71", @"UserAgent", nil];
+	NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:[self generarUserAgentAleatorio], @"UserAgent", nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];
+}
 
++ (NSString *)generarUserAgentAleatorio
+{
+    NSString *moz = [NSString stringWithFormat:@"Mozilla/%.1f", [self randomFloatWithMinimum:0 maximum:6]];
+    
+    // MAC
+    NSString *macSafariChrome = [NSString stringWithFormat:@"(Macintosh; Intel Mac OS X 10.%d) AppleWebKit/%.1f (KHTML, like Gecko) Chrome/%d.0.%d.%d Safari/%.2f", [self randomIntWithMinimum:0 maximum:9], [self randomFloatWithMinimum:500 maximum:537], [self randomIntWithMinimum:30 maximum:33], [self randomIntWithMinimum:1600 maximum:1750], [self randomIntWithMinimum:0 maximum:120], [self randomFloatWithMinimum:500 maximum:537]];
+    
+    NSString *macFirefox = [NSString stringWithFormat:@"(Macintosh; Intel Mac OS X 10.%d; rv:%.1f) Gecko/20100101 Firefox/%.1f", [self randomIntWithMinimum:0 maximum:9], [self randomFloatWithMinimum:20 maximum:27], [self randomFloatWithMinimum:20 maximum:27]];
+    
+    NSArray *machineMac = [[NSArray alloc]initWithObjects:macSafariChrome, macFirefox, nil];
+    
+    // WINDOWS
+    NSString *windowsIE = [NSString stringWithFormat:@"(compatible; MSIE %.1f; Windows NT %.1f; Trident/%.1f)", [self randomFloatWithMinimum:9 maximum:1], [self randomFloatWithMinimum:1 maximum:6], [self randomFloatWithMinimum:1 maximum:5]];
+    NSString *windowsChromeSafari = [NSString stringWithFormat:@"(Windows NT %.1f) AppleWebKit/%.1f (KHTML, like Gecko) Chrome/%d.0.%d.%d Safari/%.2f", [self randomFloatWithMinimum:1 maximum:6], [self randomFloatWithMinimum:500 maximum:537], [self randomIntWithMinimum:30 maximum:33], [self randomIntWithMinimum:1600 maximum:1750], [self randomIntWithMinimum:0 maximum:120], [self randomFloatWithMinimum:500 maximum:537]];
+    
+    NSArray *machineWindows = [[NSArray alloc]initWithObjects:windowsIE, windowsChromeSafari, nil];
+    
+    // LINUX
+    NSString *linuxFirefox = [NSString stringWithFormat:@"(X11; Ubuntu; Linux x86_64; rv:%.1f) Gecko/20100101 Firefox/%.1f", [self randomFloatWithMinimum:20 maximum:27], [self randomFloatWithMinimum:20 maximum:27]];
+    
+    NSArray *machineLinux = [[NSArray alloc]initWithObjects:linuxFirefox, nil];
+    
+    
+    NSArray *machines = [[NSArray alloc]initWithObjects:[machineMac objectAtIndex:[self randomIntWithMinimum:0 maximum:machineMac.count-1]], [machineWindows objectAtIndex:[self randomIntWithMinimum:0 maximum:machineWindows.count-1]], [machineLinux objectAtIndex:[self randomIntWithMinimum:0 maximum:machineLinux.count-1]], nil];
+
+    NSString *userAgent = [NSString stringWithFormat:@"%@ %@", moz, [machines objectAtIndex:[self randomIntWithMinimum:0 maximum:machines.count-1]]];
+    
+    NSLog(@"%@", userAgent);
+    
+    return userAgent;
+}
+
++ (float)randomFloatWithMinimum:(int)min maximum:(int)max
+{
+    return (((float)(arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * (max-min)) + min;
+}
+
++ (int)randomIntWithMinimum:(int)min maximum:(int)max
+{
+    return (arc4random() % (max-min+1)) + min;
 }
 
 
