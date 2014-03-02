@@ -89,6 +89,16 @@
 	[delegates removeObjectIdenticalTo:delegate];
 }
 
+-(void) cambiarUserAgent
+{
+    NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:[ModelUPM generarUserAgentAleatorio], @"UserAgent", nil];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];
+    
+    //Para que tenga efecto el cambio de userAgent en las uiWebViews hay que crearlas otra vez: tras este metodo habria que llamar
+    // a cargarDatosMoodle y cargarDatosPV
+    
+    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] stringForKey:@"UserAgent"]);
+}
 
 - (void)asignarUserAgentActual
 {
