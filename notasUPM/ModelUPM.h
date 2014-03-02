@@ -44,8 +44,6 @@
 - (void)addDelegate:(id)delegate;
 - (void)removeDelegate:(id)delegate;
 
-- (void)cambiarUserAgent;
-
 - (NSString *)getUsuario;
 - (NSString *)getContraseña;
 
