@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) ModelUPM *modelo;
 @property (readwrite, nonatomic) BOOL yaCargoModelo;
+
 @end
 
 

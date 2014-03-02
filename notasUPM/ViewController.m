@@ -145,22 +145,22 @@
 {
 	[super viewDidLoad];
 
-	appDelegate = [[UIApplication sharedApplication]delegate];
+    appDelegate = [[UIApplication sharedApplication]delegate];
 	modelo = appDelegate.modelo;
 	//modelo.delegate = self;
 	[modelo addDelegate:self];
-
+    
 	TableDataNotas = [[NSMutableArray alloc]init];
 	CabeceraSeccion = [[NSMutableArray alloc]init];
-
+    
 	nombreDeUsuario = @"";
 	pass = @"";
 	imageView=nil;
-
-
-
+    
+    
+    
 	[self recuperar];
-
+    
 	if (nombreDeUsuario.length == 0 || pass.length == 0)
 	{
 		[self login];
@@ -172,12 +172,9 @@
 			// Si se ejecuta la app por primera vez crea el modelo
 			[modelo inicializarConUsuario:nombreDeUsuario contraseña:pass];
             
-            if(!modoDebug)
-            {
-                [modelo cargarDatosPolitecnicaVirtual];
-                [self animarLoading];
-            }
-
+            [modelo cargarDatosPolitecnicaVirtual];
+            [self animarLoading];
+            
 			//ya se ha cargado el modelo por primera vez
 			appDelegate.yaCargoModelo = YES;
 		}
@@ -188,25 +185,26 @@
 				[self animarLoading];
 			}
 		}
-
+        
 		//carga offline
 		[self drawImage];
 		labelNombre.text = [modelo getNombre];
 		labelApellido.text = [modelo getApellidos];
 		TableDataNotas = [modelo getConvocatorias];
 		CabeceraSeccion = [modelo getSections];
-
+        
 		[tabla reloadData];
 	}
-
+    
 	[self configurarSlideView];
-
+    
 	if(modoDebug)
 	{
 		[self.view addSubview:modelo.webViewPolitecnicaVirtual];
 		[self.view addSubview:modelo.webViewMoodle];
 	}
 }
+
 
 - (void)login
 {
@@ -417,6 +415,7 @@
 
 	// [self drawImage];
 }
+
 
 - (void)revealMenu
 {
