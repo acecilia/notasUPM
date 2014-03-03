@@ -677,37 +677,23 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	NSLog(@"%@",webView.request.URL.absoluteString);
-    
-    // COMPROBAR QUE NO HAN DEVUELTO UNA PÁG. EN BLANCO
-    if ([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('head')[0].childNodes.length"] isEqualToString:@"0"] && [webView.request.URL.absoluteString rangeOfString:@"moodle"].location == NSNotFound)
-    {
-        if (![userAgentsBlackList containsObject:userAgentActual])
-        {
-            [userAgentsBlackList addObject:userAgentActual];
-            [AlmacenamientoLocal escribir:userAgentsBlackList :@"BlackList.plist"];
-        }
-        
-        [self asignarUserAgentActual];
-        [self cargarDatosPolitecnicaVirtual];
-    }
-    else
-    {
-        if ([webView.request.URL.absoluteString rangeOfString:@"error"].location != NSNotFound)
-        {
-            NSMutableDictionary *details = [NSMutableDictionary dictionary];
-            [details setValue:@"Los servidores no se encuentran disponibles en estos momentos. Por favor, inténtelo de nuevo en unos minutos." forKey:NSLocalizedDescriptionKey];
-            errorGlobal = [NSError errorWithDomain:@"Global" code:404 userInfo: details];
-            
-            [self avisarDelegatesDePV];
-            
-            errorGlobal = nil;
-            [webView stopLoading];
-        }
         
         if (webView == webViewPolitecnicaVirtual)
         {
+            // COMPROBAR QUE NO HAN DEVUELTO UNA PÁG. EN BLANCO
+            if ([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('head')[0].childNodes.length"] isEqualToString:@"0"] && [webView.request.URL.absoluteString rangeOfString:@"moodle"].location == NSNotFound)
+            {
+                if (![userAgentsBlackList containsObject:userAgentActual])
+                {
+                    [userAgentsBlackList addObject:userAgentActual];
+                    [AlmacenamientoLocal escribir:userAgentsBlackList :@"BlackList.plist"];
+                }
+                
+                [self asignarUserAgentActual];
+                [self cargarDatosPolitecnicaVirtual];
+            }
             //ERROR DE AUTENTIFICACION
-            if([webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('login_error').innerText;"].length != 0)
+            else if([webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('login_error').innerText;"].length != 0)
             {
                 NSMutableDictionary* details = [NSMutableDictionary dictionary];
                 [details setValue:[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('login_error').innerText;"] forKey:NSLocalizedDescriptionKey];
@@ -829,6 +815,16 @@
                     //[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('lista_expedientes').getElementsByTagName(\"li\")[document.getElementById('lista_expedientes').getElementsByTagName(\"li\").length-1].getElementsByTagName(\"a\")[0].click();"];
                 }            
             }
+            else if ([webView.request.URL.absoluteString rangeOfString:@"error"].location != NSNotFound)
+            {
+                NSMutableDictionary *details = [NSMutableDictionary dictionary];
+                [details setValue:@"Los servidores no se encuentran disponibles en estos momentos. Por favor, inténtelo de nuevo en unos minutos." forKey:NSLocalizedDescriptionKey];
+                errorGlobal = [NSError errorWithDomain:@"Global" code:404 userInfo: details];
+                
+                [self avisarDelegatesDePV];
+                
+                errorGlobal = nil;
+            }
             //SI NO ESTA EN LA PAGINA DEL EXPEDIENTE
             else if (indicePV==1)
             {
@@ -838,17 +834,27 @@
         }
         else if (webView == webViewMoodle)
         {
-            if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input').length;"] intValue]>=3)
+            // COMPROBAR QUE ESTA EL USER AGENT BLOQUEADO
+            if ([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('tbody')[0].getElementsByTagName('img')[0].alt"] isEqualToString:@"Alerta"])
+            {
+                if (![userAgentsBlackList containsObject:userAgentActual])
+                {
+                    [userAgentsBlackList addObject:userAgentActual];
+                    [AlmacenamientoLocal escribir:userAgentsBlackList :@"BlackList.plist"];
+                }
+                
+                [self asignarUserAgentActual];
+                [self cargarDatosMoodle];
+            }
+            else if([webView.request.URL.absoluteString isEqualToString:URL_MOODLE])
+            {
+                [self cargarAsignaturasMoodle];
+            }
+            else if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input').length;"] intValue]>=3)
             { 
                 [self loginMoodle];
             }
-
-            if([webView.request.URL.absoluteString isEqualToString:URL_MOODLE])
-            { 
-                [self cargarAsignaturasMoodle];
-            }
         }
-    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
