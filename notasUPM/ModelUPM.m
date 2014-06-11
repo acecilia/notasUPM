@@ -21,6 +21,9 @@
     
     NSString *userAgentActual;
     NSMutableArray *userAgentsBlackList;
+    
+    NSURLConnection* conexionMoodle;
+    NSMutableData* webdataMoodle;
 }
 
 @end
@@ -499,17 +502,62 @@
 - (void)cargarDatosMoodle
 {
 	moodleEstaCargando = YES;
-
-	webViewMoodle = [[UIWebView alloc]init];
     
-	[webViewMoodle loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:URL_MOODLE]]];
-
-	webViewMoodle.frame = CGRectMake(160, 240, 500, 700);
-	webViewMoodle.scalesPageToFit=YES;
-	webViewMoodle.delegate = self;
+    webViewMoodle = [[UIWebView alloc]init];
+    webViewMoodle.frame = CGRectMake(160, 240, 500, 700);
+    webViewMoodle.scalesPageToFit=YES;
+    webViewMoodle.delegate = self;
+    [webViewMoodle loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:URL_MOODLE]]];
 
 	asignaturas=[AlmacenamientoLocal leer:@"asignaturas.plist"];
 }
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if(webView == webViewMoodle)
+    {
+        BOOL retorno = false;
+    
+        if (webView.tag == 1)
+        {
+            retorno = YES;
+        }
+        else
+        {
+            conexionMoodle=[NSURLConnection connectionWithRequest:request delegate:self];
+            retorno = NO;
+        }
+        webView.tag = 0;
+        return retorno;
+    }
+    else
+    {
+        return YES;
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
+	webdataMoodle = [[NSMutableData alloc] init];
+}
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+	[webdataMoodle appendData:data];
+}
+
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSString* cadena = [[NSString alloc] initWithData:webdataMoodle encoding:NSUTF8StringEncoding];
+    cadena = [cadena stringByReplacingOccurrencesOfString:@".jpg" withString:@""];
+    cadena = [cadena stringByReplacingOccurrencesOfString:@".png" withString:@""];
+    cadena = [cadena stringByReplacingOccurrencesOfString:@".gif" withString:@""];
+    cadena = [cadena stringByReplacingOccurrencesOfString:@"href" withString:@""];
+    cadena = [cadena stringByReplacingOccurrencesOfString:@"img" withString:@""];
+    cadena = [cadena stringByReplacingOccurrencesOfString:@".ico" withString:@""];
+    cadena = [cadena stringByReplacingOccurrencesOfString:@"css" withString:@""];
+    
+    [webViewMoodle loadData:[cadena dataUsingEncoding:NSUTF8StringEncoding] MIMEType: @"text/html" textEncodingName: @"UTF-8" baseURL:connection.currentRequest.URL];
+    webViewMoodle.tag = 1;
+}
+
 
 - (void)loginMoodle
 {

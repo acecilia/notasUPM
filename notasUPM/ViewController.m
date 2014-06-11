@@ -172,8 +172,9 @@
 			// Si se ejecuta la app por primera vez crea el modelo
 			[modelo inicializarConUsuario:nombreDeUsuario contraseña:pass];
             
-            [modelo cargarDatosPolitecnicaVirtual];
-            [self animarLoading];
+            //[modelo cargarDatosPolitecnicaVirtual];
+            //[modelo cargarDatosMoodle];
+            //[self animarLoading];
             
 			//ya se ha cargado el modelo por primera vez
 			appDelegate.yaCargoModelo = YES;
