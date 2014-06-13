@@ -16,7 +16,7 @@
 
 	NSMutableArray *arrayAsignaturas;
 
-	ModelUPM *modelo;
+	MoodleNSObject *moodleNSObject;
 	UIButton* botonReload;
 }
 
@@ -30,8 +30,8 @@
 	if (self)
     {
     	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-        modelo = appDelegate.modelo;
-        [modelo addDelegate:self];
+        moodleNSObject = appDelegate.moodleNSObject;
+        [moodleNSObject addDelegate:self];
     }
 	return self;
 }
@@ -45,11 +45,11 @@
 		[self.tableView deselectRowAtIndexPath:selection animated:YES];
 	}
     
-    if(modelo.moodleEstaCargando != 0)
+    if(moodleNSObject.moodleEstaCargando != 0)
 	{
         AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-        modelo = appDelegate.modelo;
-        [modelo addDelegate:self];
+        moodleNSObject = appDelegate.moodleNSObject;
+        [moodleNSObject addDelegate:self];
 		[self animarLoading];
 	}
 }
@@ -65,9 +65,9 @@
 {
 	[super viewDidLoad];
     
-    [modelo cargarDatosMoodle];
+    [moodleNSObject cargarDatosMoodle];
 
-	arrayAsignaturas = [modelo getAsignaturas];
+	arrayAsignaturas = [moodleNSObject getAsignaturas];
 	[self.tableView reloadData];
 }
 
@@ -162,7 +162,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (modelo.moodleEstaCargando)
+    if (moodleNSObject.moodleEstaCargando)
     {
         return YES;
     }
@@ -264,8 +264,8 @@
 
 - (void)reload
 {
-	[modelo addDelegate:self];
-	[modelo cargarDatosMoodle];
+	[moodleNSObject addDelegate:self];
+	[moodleNSObject cargarDatosMoodle];
 	[self animarLoading];
 }
 
@@ -276,7 +276,7 @@
 {
 	if (error == nil)
 	{
-		arrayAsignaturas = [modelo getAsignaturas];
+		arrayAsignaturas = [moodleNSObject getAsignaturas];
         if ([self isViewLoaded])
         {
             [self.tableView reloadData];
@@ -287,7 +287,7 @@
 		UIAlertView *alerta = [[UIAlertView alloc]initWithTitle:@"ERROR DE MOODLE en página principal" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alerta show];
 	}
-	[modelo removeDelegate:self];
+	[moodleNSObject removeDelegate:self];
 	[self dejarDeAnimarLoading];
 }
 

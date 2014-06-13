@@ -4,11 +4,13 @@
 @implementation AppDelegate
 
 @synthesize modelo;
+@synthesize moodleNSObject;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	modelo = [[ModelUPM alloc]init];
+    moodleNSObject = [[MoodleNSObject alloc]init];
 
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	InitViewController *iniciar = [[InitViewController alloc] init];

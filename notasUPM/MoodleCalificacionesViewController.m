@@ -21,7 +21,7 @@
 
 	UIButton *botonReload;
 
-	ModelUPM *modelo;
+    MoodleNSObject *moodleNSObject;
 }
 
 @end
@@ -45,9 +45,9 @@
 	[super viewDidLoad];
 
 	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-	modelo = appDelegate.modelo;
-	//modelo.delegate = self;
-	[modelo addDelegate:self];
+	moodleNSObject = appDelegate.moodleNSObject;
+	//moodleNSObject.delegate = self;
+	[moodleNSObject addDelegate:self];
 
 	URL =  [URL stringByReplacingOccurrencesOfString:@"course/view.php?" withString:@"grade/report/user/index.php?"];
 
@@ -60,7 +60,7 @@
 	miWebView = [[UIWebView alloc]init];
 	miWebView.delegate = self;
 
-	if(modelo.moodleEstaCargando == 0)
+	if(moodleNSObject.moodleEstaCargando == 0)
 	{
 		[miWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL]]];
 	}
@@ -110,7 +110,7 @@
 - (void)back
 {
 	[self.navigationController popViewControllerAnimated:YES];
-	[modelo removeDelegate:self];
+	[moodleNSObject removeDelegate:self];
 }
 
 - (void)cogerCalificacionesMoodle
@@ -308,7 +308,7 @@
 
 - (void)reload
 {
-	[modelo addDelegate:self];
+	[moodleNSObject addDelegate:self];
 	[miWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL]]];
 	[self animarLoading];
 }
@@ -318,16 +318,16 @@
 {
 	if([webView.request.URL.absoluteString isEqualToString:URL_MOODLE_LOGIN])
 	{ 
-		if(modelo.moodleEstaCargando == NO)
+		if(moodleNSObject.moodleEstaCargando == NO)
 		{
-			[modelo cargarDatosMoodle];
+			[moodleNSObject cargarDatosMoodle];
 		}
 	}
 
 	if([webView.request.URL.absoluteString isEqualToString:URL])
 	{
-		//modelo.delegate = nil;
-		//[modelo removeDelegate:self];
+		//moodleNSObject.delegate = nil;
+		//[moodleNSObject removeDelegate:self];
 		[self cogerCalificacionesMoodle];
 		[self.tableView reloadData];
 		[self dejarDeAnimarLoading];
@@ -514,7 +514,7 @@
 
 		[self dejarDeAnimarLoading];
 	}
-	[modelo removeDelegate:self];
+	[moodleNSObject removeDelegate:self];
 }
 
 

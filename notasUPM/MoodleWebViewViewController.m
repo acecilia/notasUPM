@@ -13,7 +13,7 @@
 	NSData* PDFdata;
 	NSMutableData* webdata;
 
-	ModelUPM *modelo;
+	MoodleNSObject *moodleNSObject;
 }
 
 @end
@@ -27,8 +27,8 @@
 	[super viewDidLoad];
 
 	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-	modelo = appDelegate.modelo;
-	//modelo.delegate = self;
+	moodleNSObject = appDelegate.moodleNSObject;
+	//moodleNSObject.delegate = self;
 
 	self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
 	self.view.backgroundColor=[UIColor whiteColor];
@@ -48,14 +48,14 @@
 		[self.view insertSubview:PDF atIndex:0];
 	}
 
-	if(modelo.moodleEstaCargando == 0)
+	if(moodleNSObject.moodleEstaCargando == 0)
 	{
 		NSURLRequest *myRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:URL]];
 		[NSURLConnection connectionWithRequest: myRequest delegate:self];	
 	}
 	else
 	{
-		[modelo addDelegate:self];
+		[moodleNSObject addDelegate:self];
 	}
 
 	[self animarLoading]; 
@@ -119,7 +119,7 @@
 	[self.navigationController.view.layer addAnimation:transition forKey:nil];
 
 	[self.navigationController popViewControllerAnimated:NO];
-	[modelo removeDelegate:self];
+	[moodleNSObject removeDelegate:self];
 }
 
 
@@ -176,10 +176,10 @@
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse{
 	if([request.URL.absoluteString isEqualToString:URL_MOODLE_LOGIN])
 	{
-		[modelo addDelegate:self];
-		if(modelo.moodleEstaCargando == NO)
+		[moodleNSObject addDelegate:self];
+		if(moodleNSObject.moodleEstaCargando == NO)
 		{
-			[modelo cargarDatosMoodle];
+			[moodleNSObject cargarDatosMoodle];
 		}
 		[connection cancel];
 		return nil;
@@ -281,7 +281,7 @@ if (buttonIndex == 0)
 
 		[self dejarDeAnimarLoading];
 	}
-	[modelo removeDelegate:self];
+	[moodleNSObject removeDelegate:self];
 }
 
 

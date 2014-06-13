@@ -16,7 +16,7 @@
 #define MOVER 152
 #define MOVER_LABELS 12
 
-#define modoDebug NO  ////////////////////MODO DEGUB///////////////////////////////
+#define modoDebug YES  ////////////////////MODO DEGUB///////////////////////////////
 
 
 @interface ViewController ()
@@ -39,6 +39,7 @@
 	NSMutableArray *CabeceraSeccion;
 
 	ModelUPM *modelo;
+    MoodleNSObject *moodleNSObject;
 	AppDelegate *appDelegate;
 
 	UIImageView *imageView;
@@ -52,9 +53,9 @@
 {
 	[super viewWillAppear:animated];
     
-    if(modelo.moodleEstaCargando != 0)
+    if(moodleNSObject.moodleEstaCargando != 0)
 	{
-        [modelo addDelegate:self];
+        [moodleNSObject addDelegate:self];
 		[self animarLoading];
 	}
 }
@@ -202,7 +203,7 @@
 	if(modoDebug)
 	{
 		[self.view addSubview:modelo.webViewPolitecnicaVirtual];
-		[self.view addSubview:modelo.webViewMoodle];
+		[self.view addSubview:moodleNSObject.webViewMoodle];
 	}
 }
 
@@ -256,7 +257,7 @@
 			// Crear Model
 			[modelo inicializarConUsuario:nombreDeUsuario contraseña:pass];
 			[modelo cargarDatosPolitecnicaVirtual];
-			[modelo inicializarMoodleConNuevaCuenta];
+			[moodleNSObject inicializarMoodleConNuevaCuenta];
             
             [self bajarVista];
 			[self animarLoading];

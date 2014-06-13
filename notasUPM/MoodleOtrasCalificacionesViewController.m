@@ -27,7 +27,7 @@
 
 	UIButton *botonReload;
 
-	ModelUPM *modelo;
+	MoodleNSObject *moodleNSObject;
 	Descargador* descargador;
 	UIAlertView *alertaDescargarTodo;
 }
@@ -67,8 +67,8 @@
 	[super viewDidLoad];
 
 	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-	modelo = appDelegate.modelo;
-	//modelo.delegate = self;
+	moodleNSObject = appDelegate.moodleNSObject;
+	//moodleNSObject.delegate = self;
 
 	[self setNavView];
 	[self animarLoading];
@@ -80,13 +80,13 @@
     miWebView.scalesPageToFit = YES;
     [self.tableView addSubview:miWebView];*/
 
-	if(modelo.moodleEstaCargando == 0)
+	if(moodleNSObject.moodleEstaCargando == 0)
 	{
 		[miWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL]]];
 	}
 	else
 	{
-		[modelo addDelegate:self];
+		[moodleNSObject addDelegate:self];
 	}
 
 	arrayPDF =[AlmacenamientoLocal leer:[offlineFile stringByAppendingString:@"/PDFs.plist"]];
@@ -375,7 +375,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 - (void)back
 {
 	[self.navigationController popViewControllerAnimated:YES];
-	[modelo removeDelegate:self];
+	[moodleNSObject removeDelegate:self];
 }
 
 
@@ -469,10 +469,10 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 {
 	if([webView.request.URL.absoluteString isEqualToString:URL_MOODLE_LOGIN])
 	{ 
-		[modelo addDelegate:self];
-		if(modelo.moodleEstaCargando == NO)
+		[moodleNSObject addDelegate:self];
+		if(moodleNSObject.moodleEstaCargando == NO)
 		{
-			[modelo cargarDatosMoodle];
+			[moodleNSObject cargarDatosMoodle];
 		}
 	} 
 
@@ -771,7 +771,7 @@ URLPDF = [miWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithF
 
 		[self dejarDeAnimarLoading];
 	}
-	[modelo removeDelegate:self];
+	[moodleNSObject removeDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning

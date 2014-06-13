@@ -8,7 +8,7 @@
 @interface VisorWeb ()
 {
 	UIButton* botonReload;
-	ModelUPM *modelo;
+	MoodleNSObject *moodleNSObject;
 	UIWebView *myWebView;
 }
 
@@ -31,7 +31,7 @@
 	[super viewDidLoad];
 
 	AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-	modelo = appDelegate.modelo;
+	moodleNSObject = appDelegate.moodleNSObject;
 
 	self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
 	self.view.backgroundColor=[UIColor whiteColor];
@@ -46,13 +46,13 @@
 	myWebView.alpha = 0;
 	[self.view insertSubview:myWebView atIndex:0];
 
-	if(modelo.moodleEstaCargando == 0)
+	if(moodleNSObject.moodleEstaCargando == 0)
 	{
 		[myWebView loadRequest:myRequest];
 	}
 	else
 	{
-		[modelo addDelegate:self];
+		[moodleNSObject addDelegate:self];
 	}
 	[self animarLoading];
 }
@@ -152,7 +152,7 @@
 
 	[self.navigationController popViewControllerAnimated:NO];
 
-	[modelo removeDelegate:self];
+	[moodleNSObject removeDelegate:self];
 }
 
 
@@ -210,10 +210,10 @@
 {
 	if([webView.request.URL.absoluteString isEqualToString:URL_MOODLE_LOGIN])
 	{ 
-		[modelo addDelegate:self];
-		if(modelo.moodleEstaCargando == 0)
+		[moodleNSObject addDelegate:self];
+		if(moodleNSObject.moodleEstaCargando == 0)
 		{
-			[modelo cargarDatosMoodle];
+			[moodleNSObject cargarDatosMoodle];
 		}
 		[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL]]];
 	}
@@ -394,7 +394,7 @@ break;
 
 		[self dejarDeAnimarLoading];
 	}
-	[modelo removeDelegate:self];
+	[moodleNSObject removeDelegate:self];
 }
 
 
