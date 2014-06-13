@@ -196,26 +196,19 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    if(webView == webViewMoodle)
+    BOOL retorno = false;
+    
+    if (webView.tag == 1)
     {
-        BOOL retorno = false;
-        
-        if (webView.tag == 1)
-        {
-            retorno = YES;
-        }
-        else
-        {
-            [conexionMoodle addObject:[NSURLConnection connectionWithRequest:request delegate:self]];
-            retorno = NO;
-        }
-        webView.tag = 0;
-        return retorno;
+        retorno = YES;
     }
     else
     {
-        return YES;
+        [conexionMoodle addObject:[NSURLConnection connectionWithRequest:request delegate:self]];
+        retorno = NO;
     }
+    webView.tag = 0;
+    return retorno;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
@@ -408,7 +401,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-	/*NSLog(@"%@",webView.request.URL.absoluteString);
+	NSLog(@"%@",webView.request.URL.absoluteString);
 
     // COMPROBAR QUE ESTA EL USER AGENT BLOQUEADO
     if ([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('tbody')[0].getElementsByTagName('img')[0].alt"] isEqualToString:@"Alerta"])
@@ -422,14 +415,14 @@
         [self asignarUserAgentActual];
         [self cargarDatosMoodle];
     }
-    else if([[webViewMoodle stringByEvaluatingJavaScriptFromString:@"document.getElementsByClassName('unlist')[0].getElementsByTagName('li').length;"]intValue] > 0)
+    else if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByClassName('unlist')[0].getElementsByTagName('li').length;"]intValue] > 0)
     {
         [self cargarAsignaturasMoodle];
     }
     else if([[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('input').length;"] intValue]>=3)
     {
         [self loginMoodle];
-    }*/
+    }
     
 }
 
