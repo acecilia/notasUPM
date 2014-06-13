@@ -186,9 +186,12 @@
 	moodleEstaCargando = YES;
     
     webViewMoodle = [[UIWebView alloc]init];
-    webViewMoodle.frame = CGRectMake(160, 240, 500, 700);
+    webViewMoodle.frame = CGRectMake(160, 240, 150, 700);
     webViewMoodle.scalesPageToFit=YES;
     webViewMoodle.delegate = self;
+    
+    conexionMoodle = [[NSMutableArray alloc]init];
+    webdataMoodle = [[NSMutableArray alloc]init];
     [webViewMoodle loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:URL_MOODLE]]];
     
 	asignaturas=[AlmacenamientoLocal leer:@"asignaturas.plist"];
@@ -236,7 +239,7 @@
         NSRange r2 = [cadena rangeOfString:@"<" options:NSBackwardsSearch range:r];
         
         r.location = r2.location;
-        r.length = r1.location - r2.location;
+        r.length = r1.location - r2.location + 1;
         
         cadena = [cadena stringByReplacingCharactersInRange:r withString:@""];
     }
@@ -251,7 +254,7 @@
         NSRange r2 = [cadena rangeOfString:@"<" options:NSBackwardsSearch range:r];
         
         r.location = r2.location;
-        r.length = r1.location - r2.location;
+        r.length = r1.location - r2.location + 1;
         
         cadena = [cadena stringByReplacingCharactersInRange:r withString:@""];
     }
@@ -266,7 +269,7 @@
         NSRange r2 = [cadena rangeOfString:@"<" options:NSBackwardsSearch range:r];
         
         r.location = r2.location;
-        r.length = r1.location - r2.location;
+        r.length = r1.location - r2.location + 1;
         
         cadena = [cadena stringByReplacingCharactersInRange:r withString:@""];
     }
@@ -281,7 +284,7 @@
         NSRange r2 = [cadena rangeOfString:@"<" options:NSBackwardsSearch range:r];
         
         r.location = r2.location;
-        r.length = r1.location - r2.location;
+        r.length = r1.location - r2.location + 1;
         
         cadena = [cadena stringByReplacingCharactersInRange:r withString:@""];
     }

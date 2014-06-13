@@ -52,6 +52,8 @@
         [moodleNSObject addDelegate:self];
 		[self animarLoading];
 	}
+    
+    //[self.view addSubview:moodleNSObject.webViewMoodle];
 }
 
 -(void) loadView
