@@ -46,7 +46,7 @@
                 NSLog(@"BLACK LIST -> %@",str);
             }
         }
-        
+        appDelegateObject = [[UIApplication sharedApplication]delegate];
         [self asignarUserAgentActual];
     }
 	return self;
@@ -170,13 +170,6 @@
 }
 
 
-- (void)inicializarConUsuario:(NSString *)usuario contraseña:(NSString *)contraseña
-{
-	user = appDelegateObject.user = usuario;
-	pass = appDelegateObject.pass = contraseña;
-}
-
-
 // Politecnica Virtual
 
 - (void)cargarDatosPolitecnicaVirtual
@@ -213,12 +206,12 @@
     {
         if ([[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"text"])
         {
-            [webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,user]];
+            [webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,appDelegateObject.user]];
             //	[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('identificador').value='%@';", user]];
         }
         else if ([[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"password"])
         {
-            [webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,pass]];
+            [webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,appDelegateObject.pass]];
             //	[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat: @"document.getElementById('clave').value='%@';", pass]];
         }
         else if ([[webViewPolitecnicaVirtual stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"submit"])
@@ -498,12 +491,12 @@
 
 - (NSString *)getUsuario
 {
-	return user;
+	return appDelegateObject.user;
 }
 
 - (NSString *)getContraseña
 {
-	return pass;
+	return appDelegateObject.pass;
 }
 
 - (UIImage *)getFoto

@@ -12,9 +12,6 @@
 #import "ViewController.h"
 #import "AppDelegate.h"
 
-#define USER @"a.cecilia@alumnos.upm.es"
-#define PASS @"admin123cuni"
-
 #define URL_MOODLE_LOGIN @"https://moodle.upm.es/titulaciones/oficiales/login/login.php"
 #define URL_MOODLE @"https://moodle.upm.es/titulaciones/oficiales/"
 #define URL_LOGOUT_MOODLE @"http://moodle.upm.es/titulaciones/oficiales/login/logout.php"
@@ -31,7 +28,7 @@
     NSMutableArray* conexionMoodle;
     NSMutableArray* webdataMoodle;
     
-    AppDelegate * AppDelegateObject;
+    AppDelegate * appDelegateObject;
 }
 
 @end
@@ -55,7 +52,7 @@
                 NSLog(@"BLACK LIST -> %@",str);
             }
         }
-        
+        appDelegateObject = [[UIApplication sharedApplication]delegate];
         [self asignarUserAgentActual];
     }
 	return self;
@@ -306,11 +303,11 @@
     {
         if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"text"])
         {
-            [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,USER]];
+            [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,appDelegateObject.user]];
         }
         else if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"password"])
         {
-            [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,PASS]];
+            [webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].value='%@';", i,appDelegateObject.pass]];
         }
         else if ([[webViewMoodle stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('input')[%d].type;", i]] isEqualToString:@"submit"])
         {
@@ -382,12 +379,12 @@
 
 - (NSString *)getUsuario
 {
-	return USER;
+	return appDelegateObject.user;
 }
 
 - (NSString *)getContraseña
 {
-	return PASS;
+	return appDelegateObject.pass;
 }
 
 - (NSMutableArray *)getAsignaturas

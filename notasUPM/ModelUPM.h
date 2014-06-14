@@ -11,8 +11,6 @@
 
 @interface ModelUPM : NSObject <UIWebViewDelegate>
 {
-	NSString *user, *pass;
-
 	UIImage *foto;
 	NSString *nombre;
 	NSString *apellidos;
@@ -23,8 +21,6 @@
 }
 
 @property (retain, nonatomic) UIWebView* webViewPolitecnicaVirtual;
-
-- (void)inicializarConUsuario:(NSString *)usuario contraseña:(NSString *)contraseña;
 
 - (void)cargarDatosPolitecnicaVirtual;
 

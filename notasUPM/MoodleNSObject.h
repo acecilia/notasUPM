@@ -16,7 +16,6 @@
 
 @interface MoodleNSObject : NSObject <UIWebViewDelegate>
 {
-	NSString *user, *pass;
 	NSMutableArray *asignaturas;
 	UIWebView* webViewMoodle;
     

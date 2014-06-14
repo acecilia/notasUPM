@@ -16,7 +16,7 @@
 #define MOVER 152
 #define MOVER_LABELS 12
 
-#define modoDebug YES  ////////////////////MODO DEGUB///////////////////////////////
+#define modoDebug NO  ////////////////////MODO DEGUB///////////////////////////////
 
 
 @interface ViewController ()
@@ -40,7 +40,7 @@
 
 	ModelUPM *modelo;
     MoodleNSObject *moodleNSObject;
-	AppDelegate *appDelegate;
+	AppDelegate *appDelegateObject;
 
 	UIImageView *imageView;
 }
@@ -146,8 +146,9 @@
 {
 	[super viewDidLoad];
 
-    appDelegate = [[UIApplication sharedApplication]delegate];
-	modelo = appDelegate.modelo;
+    appDelegateObject = [[UIApplication sharedApplication]delegate];
+	modelo = appDelegateObject.modelo;
+    moodleNSObject = appDelegateObject.moodleNSObject;
 	//modelo.delegate = self;
 	[modelo addDelegate:self];
     
@@ -168,17 +169,17 @@
 	}
 	else
 	{
-		if (!appDelegate.yaCargoModelo)
+		if (!appDelegateObject.yaCargoModelo)
 		{
 			// Si se ejecuta la app por primera vez crea el modelo
-			[modelo inicializarConUsuario:nombreDeUsuario contraseña:pass];
+			[self inicializarConUsuario:nombreDeUsuario contraseña:pass];
             
-            //[modelo cargarDatosPolitecnicaVirtual];
-            //[modelo cargarDatosMoodle];
-            //[self animarLoading];
+            [modelo cargarDatosPolitecnicaVirtual];
+            [moodleNSObject cargarDatosMoodle];
+            [self animarLoading];
             
 			//ya se ha cargado el modelo por primera vez
-			appDelegate.yaCargoModelo = YES;
+			appDelegateObject.yaCargoModelo = YES;
 		}
 		else
 		{
@@ -205,6 +206,12 @@
 		[self.view addSubview:modelo.webViewPolitecnicaVirtual];
 		[self.view addSubview:moodleNSObject.webViewMoodle];
 	}
+}
+
+- (void)inicializarConUsuario:(NSString *)usuario contraseña:(NSString *)contraseña
+{
+	appDelegateObject.user = usuario;
+	appDelegateObject.pass = contraseña;
 }
 
 
@@ -255,7 +262,7 @@
 			pass = [alertView textFieldAtIndex:1].text;
             
 			// Crear Model
-			[modelo inicializarConUsuario:nombreDeUsuario contraseña:pass];
+			[self inicializarConUsuario:nombreDeUsuario contraseña:pass];
 			[modelo cargarDatosPolitecnicaVirtual];
 			[moodleNSObject inicializarMoodleConNuevaCuenta];
             

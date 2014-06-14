@@ -53,6 +53,7 @@
 		[self animarLoading];
 	}
     
+    //ESTO ES PARA VER LA UIWEBVIEW EN MOODLEVIEWCONTROLLER CUANDO SE NECESITA DEBUG
     //[self.view addSubview:moodleNSObject.webViewMoodle];
 }
 
@@ -67,7 +68,7 @@
 {
 	[super viewDidLoad];
     
-    [moodleNSObject cargarDatosMoodle];
+    //[moodleNSObject cargarDatosMoodle];
 
 	arrayAsignaturas = [moodleNSObject getAsignaturas];
 	[self.tableView reloadData];
