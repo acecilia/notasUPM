@@ -10,29 +10,29 @@
 	<string>notasUPM</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>F765B6E6-EAC4-4C19-8760-7B72A5818579</key>
-		<string>file:///Users/andres/Dropbox/git/notasUPM.git/</string>
+		<key>C94A54070F640D77E8C024CACC4BFEB46DB2BCC8</key>
+		<string>/Users/andres/Dropbox/git/notasUPM.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>notasUPM.xcodeproj/project.xcworkspace</string>
+	<string>notasUPM.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>F765B6E6-EAC4-4C19-8760-7B72A5818579</key>
+		<key>C94A54070F640D77E8C024CACC4BFEB46DB2BCC8</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>file:///Users/andres/Dropbox/git/notasUPM.git/</string>
+	<string>/Users/andres/Dropbox/git/notasUPM.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>F765B6E6-EAC4-4C19-8760-7B72A5818579</string>
+	<string>C94A54070F640D77E8C024CACC4BFEB46DB2BCC8</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>F765B6E6-EAC4-4C19-8760-7B72A5818579</string>
+			<string>C94A54070F640D77E8C024CACC4BFEB46DB2BCC8</string>
 			<key>IDESourceControlWCCName</key>
 			<string>notasUPM</string>
 		</dict>
