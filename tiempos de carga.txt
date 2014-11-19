@@ -1,0 +1,17 @@
+Tiempos de carga:
+
+Con imagenes:
+2984
+2816
+3423
+
+Sin imagenes:
+1344
+1043
+1024
+1272
+
+Sin todo:
+755
+866
+779
